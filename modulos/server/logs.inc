@@ -1,0 +1,1 @@
+#define 		CREATE_LOCATION			0

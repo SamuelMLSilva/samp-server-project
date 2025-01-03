@@ -1,0 +1,1 @@
+new CarADM[MAX_PLAYERS];

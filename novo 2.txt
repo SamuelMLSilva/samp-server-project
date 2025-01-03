@@ -1,0 +1,19 @@
+Comandos RCON:
+
+/insert -> Para atualizar infos direto no DB | Use: dtb, valor, coluna, colunaChave, chave
+
+/getlogin -> Para puxar login pelo nick | Use: /getlogin [NICK]
+
+/go -> Para ir em alguma coordenada | Use: /go [INT] [X] [Y] [Z]
+
+/ccasa -> Para criar uma casa | Use: /ccasa [valor] [id interior]
+
+/vw, /int -> Para obter interior e virtual world
+
+/setgrana -> Para setar dinheiro | Use: /setgrana [id] [valor]
+
+/dargrana -> Para dar dinheiro | Use: /dargrana [id] [valor]
+
+/ircasa -> Para ir até uma casa pelo ID | Use: /ircasa [ID CASA]
+
+/clocal -> Para criar local público | Use: /clocal [pickup] [texto]
