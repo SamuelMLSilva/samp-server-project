@@ -7,6 +7,9 @@
 	criar	cmd /modificar -> mudar int, mudar pickup, trancar/destrancar, excluir
 
 */
+
+//TESTANDO GIT HUB
+
 #include <YSI_Coding\y_hooks>
 
 new mSecMenuPcikup[MAX_PLAYERS];
@@ -190,6 +193,12 @@ CMD:testeints(playerid, const params[]) {
 	 intsInfosLoc[0][intLocTitle],  intsInfosLoc[0][intLocId], intsInfosLoc[0][intLocPos][0], intsInfosLoc[0][intLocPos][1],
 	 intsInfosLoc[0][intLocPos][2]);
 	SendClientMessage(playerid, -1, str);
+	return 1;
+}
+
+CMD:qualmeuid(playerid, const params[]) {
+	new str[128];
+	format(str, sizeof(str),"seu id é %d", playerid);
 	return 1;
 }
 
