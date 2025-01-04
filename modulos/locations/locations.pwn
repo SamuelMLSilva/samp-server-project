@@ -185,9 +185,6 @@ CMD:modificar(playerid, const params[]) {
 
 CMD:testeints(playerid, const params[]) {
 	showDialogLocInts(playerid);
-	/*intLocTitle[32],
-	intLocId,
-	intLocPos[3]*/
 	new str[256];
 	format(str, sizeof(str),"Titulo: %s Interior: %d Coords: X - %f Y - %f Z - %f",
 	 intsInfosLoc[0][intLocTitle],  intsInfosLoc[0][intLocId], intsInfosLoc[0][intLocPos][0], intsInfosLoc[0][intLocPos][1],
@@ -195,13 +192,6 @@ CMD:testeints(playerid, const params[]) {
 	SendClientMessage(playerid, -1, str);
 	return 1;
 }
-
-CMD:qualmeuid(playerid, const params[]) {
-	new str[128];
-	format(str, sizeof(str),"seu id é %d", playerid);
-	return 1;
-}
-
 
 stock getLocalPublico(playerid) {
 	for(new i = 1; i <= qLocations; i++) {
@@ -213,7 +203,6 @@ stock getLocalPublico(playerid) {
 }
 
 stock showDialogLocInts(playerid) {
-	//DIALOG_LOC_INTS
 	new string[128];
 	ShowPlayerDialog(playerid, DIALOG_LOC_INTS, DIALOG_STYLE_LIST, "{FFFFFF}Interiores local público", string,"Confirmar","Cancelar");
 	return 1;
