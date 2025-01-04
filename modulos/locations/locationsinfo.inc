@@ -54,5 +54,10 @@ enum infosIntsLoc {
 };
 
 new const intsInfosLoc[][infosIntsLoc] = {
-	{"Teste de titulo!", 2, {-25.72,-187.82,1003.54}}
+	{"DP Los Santos", 		6, 	{246.66,	65.80,		1003.64}},
+	{"DP Las Venturas", 	3, 	{288.47,	170.06,		1007.17}},
+	{"DP San Fierro",		10, {246.06,	108.97,		1003.21}},
+	{"Autoescola", 			3, 	{1494.85,	1306.47,	1093.29}},
+	{"Agência de Empregos", 3, 	{-2031.11,	-115.82,	1035.17}},
+	{"Lotérica", 			3, 	{830.60,	5.94,		1004.17}}
 };

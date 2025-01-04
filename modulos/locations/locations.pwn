@@ -7,9 +7,6 @@
 	criar	cmd /modificar -> mudar int, mudar pickup, trancar/destrancar, excluir
 
 */
-
-//TESTANDO GIT HUB
-
 #include <YSI_Coding\y_hooks>
 
 new mSecMenuPcikup[MAX_PLAYERS];
