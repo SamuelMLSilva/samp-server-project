@@ -1,4 +1,4 @@
-#include "..\modulos\server\header.inc"
+#include "..\modules\server\header.inc"
 
 main()
 {

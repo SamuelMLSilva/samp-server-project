@@ -10,23 +10,23 @@
 #include <YSI_Coding\y_hooks>
 
 /* CABEÇALHOS ----------------------------------*/
-#include "../modulos/player/playerinfo.inc"
-#include "../modulos/server/db.inc"
-#include "../modulos/server/serverinfo.inc"
-#include "../modulos/server/dialogs.inc"
-#include "../modulos/server/logs.inc"
-#include "../modulos/server/cores.inc"
-#include "../modulos/admin/admininfo.inc"
-#include "../modulos/login/logininfo.inc"
-#include "../modulos/places/placesinfo.inc"
+#include "../modules/player/playerinfo.inc"
+#include "../modules/server/db.inc"
+#include "../modules/server/serverinfo.inc"
+#include "../modules/server/dialogs.inc"
+#include "../modules/server/logs.inc"
+#include "../modules/server/cores.inc"
+#include "../modules/admin/admininfo.inc"
+#include "../modules/login/logininfo.inc"
+#include "../modules/places/placesinfo.inc"
 
-/* MODULOS ----------------------------------*/
-#include "../modulos/admin/comandos.pwn"
-#include "../modulos/player/player.pwn"
-#include "../modulos/server/logs.pwn"
+/* modules ----------------------------------*/
+#include "../modules/admin/comandos.pwn"
+#include "../modules/player/player.pwn"
+#include "../modules/server/logs.pwn"
 
-#include "../modulos/places/places.pwn"
-#include "../modulos/login/login.pwn"
+#include "../modules/places/places.pwn"
+#include "../modules/login/login.pwn"
 
 #define PRESSED(%0) \
     (((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
