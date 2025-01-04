@@ -19,12 +19,13 @@
 #include "../modules/admin/admininfo.inc"
 #include "../modules/login/logininfo.inc"
 #include "../modules/places/placesinfo.inc"
+#include "../modules/server/messages.inc"
 
 /* modules ----------------------------------*/
 #include "../modules/admin/comandos.pwn"
 #include "../modules/player/player.pwn"
+#include "../modules/player/comandos.pwn"
 #include "../modules/server/logs.pwn"
-
 #include "../modules/places/places.pwn"
 #include "../modules/login/login.pwn"
 
@@ -38,6 +39,6 @@
     (((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
 
 /* AUTOCOMPLETE -----------------------------*/
-//#snippet cmd CMD:cmd_name(playerid, const params[]) {\n\treturn 1;\n}
+//#snippet cmd CMD:cmd_name(playerid, params[]) {\n\treturn 1;\n}
 //#snippet cdialog if(dialogid == DIALOG_NAME) {\n\treturn 1;\n}
 //#snippet scm SendClientMessage(playerid, colour, const format[])

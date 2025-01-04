@@ -17,7 +17,7 @@ public OnGameModeInit()
 	ConexaoSQL = mysql_connect(HOST,USER,PASS,DTBS);
     if(mysql_errno(ConexaoSQL) != 0) 
     {
-        print("[MySQL] Falha ao tentar estabelecer conexï¿½o com o banco de dados.");
+        print("[MySQL] Falha ao tentar estabelecer conexão com o banco de dados.");
     } else {
         print("[MySQL] Sucesso ao conectar com o banco de dados.");
     }
@@ -30,6 +30,7 @@ public OnGameModeInit()
     new queryPlayers[128];
     mysql_format(ConexaoSQL, queryPlayers, sizeof(queryPlayers),"SELECT * FROM `players`");
     mysql_tquery(ConexaoSQL, queryPlayers, "OnGetPlayers");
+	createPickupInts();
 	return 1;
 }
 

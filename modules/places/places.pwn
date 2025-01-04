@@ -44,13 +44,43 @@ hook OnPlayerDisconnect(playerid, reason) {
 	return 1;
 }
 
+hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
+{
+	if(!IsPlayerInAnyVehicle(playerid)) {
+		if(newkeys & KEY_SECONDARY_ATTACK) {
+			new enterPlace = getLocalPublic(playerid);
+			if(enterPlace > 0) {
+				SetPlayerVirtualWorld(playerid, enterPlace);
+				setInteriorPlace(playerid, enterPlace);
+				return 1;
+			}	
+			new exitPlace = getInLocalPublic(playerid);
+			if(exitPlace > 0) {
+				new i = exitPlace;
+				SetPlayerPos(playerid, PlaceInfo[i][eX], PlaceInfo[i][eY], PlaceInfo[i][eZ]);
+				SetPlayerFacingAngle(playerid, PlaceInfo[i][eA]);
+				SetPlayerInterior(playerid, 0);
+				SetPlayerVirtualWorld(playerid , 0);
+				SetCameraBehindPlayer(playerid);	
+				return 1;
+			}
+		}	
+	}
+	return 1;
+}
+
 hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	if(dialogid == DIALOG_LOC_INTS) {
 		if(response) {
 			new i = listitem;
-			SetPlayerPos(playerid, intsInfosLoc[i][intLocPos][0], intsInfosLoc[i][intLocPos][1], intsInfosLoc[i][intLocPos][2]);
+			SetPlayerPos(playerid, intsInfosLoc[i][insideIntLoc][0], intsInfosLoc[i][insideIntLoc][1], intsInfosLoc[i][insideIntLoc][2]);
+			SetPlayerFacingAngle(playerid, intsInfosLoc[i][insideIntLoc][3]);
 			SetPlayerInterior(playerid, intsInfosLoc[i][intLocId]);	
-			tempIntLoc[playerid] = intsInfosLoc[i][idLocInt];		
+			SetCameraBehindPlayer(playerid);
+			tempIntLoc[playerid] = intsInfosLoc[i][idLocInt];	
+			new str[128];
+			format(str, sizeof(str),"%s| LOCAIS PÚBLICOS | %sDigite: %s/intloc %spara setar o interior do local!",EMBED_SERVER, EMBED_WHITE, EMBED_SERVER, EMBED_WHITE);
+			SendClientMessage(playerid, -1, str);	
 			return 1;
 		} else {
 			return 1;
@@ -111,7 +141,7 @@ forward OnUpdatePlace(playerid, i);
 public OnUpdatePlace(playerid,i) {
 	printf("Foi setado a saída do local %d",i);
 	new str[128];
-	format(str, sizeof(str),"%s| LOCAL PÚBLICO | %sVocê setou a saída do local ID: %02d", EMBED_SERVER, EMBED_WHITE, i);
+	format(str, sizeof(str),"%s| LOCAIS PÚBLICO | %sVocê setou a saída do local ID: %02d", EMBED_SERVER, EMBED_WHITE, i);
 	SendClientMessage(playerid, -1, str);
 	return 1;
 }
@@ -203,7 +233,7 @@ CMD:saidaloc(playerid, params[])
 
 CMD:modificar(playerid, const params[]) {
 	if(IsPlayerAdmin(playerid)) {
-		new i = getLocalPublico(playerid);
+		new i = getLocalPublic(playerid);
 		if(i != 0) {
 			showDialogLocModify(playerid);
 		} else if(i == 0) {
@@ -222,10 +252,19 @@ CMD:testeints(playerid, const params[]) {
 	return 1;
 }
 
-stock getLocalPublico(playerid) {
+stock getLocalPublic(playerid) {
 	for(new i = 1; i <= qPlaces; i++) {
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, PlaceInfo[i][lX], PlaceInfo[i][lY], PlaceInfo[i][lZ])) {
 			return i;
+		}
+	}
+	return 0;
+}
+
+stock getInLocalPublic(playerid) {
+	for(new i = 0; i <= qInts; i++) {
+		if(IsPlayerInRangeOfPoint(playerid, 2.0, intsInfosLoc[i][doorIntLoc][0], intsInfosLoc[i][doorIntLoc][1], intsInfosLoc[i][doorIntLoc][2])) {
+			return GetPlayerVirtualWorld(playerid);
 		}
 	}
 	return 0;
@@ -248,7 +287,7 @@ stock showDialogLocExit(playerid) {
 }
 
 stock showDialogLocModify(playerid) {
-	new i = getLocalPublico(playerid);
+	new i = getLocalPublic(playerid);
 	new strTitle[128];
 	format(strTitle, sizeof(strTitle),"{ffffff}Local: [ %sID:%s%d ]", EMBED_GREEN, EMBED_WHITE, i);
 	ShowPlayerDialog(playerid, DIALOG_LOC_MODIFY, DIALOG_STYLE_LIST, strTitle, 
@@ -290,7 +329,8 @@ stock createPlace(playerid) {
 			PlaceInfo[i][lX] = PlaceCreate[playerid][clX];
 			PlaceInfo[i][lY] = PlaceCreate[playerid][clY];
 			PlaceInfo[i][lZ] = PlaceCreate[playerid][clZ];
-			PlaceInfo[i][pIdPlace] = PlaceCreate[playerid][clPickup];	
+			PlaceInfo[i][pIdPlace] = PlaceCreate[playerid][clPickup];
+			PlaceInfo[i][lIntId] = PlaceCreate[playerid][chooseIdInt];	
 			SetPlayerPos(playerid, PlaceCreate[playerid][clX], PlaceCreate[playerid][clY], PlaceCreate[playerid][clZ]);
 			SetPlayerInterior(playerid, 0);
 			startPlace(qPlaces);	
@@ -388,5 +428,22 @@ stock finishCreateIntPlace(playerid) {
 	PlaceCreate[playerid][clID] = 0;
 	PlaceCreate[playerid][chooseLocInt] = false;
 	PlaceCreate[playerid][chooseIdInt] = 0;
+	return 1;
+}
+
+stock setInteriorPlace(playerid, i) {
+	new j = PlaceInfo[i][lIntId];
+	SetPlayerPos(playerid, intsInfosLoc[j][insideIntLoc][0], intsInfosLoc[j][insideIntLoc][1], intsInfosLoc[j][insideIntLoc][2]);
+	SetPlayerInterior(playerid, intsInfosLoc[j][intLocId]);
+	SetPlayerFacingAngle(playerid, intsInfosLoc[j][insideIntLoc][3]);
+	SetCameraBehindPlayer(playerid);
+	return 1;
+}
+
+stock createPickupInts() {
+	for(new i = 0; i <= 5; i++){
+		CreateDynamicPickup(1318, 1, intsInfosLoc[i][doorIntLoc][0], intsInfosLoc[i][doorIntLoc][1], intsInfosLoc[i][doorIntLoc][2],
+		-1, intsInfosLoc[i][intLocId], -1, 20.0, -1, 0);
+	}
 	return 1;
 }

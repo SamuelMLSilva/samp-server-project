@@ -32,3 +32,15 @@ stock getNamePlayer(playerid) {
 	GetPlayerName(playerid, name, sizeof(name));
 	return name;
 }
+
+stock sendWarning(playerid, const text[]) {
+	if(strlen(text) > 85) {
+		printf("Erro ao enviar mensagem! Limite de caracteres foi excedido!");
+		printf("%s",text);
+	} else {
+		new string[85];
+		format(string, sizeof(string),"%s%s %s%s",EMBED_WARNING, MSG_WARNING, EMBED_WHITE, text);
+		SendClientMessage(playerid, -1, string);
+	}		
+	return 1;
+}

@@ -1,0 +1,1 @@
+#define         MSG_WARNING         "| AVISO |"

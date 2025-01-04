@@ -2,13 +2,14 @@
 #define 	AZUL_ESCURO 	0x0000FFff
 
 #define		INT_AGENCIA		0
-#define		INT_DP_LS		1
-#define		INT_DP_LV		2
-#define		INT_DP_SF		3
-#define		INT_LOTERICA	4
-#define		INT_AUTOESCOLA	5
+#define		INT_AUTOESCOLA	1
+#define		INT_DP_LS		2
+#define		INT_DP_LV		3
+#define		INT_DP_SF		4
+#define		INT_LOTERICA	5
 
 new qPlaces;
+new qInts = 5;
 new tempIntLoc[MAX_PLAYERS];
 
 enum makePlace {
