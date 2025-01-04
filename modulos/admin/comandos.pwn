@@ -27,7 +27,7 @@ hook OnPlayerDisconnect(playerid) {
 CMD:clocal(playerid, params[])
 {
 	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] > 4) {
-		createLocation(playerid);
+		createPlace(playerid);
 		return 1;
 	} else {
 		return 0;
@@ -64,4 +64,17 @@ CMD:v(playerid, params[])
 		return 1;
 	}
 	return 0;
+}
+
+CMD:go(playerid, const params[]) {
+	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] > 3)
+	{
+		new int, Float:pos[3];
+		if(sscanf(params, "dfff", int, pos[0], pos[1], pos[2])) return SendClientMessage(playerid, COLOR_VERMELHO, "Use: /go [interior] [X] [Y] [Z]");
+		SetPlayerPos(playerid, pos[0], pos[1], pos[2]);
+		SetPlayerInterior(playerid, int);
+		return 1;
+	} else {
+		return 0;
+	}
 }

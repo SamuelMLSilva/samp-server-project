@@ -18,14 +18,14 @@
 #include "../modulos/server/cores.inc"
 #include "../modulos/admin/admininfo.inc"
 #include "../modulos/login/logininfo.inc"
-#include "../modulos/locations/locationsinfo.inc"
+#include "../modulos/places/placesinfo.inc"
 
 /* MODULOS ----------------------------------*/
 #include "../modulos/admin/comandos.pwn"
 #include "../modulos/player/player.pwn"
 #include "../modulos/server/logs.pwn"
 
-#include "../modulos/locations/locations.pwn"
+#include "../modulos/places/places.pwn"
 #include "../modulos/login/login.pwn"
 
 #define PRESSED(%0) \

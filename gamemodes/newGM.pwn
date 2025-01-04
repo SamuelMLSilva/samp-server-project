@@ -12,6 +12,8 @@ main()
 public OnGameModeInit()
 {
 	SetGameModeText("Gamemode BVB");
+	DisableInteriorEnterExits();
+	EnableStuntBonusForAll(false);
 	ConexaoSQL = mysql_connect(HOST,USER,PASS,DTBS);
     if(mysql_errno(ConexaoSQL) != 0) 
     {
@@ -22,8 +24,8 @@ public OnGameModeInit()
     mysql_log(ALL);
     /* LOADS ----------------------*/
     new queryLocations[128];
-    mysql_format(ConexaoSQL, queryLocations, sizeof(queryLocations),"SELECT * FROM `locations`");
-    mysql_tquery(ConexaoSQL, queryLocations, "OnGetLocations");
+    mysql_format(ConexaoSQL, queryLocations, sizeof(queryLocations),"SELECT * FROM `places`");
+    mysql_tquery(ConexaoSQL, queryLocations, "OnGetPlaces");
 
     new queryPlayers[128];
     mysql_format(ConexaoSQL, queryPlayers, sizeof(queryPlayers),"SELECT * FROM `players`");
@@ -293,6 +295,7 @@ public OnScriptCash(playerid, amount, source)
 
 public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 {
+	SetPlayerInterior(playerid, 0);
 	return 1;
 }
 
