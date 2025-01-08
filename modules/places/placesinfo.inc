@@ -12,6 +12,18 @@ new qPlaces;
 new qInts = 5;
 new tempIntLoc[MAX_PLAYERS];
 
+enum modifyPlace {
+	modifyIdPlace,
+	modifyIdIntPlace,
+	bool:alterPlaceInt,
+	bool:alterPlacePickup,
+	bool:alterPlaceExit,
+	bool:alterPlaceTitle,
+	bool:deletePlace
+};
+
+new PlaceModify[MAX_PLAYERS][modifyPlace];
+
 enum makePlace {
 	bool:cPlace,
 	clID,

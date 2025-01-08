@@ -17,5 +17,5 @@
 #define 		EMBED_VERMELHO			"{FF000}"	
 #define 		EMBED_AMARELO			"{FFFF00}"
 #define 		EMBED_WHITE				"{FFFFFF}"
-#define 		EMBED_GREEN				"{32CD32}"
+#define         EMBED_GREEN             "{32CD32}"
 

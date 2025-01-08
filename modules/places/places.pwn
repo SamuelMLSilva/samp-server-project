@@ -77,21 +77,43 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SetPlayerFacingAngle(playerid, intsInfosLoc[i][insideIntLoc][3]);
 			SetPlayerInterior(playerid, intsInfosLoc[i][intLocId]);	
 			SetCameraBehindPlayer(playerid);
-			tempIntLoc[playerid] = intsInfosLoc[i][idLocInt];	
 			new str[128];
 			format(str, sizeof(str),"%s| LOCAIS PÚBLICOS | %sDigite: %s/intloc %spara setar o interior do local!",EMBED_SERVER, EMBED_WHITE, EMBED_SERVER, EMBED_WHITE);
-			SendClientMessage(playerid, -1, str);	
+			SendClientMessage(playerid, -1, str);
+			if(PlaceCreate[playerid][chooseLocInt] == true) {
+				tempIntLoc[playerid] = intsInfosLoc[i][idLocInt];	
+			}
+			if(PlaceModify[playerid][alterPlaceInt] == true) {
+				PlaceModify[playerid][modifyIdIntPlace] = i;
+			}
 			return 1;
 		} else {
 			return 1;
 		}
 	}
 
-	if(dialogid == DIALOG_LOC_MODIFY) {
+	if(dialogid == DIALOG_LOC_MODIFY) { //  Menu modificar local
 		if(response) {
 			switch(listitem) {
-				case 0: {
+				case 0: { // alterar interior
 					showDialogLocInts(playerid);
+					PlaceModify[playerid][alterPlaceInt] = true;
+				}
+
+				case 1: { // Alterar pickup
+
+				}
+
+				case 2: { // Alterar saída
+					
+				}
+
+				case 3: { // Alterar Titulo
+					
+				}
+
+				case 4: { // Excluir
+					
 				}
 			}
 			return 1;
@@ -156,9 +178,11 @@ public OnGetPlaces(){
 		printf("                                              ");
 		printf("											  ");
 		qPlaces = i;
-		new query[128];
-		mysql_format(ConexaoSQL, query, sizeof(query),"SELECT * FROM `places`");
-    	mysql_tquery(ConexaoSQL, query, "OnLoadPlace", "d", qPlaces);
+		for(new j = 1; j <= i; j++) {
+			new query[128];
+			mysql_format(ConexaoSQL, query, sizeof(query),"SELECT * FROM `places` WHERE `lID` = '%d'", j);
+			mysql_tquery(ConexaoSQL, query, "OnLoadPlace", "d", qPlaces);
+		}	
 	} else {
 		printf("não existe nenhum lugar público para ser carregado");
 		return 1;
@@ -166,23 +190,44 @@ public OnGetPlaces(){
 	return 1;
 }
 
-forward OnLoadPlace(qtd);
-public OnLoadPlace(qtd) {
-	for(new i = 1; i <= qtd; i++) {
-		cache_get_value_int(i-1, "lID", PlaceInfo[i][lID]);
-		cache_get_value_int(i-1, "lIntId", PlaceInfo[i][lIntId]);
-		cache_get_value_name(i-1, "lTitulo", PlaceInfo[i][lTtile],64);
-		cache_get_value_float(i-1, "lX", PlaceInfo[i][lX]);
-		cache_get_value_float(i-1, "lY", PlaceInfo[i][lY]);
-		cache_get_value_float(i-1, "lZ", PlaceInfo[i][lZ]);
-		cache_get_value_float(i-1, "eX", PlaceInfo[i][eX]);
-		cache_get_value_float(i-1, "eY", PlaceInfo[i][eY]);
-		cache_get_value_float(i-1, "eZ", PlaceInfo[i][eZ]);
-		cache_get_value_float(i-1, "eA", PlaceInfo[i][eA]);
-		cache_get_value_int(i-1, "pIdPlace", PlaceInfo[i][pIdPlace]);
-	}
+forward OnLoadPlace(i);
+public OnLoadPlace(i) {
+	cache_get_value_int(i-1, "lID", PlaceInfo[i][lID]);
+	cache_get_value_int(i-1, "lIntId", PlaceInfo[i][lIntId]);
+	cache_get_value_name(i-1, "lTitulo", PlaceInfo[i][lTtile],64);
+	cache_get_value_float(i-1, "lX", PlaceInfo[i][lX]);
+	cache_get_value_float(i-1, "lY", PlaceInfo[i][lY]);
+	cache_get_value_float(i-1, "lZ", PlaceInfo[i][lZ]);
+	cache_get_value_float(i-1, "eX", PlaceInfo[i][eX]);
+	cache_get_value_float(i-1, "eY", PlaceInfo[i][eY]);
+	cache_get_value_float(i-1, "eZ", PlaceInfo[i][eZ]);
+	cache_get_value_float(i-1, "eA", PlaceInfo[i][eA]);
+	cache_get_value_int(i-1, "pIdPlace", PlaceInfo[i][pIdPlace]);
 	startServerPlace();
 	return 1;
+}
+
+CMD:cancelint(playerid, params[]) { // CMD para cancelar a alteração de interior
+	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] > 3) {
+		if(PlaceModify[playerid][alterPlaceInt] == true) {
+			new str[128];
+			format(str, sizeof(str),"%s %sVocê cancelou a alteração do interior do local [%sID%s: %d]",
+				MSG_PLACE, EMBED_WHITE,EMBED_GREEN, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace]);
+			SendClientMessage(playerid, -1, str);
+			new i = PlaceModify[playerid][modifyIdPlace];
+			SetPlayerPos(playerid, PlaceInfo[i][lX], PlaceInfo[i][lY], PlaceInfo[i][lZ]);
+			SetPlayerInterior(playerid, 0);
+			SetPlayerVirtualWorld(playerid, 0);		
+			SetCameraBehindPlayer(playerid);
+			finishModify(playerid);
+			return 1;
+		} else {
+			sendWarning(playerid, "Você não tem nenhuma alteração de interior pendente!");
+			return 1;
+		}
+	} else {
+		return 0;
+	}
 }
 
 CMD:intloc(playerid, const params[]) {
@@ -193,7 +238,26 @@ CMD:intloc(playerid, const params[]) {
 			PlaceCreate[playerid][finishPlace] = true;
 			createPlace(playerid);
 			return 1;		
-		} else {
+		} if(PlaceModify[playerid][alterPlaceInt] == true) {
+			//lIntId
+			new query[128];
+			mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE `places` SET `lIntID`='%d' WHERE `lID`='%d'",
+				PlaceModify[playerid][modifyIdIntPlace], PlaceModify[playerid][modifyIdPlace]);
+			mysql_tquery(ConexaoSQL, query);
+			new str[128];
+			format(str, sizeof(str),"%s %sVocê alterou o interior do local [%sID%s: %d] para o interior ID: %d",
+				MSG_PLACE, EMBED_WHITE,EMBED_GREEN, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace], PlaceModify[playerid][modifyIdIntPlace]);
+			SendClientMessage(playerid, -1, str);
+			new i = PlaceModify[playerid][modifyIdPlace];
+			PlaceInfo[i][lIntId] = PlaceModify[playerid][modifyIdPlace];
+			SetPlayerPos(playerid, PlaceInfo[i][lX], PlaceInfo[i][lY], PlaceInfo[i][lZ]);
+			SetPlayerInterior(playerid, 0);
+			SetPlayerVirtualWorld(playerid, 0);		
+			SetCameraBehindPlayer(playerid);
+			finishModify(playerid);
+			return 1;
+		} 
+		else {
 			new string[128];
 			format(string, sizeof(string),"%s| AVISO | %sVocê não está em processo de criação de local público!", EMBED_WARNING, EMBED_WHITE);
 			SendClientMessage(playerid, -1, string);
@@ -231,11 +295,16 @@ CMD:saidaloc(playerid, params[])
 	}
 }
 
-CMD:modificar(playerid, const params[]) {
+CMD:modificar(playerid, const params[]) { // CMD para modificar local -> Interior, Pickup, Titulo, Saída e Excluir
 	if(IsPlayerAdmin(playerid)) {
 		new i = getLocalPublic(playerid);
 		if(i != 0) {
+			finishModify(playerid);
 			showDialogLocModify(playerid);
+			PlaceModify[playerid][modifyIdPlace] = i;
+			new str[128];
+			format(str, sizeof(str),"%s %sVocê está modificando o local [%sID%s: %d]",MSG_SERVER, EMBED_WHITE, EMBED_GREEN, EMBED_WHITE, i);
+			SendClientMessage(playerid, -1, str);
 		} else if(i == 0) {
 			new string[128];
 			format(string, sizeof(string),"%s| AVISO | %sVocê não está em um local público!",EMBED_WARNING, EMBED_WHITE);
@@ -289,7 +358,7 @@ stock showDialogLocExit(playerid) {
 stock showDialogLocModify(playerid) {
 	new i = getLocalPublic(playerid);
 	new strTitle[128];
-	format(strTitle, sizeof(strTitle),"{ffffff}Local: [ %sID:%s%d ]", EMBED_GREEN, EMBED_WHITE, i);
+	format(strTitle, sizeof(strTitle),"{ffffff}Local: [ %sID: %s%d ]", EMBED_GREEN, EMBED_WHITE, i);
 	ShowPlayerDialog(playerid, DIALOG_LOC_MODIFY, DIALOG_STYLE_LIST, strTitle, 
 	"Alterar Interior\n\
 	Alterar Pickup\n\
@@ -445,5 +514,15 @@ stock createPickupInts() {
 		CreateDynamicPickup(1318, 1, intsInfosLoc[i][doorIntLoc][0], intsInfosLoc[i][doorIntLoc][1], intsInfosLoc[i][doorIntLoc][2],
 		-1, intsInfosLoc[i][intLocId], -1, 20.0, -1, 0);
 	}
+	return 1;
+}
+
+stock finishModify(playerid) {
+	PlaceModify[playerid][modifyIdPlace] = 0;
+	PlaceModify[playerid][alterPlaceInt] = false;
+	PlaceModify[playerid][alterPlacePickup] = false;
+	PlaceModify[playerid][alterPlaceExit] = false;
+	PlaceModify[playerid][alterPlaceTitle] = false;
+	PlaceModify[playerid][deletePlace] = false;
 	return 1;
 }

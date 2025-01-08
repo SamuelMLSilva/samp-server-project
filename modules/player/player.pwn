@@ -39,7 +39,7 @@ stock sendWarning(playerid, const text[]) {
 		printf("%s",text);
 	} else {
 		new string[85];
-		format(string, sizeof(string),"%s%s %s%s",EMBED_WARNING, MSG_WARNING, EMBED_WHITE, text);
+		format(string, sizeof(string),"%s %s%s",MSG_WARNING, EMBED_WHITE, text);
 		SendClientMessage(playerid, -1, string);
 	}		
 	return 1;

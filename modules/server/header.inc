@@ -16,6 +16,7 @@
 #include "../modules/server/dialogs.inc"
 #include "../modules/server/logs.inc"
 #include "../modules/server/cores.inc"
+#include "../modules/server/core.inc"
 #include "../modules/admin/admininfo.inc"
 #include "../modules/login/logininfo.inc"
 #include "../modules/places/placesinfo.inc"
@@ -26,17 +27,9 @@
 #include "../modules/player/player.pwn"
 #include "../modules/player/comandos.pwn"
 #include "../modules/server/logs.pwn"
+#include "../modules/server/core.pwn"
 #include "../modules/places/places.pwn"
 #include "../modules/login/login.pwn"
-
-#define PRESSED(%0) \
-    (((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
-    
-#define HOLDING(%0) \
-    ((newkeys & (%0)) == (%0))
-
-#define RELEASED(%0) \
-    (((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
 
 /* AUTOCOMPLETE -----------------------------*/
 //#snippet cmd CMD:cmd_name(playerid, params[]) {\n\treturn 1;\n}
