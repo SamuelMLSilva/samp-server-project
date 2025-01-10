@@ -4,7 +4,12 @@
 	criar 	loaddb ----------------------------------done
 	criar 	funcao de criar local -------------------done	
 	criar	cmd /saidaloc para setar saída --------------done
-	criar	cmd /modificar -> mudar int, mudar pickup, trancar/destrancar, excluir
+	criar	cmd /modificar -> 
+	mudar int			done					
+	mudar pickup		done
+	mudar saída			done
+	trancar/destrancar, 
+	excluir
 
 */
 #include <YSI_Coding\y_hooks>
@@ -15,7 +20,7 @@ enum pickupsMenu {
 	idPickup
 };
 
-static const menuPickups[][pickupsMenu] = {
+static const menuPickups[][pickupsMenu] = { // Pickups do menu mSelection
 	{954}, {1210}, {1212}, {1213}, {1239}, {1240}, {1241}, {1242}, {1247}, {1248}, {1252}, 
 	{1254}, {1272}, {1273}, {1274}, {1275}, {1276}, {1277}, {1279}, {1310}, {1313}, {1314},
 	{1318}, {1550}, {1575}, {1576}, {1577}, {1578}, {1579}, {1580}, {1581}, {1582}, {1636}, 
@@ -24,9 +29,14 @@ static const menuPickups[][pickupsMenu] = {
 	{19605}, {19606}, {19607}, {19832}
 };
 
-public OnPlayerModelSelectionEx(playerid, response, extraid, modelid) {
+public OnPlayerModelSelectionEx(playerid, response, extraid, modelid) { // Retornar ID da pickup selecionado no menu mSelection
 	
 	if(modelid > 0) {
+		
+		if(PlaceModify[playerid][alterPlacePickup] == true) {
+			PlaceModify[playerid][modifyIdPickupPlace] = modelid;	
+			placeAlterPckp(playerid);		
+		}
 		if(PlaceCreate[playerid][clPickup] < 1) {
 			if(PlaceCreate[playerid][cPlace] == true) {
 				PlaceCreate[playerid][clPickup] = modelid;
@@ -47,7 +57,7 @@ hook OnPlayerDisconnect(playerid, reason) {
 hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 {
 	if(!IsPlayerInAnyVehicle(playerid)) {
-		if(newkeys & KEY_SECONDARY_ATTACK) {
+		if(newkeys & KEY_SECONDARY_ATTACK) { // Entrar em locais apertando a letra "F"
 			new enterPlace = getLocalPublic(playerid);
 			if(enterPlace > 0) {
 				SetPlayerVirtualWorld(playerid, enterPlace);
@@ -70,6 +80,29 @@ hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 }
 
 hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
+	if(dialogid == DIALOG_LOC_MOD_PCIKUP) { // Dialog de confirmação de alteração da pickup
+		if(response) {
+			new query[128];
+			mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE `places` SET `pIdPlace`='%d' WHERE `lID`='%d'",
+				PlaceModify[playerid][modifyIdPickupPlace], PlaceModify[playerid][modifyIdPlace]);
+			mysql_tquery(ConexaoSQL, query);
+			loadDbPlace(PlaceModify[playerid][modifyIdPlace]);
+			restartPckpPlace(PlaceModify[playerid][modifyIdPlace]);
+			new str[128];
+			format(str, sizeof(str),"%s %sVocê alterou a pickup do local ID: %d para pickup ID: %d",MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace],
+				PlaceModify[playerid][modifyIdPickupPlace]);
+			SendClientMessage(playerid, -1, str);
+			finishModifyPlace(playerid);
+			return 1;
+		} else {
+			new str[128];
+			format(str, sizeof(str),"%s %sVocê cancelou a alteração de pickup do local ID: %d",MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace]);
+			SendClientMessage(playerid, -1, str);
+			finishModifyPlace(playerid);
+			return 1;
+		}
+	}
+
 	if(dialogid == DIALOG_LOC_INTS) {
 		if(response) {
 			new i = listitem;
@@ -94,18 +127,26 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 	if(dialogid == DIALOG_LOC_MODIFY) { //  Menu modificar local
 		if(response) {
+			new string[128];
+			format(string, sizeof(string),"%s %sID local inválido - Debug ID: %d",MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace]);
+			if(PlaceModify[playerid][modifyIdPlace] == 0) return SendClientMessage(playerid, -1, string);
 			switch(listitem) {
-				case 0: { // alterar interior
+				case 0: { // alterar interior					
 					showDialogLocInts(playerid);
 					PlaceModify[playerid][alterPlaceInt] = true;
 				}
 
 				case 1: { // Alterar pickup
-
+					PlaceModify[playerid][alterPlacePickup] = true;
+					showMenuLocPickup(playerid);
 				}
 
 				case 2: { // Alterar saída
-					
+					new str[128];
+					format(str, sizeof(str),"%s %sDigite: %s/saidaloc %spara setar a saída do local ID: %d!",
+						MSG_SERVER, EMBED_WHITE, EMBED_SERVER, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace]);
+					SendClientMessage(playerid, -1, str);
+					PlaceModify[playerid][alterPlaceExit] = true;
 				}
 
 				case 3: { // Alterar Titulo
@@ -146,12 +187,28 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new Float:X, Float:Y, Float:Z, Float:A;
 			GetPlayerPos(playerid, X, Y, Z);
 			GetPlayerFacingAngle(playerid, A);
-			new query[350];
-			mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE `places` SET `eX`='%f',`eY`='%f',`eZ`='%f', `eA`='%f' WHERE `lID`='%d'",
-				X, Y, Z, A, PlaceCreate[playerid][clID]);
-			mysql_tquery(ConexaoSQL, query, "OnUpdatePlace","dd", playerid, PlaceCreate[playerid][clID]);
-			finishCreateExPlace(playerid);
-			return 1;
+			if(PlaceModify[playerid][alterPlaceExit] == true) {
+				new query[350];
+				mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE `places` SET `eX`='%f',`eY`='%f',`eZ`='%f', `eA`='%f' WHERE `lID`='%d'",
+					X, Y, Z, A, PlaceModify[playerid][modifyIdPlace]);
+				mysql_tquery(ConexaoSQL, query);
+				new str[128];
+				format(str, sizeof(str),"%s %sVocê setou a saída do local ID: %d", MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace]);
+				SendClientMessage(playerid, -1, str);
+				loadDbPlace(PlaceModify[playerid][modifyIdPlace]);
+				finishModifyPlace(playerid);	
+				return 1;
+			} else {
+				new query[350];
+				mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE `places` SET `eX`='%f',`eY`='%f',`eZ`='%f', `eA`='%f' WHERE `lID`='%d'",
+					X, Y, Z, A, PlaceCreate[playerid][clID]);
+				mysql_tquery(ConexaoSQL, query);
+				new str[128];
+				format(str, sizeof(str),"%s| LOCAIS PÚBLICO | %sVocê setou a saída do local ID: %d", EMBED_SERVER, EMBED_WHITE, PlaceCreate[playerid][clID]);
+				SendClientMessage(playerid, -1, str);
+				finishCreateExPlace(playerid);
+				return 1;
+			}		
 		} else {
 			return 1;
 		}
@@ -159,17 +216,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	return 1;
 }
 
-forward OnUpdatePlace(playerid, i);
-public OnUpdatePlace(playerid,i) {
-	printf("Foi setado a saída do local %d",i);
-	new str[128];
-	format(str, sizeof(str),"%s| LOCAIS PÚBLICO | %sVocê setou a saída do local ID: %02d", EMBED_SERVER, EMBED_WHITE, i);
-	SendClientMessage(playerid, -1, str);
-	return 1;
-}
-
 forward OnGetPlaces();
-public OnGetPlaces(){
+public OnGetPlaces(){ // Pegar quantidade de locais existentes no DB
 	printf("                                              ");
 	printf("----------------- LOCAIS PÚBLICOS -----------------");	
 	if(cache_num_rows() > 0) {
@@ -178,11 +226,9 @@ public OnGetPlaces(){
 		printf("                                              ");
 		printf("											  ");
 		qPlaces = i;
-		for(new j = 1; j <= i; j++) {
-			new query[128];
-			mysql_format(ConexaoSQL, query, sizeof(query),"SELECT * FROM `places` WHERE `lID` = '%d'", j);
-			mysql_tquery(ConexaoSQL, query, "OnLoadPlace", "d", qPlaces);
-		}	
+		for(new j = 1; j <= qPlaces; j++) { // Carregar todos locais no DB
+			loadDbPlace(j);
+		}
 	} else {
 		printf("não existe nenhum lugar público para ser carregado");
 		return 1;
@@ -190,20 +236,27 @@ public OnGetPlaces(){
 	return 1;
 }
 
+stock loadDbPlace(i) { // Carregar local pelo ID
+	new query[128];
+	mysql_format(ConexaoSQL, query, sizeof(query),"SELECT * FROM `places` WHERE `lID` = '%d'", i);
+	mysql_tquery(ConexaoSQL, query, "OnLoadPlace", "d", i);
+	return 1;
+}
+
 forward OnLoadPlace(i);
-public OnLoadPlace(i) {
-	cache_get_value_int(i-1, "lID", PlaceInfo[i][lID]);
-	cache_get_value_int(i-1, "lIntId", PlaceInfo[i][lIntId]);
-	cache_get_value_name(i-1, "lTitulo", PlaceInfo[i][lTtile],64);
-	cache_get_value_float(i-1, "lX", PlaceInfo[i][lX]);
-	cache_get_value_float(i-1, "lY", PlaceInfo[i][lY]);
-	cache_get_value_float(i-1, "lZ", PlaceInfo[i][lZ]);
-	cache_get_value_float(i-1, "eX", PlaceInfo[i][eX]);
-	cache_get_value_float(i-1, "eY", PlaceInfo[i][eY]);
-	cache_get_value_float(i-1, "eZ", PlaceInfo[i][eZ]);
-	cache_get_value_float(i-1, "eA", PlaceInfo[i][eA]);
-	cache_get_value_int(i-1, "pIdPlace", PlaceInfo[i][pIdPlace]);
-	startServerPlace();
+public OnLoadPlace(i) { // Amarmazenar informações do DB em variáveis
+	cache_get_value_int(0, "lID", PlaceInfo[i][lID]);
+	cache_get_value_int(0, "lIntId", PlaceInfo[i][lIntId]);
+	cache_get_value_name(0, "lTitulo", PlaceInfo[i][lTtile],64);
+	cache_get_value_float(0, "lX", PlaceInfo[i][lX]);
+	cache_get_value_float(0, "lY", PlaceInfo[i][lY]);
+	cache_get_value_float(0, "lZ", PlaceInfo[i][lZ]);
+	cache_get_value_float(0, "eX", PlaceInfo[i][eX]);
+	cache_get_value_float(0, "eY", PlaceInfo[i][eY]);
+	cache_get_value_float(0, "eZ", PlaceInfo[i][eZ]);
+	cache_get_value_float(0, "eA", PlaceInfo[i][eA]);
+	cache_get_value_int(0, "pIdPlace", PlaceInfo[i][pIdPlace]);
+	startPlace(i);
 	return 1;
 }
 
@@ -219,7 +272,7 @@ CMD:cancelint(playerid, params[]) { // CMD para cancelar a alteração de interior
 			SetPlayerInterior(playerid, 0);
 			SetPlayerVirtualWorld(playerid, 0);		
 			SetCameraBehindPlayer(playerid);
-			finishModify(playerid);
+			finishModifyPlace(playerid);
 			return 1;
 		} else {
 			sendWarning(playerid, "Você não tem nenhuma alteração de interior pendente!");
@@ -249,12 +302,12 @@ CMD:intloc(playerid, const params[]) {
 				MSG_PLACE, EMBED_WHITE,EMBED_GREEN, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace], PlaceModify[playerid][modifyIdIntPlace]);
 			SendClientMessage(playerid, -1, str);
 			new i = PlaceModify[playerid][modifyIdPlace];
-			PlaceInfo[i][lIntId] = PlaceModify[playerid][modifyIdPlace];
+			loadDbPlace(i);
 			SetPlayerPos(playerid, PlaceInfo[i][lX], PlaceInfo[i][lY], PlaceInfo[i][lZ]);
 			SetPlayerInterior(playerid, 0);
 			SetPlayerVirtualWorld(playerid, 0);		
 			SetCameraBehindPlayer(playerid);
-			finishModify(playerid);
+			finishModifyPlace(playerid);
 			return 1;
 		} 
 		else {
@@ -273,6 +326,10 @@ CMD:saidaloc(playerid, params[])
 	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] > 3) 
 	{
 		if(!IsPlayerInAnyVehicle(playerid)) {
+			if(PlaceModify[playerid][alterPlaceExit] == true) {
+				showDialogLocExit(playerid);
+				return 1;
+			}
 			if(PlaceCreate[playerid][createExPlace] == true) {
 				showDialogLocExit(playerid);	
 				return 1;
@@ -299,7 +356,7 @@ CMD:modificar(playerid, const params[]) { // CMD para modificar local -> Interio
 	if(IsPlayerAdmin(playerid)) {
 		new i = getLocalPublic(playerid);
 		if(i != 0) {
-			finishModify(playerid);
+			finishModifyPlace(playerid);
 			showDialogLocModify(playerid);
 			PlaceModify[playerid][modifyIdPlace] = i;
 			new str[128];
@@ -452,14 +509,13 @@ public OnCreatePlace(playerid, name[], id, title[]){
 stock startPlace(i){
 	PlaceInfo[i][lText] = CreateDynamic3DTextLabel(PlaceInfo[i][lTtile], COLOR_WHITE,
 	PlaceInfo[i][lX], PlaceInfo[i][lY], PlaceInfo[i][lZ], 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1, -1, 20.0,-1, 0);
+	
 	PlaceInfo[i][lPickup] = CreateDynamicPickup(PlaceInfo[i][pIdPlace], 1, PlaceInfo[i][lX], PlaceInfo[i][lY], PlaceInfo[i][lZ], -1, -1, -1, STREAMER_PICKUP_SD, -1, 0);
 	return 1;
 }
 
-stock startServerPlace() {
-	for(new i = 1; i <= qPlaces; i++) {
-		startPlace(i);
-	}
+stock restartPckpPlace(i) {
+	DestroyDynamicPickup(PlaceInfo[i][lPickup]);
 	return 1;
 }
 
@@ -517,12 +573,21 @@ stock createPickupInts() {
 	return 1;
 }
 
-stock finishModify(playerid) {
+stock finishModifyPlace(playerid) {
 	PlaceModify[playerid][modifyIdPlace] = 0;
 	PlaceModify[playerid][alterPlaceInt] = false;
 	PlaceModify[playerid][alterPlacePickup] = false;
 	PlaceModify[playerid][alterPlaceExit] = false;
 	PlaceModify[playerid][alterPlaceTitle] = false;
 	PlaceModify[playerid][deletePlace] = false;
+	return 1;
+}
+
+stock placeAlterPckp(playerid) {
+	new strTitle[128], strText[128];
+	format(strTitle, sizeof(strTitle),"%sAlterar pickup local [%sID%s: %d]",EMBED_WHITE, EMBED_GREEN, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace]);
+	format(strText, sizeof(strText),"%sVocê realmente deseja alterar a pickup do local [%sID%s: %d]\n\n\
+		Para pickup [%sID%s: %d]",EMBED_WHITE, EMBED_GREEN, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace],EMBED_GREEN, EMBED_WHITE, PlaceModify[playerid][modifyIdPickupPlace]);
+	ShowPlayerDialog(playerid, DIALOG_LOC_MOD_PCIKUP, DIALOG_STYLE_MSGBOX, strTitle, strText, "Confirmar","Cancelar");
 	return 1;
 }

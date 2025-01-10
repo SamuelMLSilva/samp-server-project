@@ -33,5 +33,5 @@
 
 /* AUTOCOMPLETE -----------------------------*/
 //#snippet cmd CMD:cmd_name(playerid, params[]) {\n\treturn 1;\n}
-//#snippet cdialog if(dialogid == DIALOG_NAME) {\n\treturn 1;\n}
+//#snippet cdialog if(dialogid == DIALOG_NAME) {\n\tif(response) {\n\t\treturn 1;\n\t} else {\n\t\treturn 1;\n\t}\n}
 //#snippet scm SendClientMessage(playerid, colour, const format[])

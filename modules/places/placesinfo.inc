@@ -14,9 +14,10 @@ new tempIntLoc[MAX_PLAYERS];
 
 enum modifyPlace {
 	modifyIdPlace,
-	modifyIdIntPlace,
 	bool:alterPlaceInt,
+	modifyIdIntPlace,
 	bool:alterPlacePickup,
+	modifyIdPickupPlace,
 	bool:alterPlaceExit,
 	bool:alterPlaceTitle,
 	bool:deletePlace
