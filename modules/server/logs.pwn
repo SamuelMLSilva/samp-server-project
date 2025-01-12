@@ -39,3 +39,11 @@ stock createLog(playerid, action, info[], codeB[], nameB[]) {
 	mysql_tquery(ConexaoSQL, query);
 	return 1;
 }
+
+stock createLogAlter(codePlayer[], admin[], name[], action[]) {
+	new query[512];
+	mysql_format(ConexaoSQL, query, sizeof(query),"INSERT INTO `alterlog` (`codePlayer`, `logAdmin`, `namePlayer`, `logData`, `logHora`, \
+		`logAction`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')", codePlayer, admin, name, getDateServer(), getTimeServer(), action);
+	mysql_tquery(ConexaoSQL, query);
+	return 1;
+}

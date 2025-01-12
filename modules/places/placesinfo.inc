@@ -20,6 +20,7 @@ enum modifyPlace {
 	modifyIdPickupPlace,
 	bool:alterPlaceExit,
 	bool:alterPlaceTitle,
+	modifyTitlePlace[64],
 	bool:deletePlace
 };
 
@@ -61,7 +62,7 @@ enum infoPlace {
 	pPlace,
 	pIdPlace,
 	Text3D:lText,
-	lPickup
+	lPickup,
 };
 
 new PlaceInfo[MAX_PLACES][infoPlace];

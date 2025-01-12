@@ -59,6 +59,9 @@ hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 	if(!IsPlayerInAnyVehicle(playerid)) {
 		if(newkeys & KEY_SECONDARY_ATTACK) { // Entrar em locais apertando a letra "F"
 			new enterPlace = getLocalPublic(playerid);
+			new strLock[128];
+			format(strLock, sizeof(strLock),"%s %sEsse local está trancado no momento!",MSG_PLACE, EMBED_WHITE);
+			if(PlaceInfo[enterPlace][lLock] == 1) return SendClientMessage(playerid, -1, strLock);
 			if(enterPlace > 0) {
 				SetPlayerVirtualWorld(playerid, enterPlace);
 				setInteriorPlace(playerid, enterPlace);
@@ -80,6 +83,31 @@ hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 }
 
 hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
+	if(dialogid == DIALOG_LOC_MOD_TITLE) {
+		if(response) {
+			new string[128];
+			format(string, sizeof(string),"%s %sDigite um título válido!", MSG_PLACE, EMBED_WHITE);
+			if(!strlen(inputtext) || strlen(inputtext) < 1) return SendClientMessage(playerid, -1, string);
+			new query[128];
+			mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE `places` SET `lTitulo`='%s' WHERE `lID`='%d'",
+				inputtext, PlaceModify[playerid][modifyIdPlace]);
+			mysql_tquery(ConexaoSQL, query);
+			new str[128];
+			format(str, sizeof(str),"%s %sVocê alterou o título do local ID: %d para: %s",MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace],
+				inputtext);
+			SendClientMessage(playerid, -1, str);
+			loadDbPlace(PlaceModify[playerid][modifyIdPlace]);
+			restartTextPlace(PlaceModify[playerid][modifyIdPlace]);
+			finishModifyPlace(playerid);
+			return 1;
+		} else {
+			new str[128];
+			format(str, sizeof(str),"%s %sVocê cancelou a alteração de título do local ID: %d",MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace]);
+			SendClientMessage(playerid, -1, str);
+			finishModifyPlace(playerid);
+			return 1;
+		}
+	}
 	if(dialogid == DIALOG_LOC_MOD_PCIKUP) { // Dialog de confirmação de alteração da pickup
 		if(response) {
 			new query[128];
@@ -92,6 +120,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			format(str, sizeof(str),"%s %sVocê alterou a pickup do local ID: %d para pickup ID: %d",MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace],
 				PlaceModify[playerid][modifyIdPickupPlace]);
 			SendClientMessage(playerid, -1, str);
+			new strAction[128];
+			createLogAlter(PlayerInfo[playerid][pCode], getPlayerAdmin(playerid), getNamePlayer(playerid), strAction);
 			finishModifyPlace(playerid);
 			return 1;
 		} else {
@@ -150,11 +180,30 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 
 				case 3: { // Alterar Titulo
-					
+					PlaceModify[playerid][alterPlaceTitle] = true;
+					placeAlterTitle(playerid);
 				}
 
-				case 4: { // Excluir
-					
+				case 4: { // Trancar/Destrancar
+					new i = PlaceModify[playerid][modifyIdPlace];
+					new str[128];
+					new query[128];
+					if(PlaceInfo[i][lLock] == 0) {
+						mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE `places` SET `lLock`='%d' WHERE `lID`='%d'",
+							1, PlaceModify[playerid][modifyIdPlace]);
+						format(str, sizeof(str),"%s %sVocê trancou o local ID: %d",MSG_PLACE, EMBED_WHITE, i);
+					} else {
+						mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE `places` SET `lLock`='%d' WHERE `lID`='%d'",
+							0, PlaceModify[playerid][modifyIdPlace]);
+						format(str, sizeof(str),"%s %sVocê destrancou o local ID: %d",MSG_PLACE, EMBED_WHITE, i);			
+					}		
+					mysql_tquery(ConexaoSQL, query);	
+					SendClientMessage(playerid, -1, str);	
+					loadDbPlace(i);							
+					finishModifyPlace(playerid);						
+				}
+				case 5: {
+
 				}
 			}
 			return 1;
@@ -226,6 +275,7 @@ public OnGetPlaces(){ // Pegar quantidade de locais existentes no DB
 		printf("                                              ");
 		printf("											  ");
 		qPlaces = i;
+		printf("%d locais existentes", i);
 		for(new j = 1; j <= qPlaces; j++) { // Carregar todos locais no DB
 			loadDbPlace(j);
 		}
@@ -247,6 +297,7 @@ forward OnLoadPlace(i);
 public OnLoadPlace(i) { // Amarmazenar informações do DB em variáveis
 	cache_get_value_int(0, "lID", PlaceInfo[i][lID]);
 	cache_get_value_int(0, "lIntId", PlaceInfo[i][lIntId]);
+	cache_get_value_int(0, "lLock", PlaceInfo[i][lLock]);
 	cache_get_value_name(0, "lTitulo", PlaceInfo[i][lTtile],64);
 	cache_get_value_float(0, "lX", PlaceInfo[i][lX]);
 	cache_get_value_float(0, "lY", PlaceInfo[i][lY]);
@@ -421,8 +472,8 @@ stock showDialogLocModify(playerid) {
 	Alterar Pickup\n\
 	Alterar Saída\n\
 	Alterar Titulo\n\
-	Excluir\n\
-	{ff0000}Trancar{ffffff}/{00ff00}Destrancar\n",
+	{ff0000}Trancar{ffffff}/{00ff00}Destrancar\n\
+	Excluir\n",
 	"Confirmar","Fechar");
 	return 1;
 }
@@ -519,6 +570,11 @@ stock restartPckpPlace(i) {
 	return 1;
 }
 
+stock restartTextPlace(i) {
+	DestroyDynamic3DTextLabel(PlaceInfo[i][lText]);
+	return 1;
+}
+
 stock showDialogLocTitle(playerid) {
 	ShowPlayerDialog(playerid, DIALOG_LOC_TITLE, DIALOG_STYLE_INPUT, "{FFFFFF}criação local público", "{ffffff}\nCrie um titulo para esse local público!\n", "Confirmar","Cancelar");
 	return 1;
@@ -589,5 +645,13 @@ stock placeAlterPckp(playerid) {
 	format(strText, sizeof(strText),"%sVocê realmente deseja alterar a pickup do local [%sID%s: %d]\n\n\
 		Para pickup [%sID%s: %d]",EMBED_WHITE, EMBED_GREEN, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace],EMBED_GREEN, EMBED_WHITE, PlaceModify[playerid][modifyIdPickupPlace]);
 	ShowPlayerDialog(playerid, DIALOG_LOC_MOD_PCIKUP, DIALOG_STYLE_MSGBOX, strTitle, strText, "Confirmar","Cancelar");
+	return 1;
+}
+
+stock placeAlterTitle(playerid) {
+	new strTitle[64], strText[128], i = PlaceModify[playerid][modifyIdPlace];
+	format(strTitle, sizeof(strTitle),"%sAlterar título local [%sID%s: %d]",EMBED_WHITE, EMBED_GREEN, EMBED_WHITE, i);
+	format(strText, sizeof(strText),"%sDigite o título que você deseja setar para esse local:",EMBED_WHITE);
+	ShowPlayerDialog(playerid, DIALOG_LOC_MOD_TITLE, DIALOG_STYLE_INPUT, strTitle, strText, "Confirmar","Cancelar");
 	return 1;
 }

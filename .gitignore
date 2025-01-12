@@ -1,2 +1,5 @@
 *.log
 *.bak
+*.html
+*.css
+*.js
