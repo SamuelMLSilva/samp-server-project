@@ -8,7 +8,7 @@
 	mudar int			done					
 	mudar pickup		done
 	mudar saída			done
-	trancar/destrancar, 
+	trancar/destrancar, done
 	excluir
 
 */
@@ -83,6 +83,25 @@ hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 }
 
 hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
+	if(dialogid == DIALOG_LOC_MOD_DELETE) {
+		if(response) {
+			new query[128];
+			mysql_format(ConexaoSQL, query, sizeof(query),"DELETE FROM `places` WHERE `lID`=%d",PlaceModify[playerid][modifyIdPlace]);
+			mysql_tquery(ConexaoSQL, query);
+			new str[128];
+			format(str, sizeof(str),"%s %sVocê excluiu o local ID: %d",MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace]);
+			SendClientMessage(playerid, -1, str);
+			stopPlace(PlaceModify[playerid][modifyIdPlace]);
+			finishModifyPlace(playerid);
+			return 1;
+		} else {
+			new str[128];
+			format(str, sizeof(str),"%s %sVocê cancelou a exclusão do local ID: %d",MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace]);
+			SendClientMessage(playerid, -1, str);
+			finishModifyPlace(playerid);
+			return 1;
+		}
+	}
 	if(dialogid == DIALOG_LOC_MOD_TITLE) {
 		if(response) {
 			new string[128];
@@ -203,7 +222,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					finishModifyPlace(playerid);						
 				}
 				case 5: {
-
+					PlaceModify[playerid][deletePlace] = true;
+					confPlaceDelete(playerid);
 				}
 			}
 			return 1;
@@ -334,7 +354,7 @@ CMD:cancelint(playerid, params[]) { // CMD para cancelar a alteração de interior
 	}
 }
 
-CMD:intloc(playerid, const params[]) {
+CMD:intloc(playerid, const params[]) { // CMD de confirmar interior do local
 	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] > 3) 
 	{
 		if(PlaceCreate[playerid][chooseLocInt] == true) {
@@ -372,7 +392,7 @@ CMD:intloc(playerid, const params[]) {
 	}
 }
 
-CMD:saidaloc(playerid, params[])
+CMD:saidaloc(playerid, params[]) // CMD de confirmar saída do local
 {
 	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] > 3) 
 	{
@@ -424,12 +444,7 @@ CMD:modificar(playerid, const params[]) { // CMD para modificar local -> Interio
 	}
 }
 
-CMD:testeints(playerid, const params[]) {
-	showDialogLocInts(playerid);
-	return 1;
-}
-
-stock getLocalPublic(playerid) {
+stock getLocalPublic(playerid) { // verificar se o player está em um local e retornar o id
 	for(new i = 1; i <= qPlaces; i++) {
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, PlaceInfo[i][lX], PlaceInfo[i][lY], PlaceInfo[i][lZ])) {
 			return i;
@@ -438,7 +453,7 @@ stock getLocalPublic(playerid) {
 	return 0;
 }
 
-stock getInLocalPublic(playerid) {
+stock getInLocalPublic(playerid) { // verificar se o player está dentro de um local e retornar id
 	for(new i = 0; i <= qInts; i++) {
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, intsInfosLoc[i][doorIntLoc][0], intsInfosLoc[i][doorIntLoc][1], intsInfosLoc[i][doorIntLoc][2])) {
 			return GetPlayerVirtualWorld(playerid);
@@ -447,7 +462,7 @@ stock getInLocalPublic(playerid) {
 	return 0;
 }
 
-stock showDialogLocInts(playerid) {
+stock showDialogLocInts(playerid) { // confirmação de setar interior para local
 	new string[256];
 	new strInfo[128];
 	for(new i = 0; i < 6; i++){
@@ -458,12 +473,12 @@ stock showDialogLocInts(playerid) {
 	return 1;
 }
 
-stock showDialogLocExit(playerid) {
+stock showDialogLocExit(playerid) { // confirmação de setar de saída do local
 	ShowPlayerDialog(playerid, DIALOG_LOC_EXIT, DIALOG_STYLE_MSGBOX, "{FFFFFF}Local público","{ffffff}Você realmente deseja setar a saída do local aqui?","Confirmar","Cancelar");
 	return 1;
 }
 
-stock showDialogLocModify(playerid) {
+stock showDialogLocModify(playerid) { // mostrar menu de modificação do local
 	new i = getLocalPublic(playerid);
 	new strTitle[128];
 	format(strTitle, sizeof(strTitle),"{ffffff}Local: [ %sID: %s%d ]", EMBED_GREEN, EMBED_WHITE, i);
@@ -478,7 +493,7 @@ stock showDialogLocModify(playerid) {
 	return 1;
 }
 
-stock createPlace(playerid) {
+stock createPlace(playerid) { // função de criar local
 	if(qPlaces < MAX_PLACES) {
 		if(PlaceCreate[playerid][finishPlace] == true) {
 			qPlaces++;
@@ -544,7 +559,7 @@ stock createPlace(playerid) {
 
 
 forward OnCreatePlace(playerid, name[], id, title[]);
-public OnCreatePlace(playerid, name[], id, title[]){
+public OnCreatePlace(playerid, name[], id, title[]){ // log no console de criação de local público
 	PlaceCreate[playerid][clID] = id;
 	printf(" ");
 	printf("----------------- LOCAIS PÚBLICOS -----------------");
@@ -557,7 +572,7 @@ public OnCreatePlace(playerid, name[], id, title[]){
 	return 1;
 }
 
-stock startPlace(i){
+stock startPlace(i){ // iniciar local
 	PlaceInfo[i][lText] = CreateDynamic3DTextLabel(PlaceInfo[i][lTtile], COLOR_WHITE,
 	PlaceInfo[i][lX], PlaceInfo[i][lY], PlaceInfo[i][lZ], 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1, -1, 20.0,-1, 0);
 	
@@ -565,12 +580,18 @@ stock startPlace(i){
 	return 1;
 }
 
-stock restartPckpPlace(i) {
+stock restartPckpPlace(i) { // finalizar pickup
 	DestroyDynamicPickup(PlaceInfo[i][lPickup]);
 	return 1;
 }
 
-stock restartTextPlace(i) {
+stock restartTextPlace(i) { //reinicializar 3DTextLabel
+	DestroyDynamic3DTextLabel(PlaceInfo[i][lText]);
+	return 1;
+}
+
+stock stopPlace(i) { // finalizar local
+	DestroyDynamicPickup(PlaceInfo[i][lPickup]);
 	DestroyDynamic3DTextLabel(PlaceInfo[i][lText]);
 	return 1;
 }
@@ -653,5 +674,13 @@ stock placeAlterTitle(playerid) {
 	format(strTitle, sizeof(strTitle),"%sAlterar título local [%sID%s: %d]",EMBED_WHITE, EMBED_GREEN, EMBED_WHITE, i);
 	format(strText, sizeof(strText),"%sDigite o título que você deseja setar para esse local:",EMBED_WHITE);
 	ShowPlayerDialog(playerid, DIALOG_LOC_MOD_TITLE, DIALOG_STYLE_INPUT, strTitle, strText, "Confirmar","Cancelar");
+	return 1;
+}
+
+stock confPlaceDelete(playerid) {
+	new strTitle[64], strText[128], i = PlaceModify[playerid][modifyIdPlace];
+	format(strTitle, sizeof(strTitle),"%sLocal [%sID%s: %d]",EMBED_WHITE, EMBED_GREEN, EMBED_WHITE, i);
+	format(strText, sizeof(strText),"%sVocê realmente deseja excluir esse local?",EMBED_WHITE);
+	ShowPlayerDialog(playerid, DIALOG_LOC_MOD_DELETE, DIALOG_STYLE_MSGBOX, strTitle, strText, "Confirmar","Cancelar");
 	return 1;
 }

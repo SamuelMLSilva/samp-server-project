@@ -14,6 +14,7 @@
 #define     DIALOG_LOC_MODIFY       14
 #define     DIALOG_LOC_MOD_PCIKUP   15
 #define     DIALOG_LOC_MOD_TITLE    16
+#define     DIALOG_LOC_MOD_DELETE   17
 
 
 #define 	DIALOG_DEBUG			10000

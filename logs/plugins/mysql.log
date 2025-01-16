@@ -37323,3 +37323,814 @@ Los Santos'
 [12/01/2025 10:59:13] [DEBUG] executing AMX callback with index '88'
 [12/01/2025 10:59:13] [DEBUG] AMX callback executed with error '0'
 [12/01/2025 10:59:13] [INFO] Callback successfully executed.
+[15/01/2025 20:55:17] [WARNING] mysql_connect: no password specified
+[15/01/2025 20:55:17] [INFO] changed log level from 'warning, error' to 'debug, info, warning, error'
+[15/01/2025 20:55:17] [DEBUG] mysql_format(1, 0x05EE4CB4, 128, "SELECT * FROM `places`")
+[15/01/2025 20:55:17] [DEBUG] mysql_format: return value: '22'
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery(1, "SELECT * FROM `places`", "OnGetPlaces", "")
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create(amx=0x89e448, name='OnGetPlaces', format='', params=0x5ee4ca0, param_offset=5)
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create - callback index for 'OnGetPlaces': 25
+[15/01/2025 20:55:17] [INFO] Callback 'OnGetPlaces' set up for delayed execution.
+[15/01/2025 20:55:17] [DEBUG] created delayed callback with 0 parameter
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x28dfc90)
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] mysql_format(1, 0x05EE4AB4, 128, "SELECT * FROM `players`")
+[15/01/2025 20:55:17] [DEBUG] mysql_format: return value: '23'
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery(1, "SELECT * FROM `players`", "OnGetPlayers", "")
+[15/01/2025 20:55:17] [DEBUG] CConnection::Execute(query=0x28dfc90, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create(amx=0x89e448, name='OnGetPlayers', format='', params=0x5ee4aa0, param_offset=5)
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create - callback index for 'OnGetPlayers': 26
+[15/01/2025 20:55:17] [DEBUG] CQuery::Execute(this=0x28dfc90, connection=0x98e050)
+[15/01/2025 20:55:17] [INFO] Callback 'OnGetPlayers' set up for delayed execution.
+[15/01/2025 20:55:17] [DEBUG] created delayed callback with 0 parameter
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x3f220b8)
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:55:17] [INFO] query "SELECT * FROM `places`" successfully executed within 0.314 milliseconds
+[15/01/2025 20:55:17] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `places`')
+[15/01/2025 20:55:17] [DEBUG] created new resultset '0x3f22640'
+[15/01/2025 20:55:17] [DEBUG] fetched MySQL result '0x673f218'
+[15/01/2025 20:55:17] [DEBUG] allocated 780 bytes for PAWN result
+[15/01/2025 20:55:17] [DEBUG] CConnection::Execute(query=0x3f220b8, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:55:17] [DEBUG] CQuery::Execute(this=0x3f220b8, connection=0x98e050)
+[15/01/2025 20:55:17] [INFO] query "SELECT * FROM `players`" successfully executed within 0.215 milliseconds
+[15/01/2025 20:55:17] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `players`')
+[15/01/2025 20:55:17] [DEBUG] created new resultset '0x3f225d0'
+[15/01/2025 20:55:17] [DEBUG] fetched MySQL result '0x3725ba0'
+[15/01/2025 20:55:17] [DEBUG] allocated 588 bytes for PAWN result
+[15/01/2025 20:55:17] [DEBUG] CCallback::Execute(amx=0x89e448, index=25, num_params=0)
+[15/01/2025 20:55:17] [INFO] Executing callback 'OnGetPlaces' with 0 parameter...
+[15/01/2025 20:55:17] [DEBUG] executing AMX callback with index '25'
+[15/01/2025 20:55:17] [DEBUG] cache_get_row_count(0x05EE4ED4)
+[15/01/2025 20:55:17] [DEBUG] cache_get_row_count: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_row_count(0x05EE4ED0)
+[15/01/2025 20:55:17] [DEBUG] cache_get_row_count: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] mysql_format(1, 0x05EE4CCC, 128, "SELECT * FROM `places` WHERE `lID` = '%d'")
+[15/01/2025 20:55:17] [DEBUG] mysql_format: return value: '40'
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery(1, "SELECT * FROM `places` WHERE `lID` = '1'", "OnLoadPlace", "d")
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create(amx=0x89e448, name='OnLoadPlace', format='d', params=0x5ee4cb4, param_offset=5)
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create - callback index for 'OnLoadPlace': 30
+[15/01/2025 20:55:17] [DEBUG] processing specifier 'd' with parameter index 0
+[15/01/2025 20:55:17] [DEBUG] retrieved and pushed value '1'
+[15/01/2025 20:55:17] [INFO] Callback 'OnLoadPlace' set up for delayed execution.
+[15/01/2025 20:55:17] [DEBUG] created delayed callback with 1 parameter
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x6749390)
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] mysql_format(1, 0x05EE4CCC, 128, "SELECT * FROM `places` WHERE `lID` = '%d'")
+[15/01/2025 20:55:17] [DEBUG] mysql_format: return value: '40'
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery(1, "SELECT * FROM `places` WHERE `lID` = '2'", "OnLoadPlace", "d")
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create(amx=0x89e448, name='OnLoadPlace', format='d', params=0x5ee4cb4, param_offset=5)
+[15/01/2025 20:55:17] [DEBUG] CConnection::Execute(query=0x6749390, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create - callback index for 'OnLoadPlace': 30
+[15/01/2025 20:55:17] [DEBUG] CQuery::Execute(this=0x6749390, connection=0x98e050)
+[15/01/2025 20:55:17] [DEBUG] processing specifier 'd' with parameter index 0
+[15/01/2025 20:55:17] [DEBUG] retrieved and pushed value '2'
+[15/01/2025 20:55:17] [INFO] Callback 'OnLoadPlace' set up for delayed execution.
+[15/01/2025 20:55:17] [DEBUG] created delayed callback with 1 parameter
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x67494c0)
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] mysql_format(1, 0x05EE4CCC, 128, "SELECT * FROM `places` WHERE `lID` = '%d'")
+[15/01/2025 20:55:17] [DEBUG] mysql_format: return value: '40'
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery(1, "SELECT * FROM `places` WHERE `lID` = '3'", "OnLoadPlace", "d")
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create(amx=0x89e448, name='OnLoadPlace', format='d', params=0x5ee4cb4, param_offset=5)
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create - callback index for 'OnLoadPlace': 30
+[15/01/2025 20:55:17] [DEBUG] processing specifier 'd' with parameter index 0
+[15/01/2025 20:55:17] [DEBUG] retrieved and pushed value '3'
+[15/01/2025 20:55:17] [INFO] Callback 'OnLoadPlace' set up for delayed execution.
+[15/01/2025 20:55:17] [DEBUG] created delayed callback with 1 parameter
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x6749720)
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] mysql_format(1, 0x05EE4CCC, 128, "SELECT * FROM `places` WHERE `lID` = '%d'")
+[15/01/2025 20:55:17] [DEBUG] mysql_format: return value: '40'
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery(1, "SELECT * FROM `places` WHERE `lID` = '4'", "OnLoadPlace", "d")
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create(amx=0x89e448, name='OnLoadPlace', format='d', params=0x5ee4cb4, param_offset=5)
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create - callback index for 'OnLoadPlace': 30
+[15/01/2025 20:55:17] [DEBUG] processing specifier 'd' with parameter index 0
+[15/01/2025 20:55:17] [DEBUG] retrieved and pushed value '4'
+[15/01/2025 20:55:17] [INFO] Callback 'OnLoadPlace' set up for delayed execution.
+[15/01/2025 20:55:17] [DEBUG] created delayed callback with 1 parameter
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x6749428)
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] mysql_format(1, 0x05EE4CCC, 128, "SELECT * FROM `places` WHERE `lID` = '%d'")
+[15/01/2025 20:55:17] [DEBUG] mysql_format: return value: '40'
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery(1, "SELECT * FROM `places` WHERE `lID` = '5'", "OnLoadPlace", "d")
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create(amx=0x89e448, name='OnLoadPlace', format='d', params=0x5ee4cb4, param_offset=5)
+[15/01/2025 20:55:17] [DEBUG] CCallback::Create - callback index for 'OnLoadPlace': 30
+[15/01/2025 20:55:17] [DEBUG] processing specifier 'd' with parameter index 0
+[15/01/2025 20:55:17] [DEBUG] retrieved and pushed value '5'
+[15/01/2025 20:55:17] [INFO] Callback 'OnLoadPlace' set up for delayed execution.
+[15/01/2025 20:55:17] [DEBUG] created delayed callback with 1 parameter
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x6749260)
+[15/01/2025 20:55:17] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:55:17] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:55:17] [INFO] Callback successfully executed.
+[15/01/2025 20:55:17] [DEBUG] CCallback::Execute(amx=0x89e448, index=26, num_params=0)
+[15/01/2025 20:55:17] [INFO] Executing callback 'OnGetPlayers' with 0 parameter...
+[15/01/2025 20:55:17] [DEBUG] executing AMX callback with index '26'
+[15/01/2025 20:55:17] [INFO] query "SELECT * FROM `places` WHERE `lID` = '1'" successfully executed within 0.284 milliseconds
+[15/01/2025 20:55:17] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `places` WHERE `lID` = '1'')
+[15/01/2025 20:55:17] [DEBUG] created new resultset '0x691e520'
+[15/01/2025 20:55:17] [DEBUG] fetched MySQL result '0x673e448'
+[15/01/2025 20:55:17] [DEBUG] allocated 140 bytes for PAWN result
+[15/01/2025 20:55:17] [DEBUG] cache_get_row_count(0x05EE4ED4)
+[15/01/2025 20:55:17] [DEBUG] cache_get_row_count: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_row_count(0x05EE4ED0)
+[15/01/2025 20:55:17] [DEBUG] cache_get_row_count: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:55:17] [INFO] Callback successfully executed.
+[15/01/2025 20:55:17] [DEBUG] CConnection::Execute(query=0x67494c0, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:55:17] [DEBUG] CCallback::Execute(amx=0x89e448, index=30, num_params=1)
+[15/01/2025 20:55:17] [DEBUG] CQuery::Execute(this=0x67494c0, connection=0x98e050)
+[15/01/2025 20:55:17] [INFO] Executing callback 'OnLoadPlace' with 1 parameter...
+[15/01/2025 20:55:17] [DEBUG] processing internal specifier 'c'
+[15/01/2025 20:55:17] [DEBUG] pushed value '1' onto AMX stack
+[15/01/2025 20:55:17] [DEBUG] executing AMX callback with index '30'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lID", 0x05EC3BC4)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lIntId", 0x05EC3BC8)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '2'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lLock", 0x05EC3CE8)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name(0, "lTitulo", 0x05EC3BCC, 64)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name: assigned value: 'DP
+Los Santos'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lX", 0x05EC3CCC)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '225.551'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lY", 0x05EC3CD0)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '50.2113'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lZ", 0x05EC3CD4)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '2.41288'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eX", 0x05EC3CD8)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '218.366'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eY", 0x05EC3CDC)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '50.7438'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eZ", 0x05EC3CE0)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '2.24988'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eA", 0x05EC3CE4)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '82.8134'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "pIdPlace", 0x05EC3CF0)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '1247'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [INFO] query "SELECT * FROM `places` WHERE `lID` = '2'" successfully executed within 0.275 milliseconds
+[15/01/2025 20:55:17] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `places` WHERE `lID` = '2'')
+[15/01/2025 20:55:17] [DEBUG] created new resultset '0x3f2ecb8'
+[15/01/2025 20:55:17] [DEBUG] fetched MySQL result '0x673e448'
+[15/01/2025 20:55:17] [DEBUG] allocated 140 bytes for PAWN result
+[15/01/2025 20:55:17] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:55:17] [INFO] Callback successfully executed.
+[15/01/2025 20:55:17] [DEBUG] CConnection::Execute(query=0x6749720, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:55:17] [DEBUG] CQuery::Execute(this=0x6749720, connection=0x98e050)
+[15/01/2025 20:55:17] [INFO] query "SELECT * FROM `places` WHERE `lID` = '3'" successfully executed within 0.189 milliseconds
+[15/01/2025 20:55:17] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `places` WHERE `lID` = '3'')
+[15/01/2025 20:55:17] [DEBUG] created new resultset '0x3f2ee40'
+[15/01/2025 20:55:17] [DEBUG] fetched MySQL result '0x673e448'
+[15/01/2025 20:55:17] [DEBUG] allocated 140 bytes for PAWN result
+[15/01/2025 20:55:17] [DEBUG] CConnection::Execute(query=0x6749428, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:55:17] [DEBUG] CQuery::Execute(this=0x6749428, connection=0x98e050)
+[15/01/2025 20:55:17] [INFO] query "SELECT * FROM `places` WHERE `lID` = '4'" successfully executed within 0.177 milliseconds
+[15/01/2025 20:55:17] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `places` WHERE `lID` = '4'')
+[15/01/2025 20:55:17] [DEBUG] created new resultset '0x6924718'
+[15/01/2025 20:55:17] [DEBUG] fetched MySQL result '0x673e6f0'
+[15/01/2025 20:55:17] [DEBUG] allocated 148 bytes for PAWN result
+[15/01/2025 20:55:17] [DEBUG] CConnection::Execute(query=0x6749260, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:55:17] [DEBUG] CQuery::Execute(this=0x6749260, connection=0x98e050)
+[15/01/2025 20:55:17] [INFO] query "SELECT * FROM `places` WHERE `lID` = '5'" successfully executed within 0.151 milliseconds
+[15/01/2025 20:55:17] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `places` WHERE `lID` = '5'')
+[15/01/2025 20:55:17] [DEBUG] created new resultset '0x69246a8'
+[15/01/2025 20:55:17] [DEBUG] fetched MySQL result '0x673e3c0'
+[15/01/2025 20:55:17] [DEBUG] allocated 156 bytes for PAWN result
+[15/01/2025 20:55:17] [DEBUG] CCallback::Execute(amx=0x89e448, index=30, num_params=1)
+[15/01/2025 20:55:17] [INFO] Executing callback 'OnLoadPlace' with 1 parameter...
+[15/01/2025 20:55:17] [DEBUG] processing internal specifier 'c'
+[15/01/2025 20:55:17] [DEBUG] pushed value '2' onto AMX stack
+[15/01/2025 20:55:17] [DEBUG] executing AMX callback with index '30'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lID", 0x05EC3CFC)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '2'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lIntId", 0x05EC3D00)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '3'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lLock", 0x05EC3E20)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '0'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name(0, "lTitulo", 0x05EC3D04, 64)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name: assigned value: 'DP
+Las Venturas'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lX", 0x05EC3E04)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '235.21'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lY", 0x05EC3E08)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '54.5426'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lZ", 0x05EC3E0C)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '2.42969'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eX", 0x05EC3E10)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '235.703'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eY", 0x05EC3E14)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '59.5812'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eZ", 0x05EC3E18)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '2.70165'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eA", 0x05EC3E1C)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '358.072'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "pIdPlace", 0x05EC3E28)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '1247'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:55:17] [INFO] Callback successfully executed.
+[15/01/2025 20:55:17] [DEBUG] CCallback::Execute(amx=0x89e448, index=30, num_params=1)
+[15/01/2025 20:55:17] [INFO] Executing callback 'OnLoadPlace' with 1 parameter...
+[15/01/2025 20:55:17] [DEBUG] processing internal specifier 'c'
+[15/01/2025 20:55:17] [DEBUG] pushed value '3' onto AMX stack
+[15/01/2025 20:55:17] [DEBUG] executing AMX callback with index '30'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lID", 0x05EC3E34)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '3'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lIntId", 0x05EC3E38)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '4'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lLock", 0x05EC3F58)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '0'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name(0, "lTitulo", 0x05EC3E3C, 64)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name: assigned value: 'DP
+San Fierro'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lX", 0x05EC3F3C)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '240.365'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lY", 0x05EC3F40)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '54.1898'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lZ", 0x05EC3F44)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '2.42969'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eX", 0x05EC3F48)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '240.509'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eY", 0x05EC3F4C)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '58.3677'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eZ", 0x05EC3F50)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '2.56985'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eA", 0x05EC3F54)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '358.477'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "pIdPlace", 0x05EC3F60)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '1247'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:55:17] [INFO] Callback successfully executed.
+[15/01/2025 20:55:17] [DEBUG] CCallback::Execute(amx=0x89e448, index=30, num_params=1)
+[15/01/2025 20:55:17] [INFO] Executing callback 'OnLoadPlace' with 1 parameter...
+[15/01/2025 20:55:17] [DEBUG] processing internal specifier 'c'
+[15/01/2025 20:55:17] [DEBUG] pushed value '4' onto AMX stack
+[15/01/2025 20:55:17] [DEBUG] executing AMX callback with index '30'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lID", 0x05EC3F6C)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '4'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lIntId", 0x05EC3F70)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '4'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lLock", 0x05EC4090)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '0'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name(0, "lTitulo", 0x05EC3F74, 64)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name: assigned value: 'Loterica
+Los Satnos'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lX", 0x05EC4074)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '233.242'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lY", 0x05EC4078)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '46.3478'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lZ", 0x05EC407C)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '2.42969'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eX", 0x05EC4080)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '229.169'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eY", 0x05EC4084)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '46.2607'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eZ", 0x05EC4088)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '2.42969'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eA", 0x05EC408C)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '91.2392'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "pIdPlace", 0x05EC4098)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '1274'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:55:17] [INFO] Callback successfully executed.
+[15/01/2025 20:55:17] [DEBUG] CCallback::Execute(amx=0x89e448, index=30, num_params=1)
+[15/01/2025 20:55:17] [INFO] Executing callback 'OnLoadPlace' with 1 parameter...
+[15/01/2025 20:55:17] [DEBUG] processing internal specifier 'c'
+[15/01/2025 20:55:17] [DEBUG] pushed value '5' onto AMX stack
+[15/01/2025 20:55:17] [DEBUG] executing AMX callback with index '30'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lID", 0x05EC40A4)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '5'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lIntId", 0x05EC40A8)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '0'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "lLock", 0x05EC41C8)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '0'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name(0, "lTitulo", 0x05EC40AC, 64)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name: assigned value: 'Agencia de Empregos
+Los Santos'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lX", 0x05EC41AC)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '242.167'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lY", 0x05EC41B0)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '46.9678'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "lZ", 0x05EC41B4)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '2.42969'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eX", 0x05EC41B8)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '239.161'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eY", 0x05EC41BC)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '48.3555'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eZ", 0x05EC41C0)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '2.42969'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float(0, "eA", 0x05EC41C4)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: assigned value: '65.5647'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int(0, "pIdPlace", 0x05EC41D0)
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: assigned value: '1210'
+[15/01/2025 20:55:17] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:17] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:55:17] [INFO] Callback successfully executed.
+[15/01/2025 20:55:42] [DEBUG] mysql_format(1, 0x05EE4CA8, 128, "SELECT * FROM `players` WHERE `pLogin` = '%s'")
+[15/01/2025 20:55:42] [DEBUG] mysql_format: return value: '49'
+[15/01/2025 20:55:42] [DEBUG] mysql_tquery(1, "SELECT * FROM `players` WHERE `pLogin` = 'samueç'", "getLoginPlayer", "ds")
+[15/01/2025 20:55:42] [DEBUG] CCallback::Create(amx=0x89e448, name='getLoginPlayer', format='ds', params=0x5ee4c8c, param_offset=5)
+[15/01/2025 20:55:42] [DEBUG] CCallback::Create - callback index for 'getLoginPlayer': 140
+[15/01/2025 20:55:42] [DEBUG] processing specifier 'd' with parameter index 0
+[15/01/2025 20:55:42] [DEBUG] retrieved and pushed value '0'
+[15/01/2025 20:55:42] [DEBUG] processing specifier 's' with parameter index 1
+[15/01/2025 20:55:42] [DEBUG] retrieved and pushed value 'samueç'
+[15/01/2025 20:55:42] [INFO] Callback 'getLoginPlayer' set up for delayed execution.
+[15/01/2025 20:55:42] [DEBUG] created delayed callback with 2 parameters
+[15/01/2025 20:55:42] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x67495f0)
+[15/01/2025 20:55:42] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:55:42] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:55:42] [DEBUG] CConnection::Execute(query=0x67495f0, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:55:42] [DEBUG] CQuery::Execute(this=0x67495f0, connection=0x98e050)
+[15/01/2025 20:55:42] [INFO] query "SELECT * FROM `players` WHERE `pLogin` = 'samueç'" successfully executed within 0.237 milliseconds
+[15/01/2025 20:55:42] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `players` WHERE `pLogin` = 'samueç'')
+[15/01/2025 20:55:42] [DEBUG] created new resultset '0x69247f8'
+[15/01/2025 20:55:42] [DEBUG] fetched MySQL result '0x6749120'
+[15/01/2025 20:55:42] [DEBUG] allocated 0 bytes for PAWN result
+[15/01/2025 20:55:42] [DEBUG] CCallback::Execute(amx=0x89e448, index=140, num_params=2)
+[15/01/2025 20:55:42] [INFO] Executing callback 'getLoginPlayer' with 2 parameters...
+[15/01/2025 20:55:42] [DEBUG] processing internal specifier 's'
+[15/01/2025 20:55:42] [DEBUG] pushed value 'samueç' onto AMX stack
+[15/01/2025 20:55:42] [DEBUG] processing internal specifier 'c'
+[15/01/2025 20:55:42] [DEBUG] pushed value '0' onto AMX stack
+[15/01/2025 20:55:42] [DEBUG] executing AMX callback with index '140'
+[15/01/2025 20:55:42] [DEBUG] cache_get_row_count(0x05EE4ECC)
+[15/01/2025 20:55:42] [DEBUG] cache_get_row_count: return value: '1'
+[15/01/2025 20:55:42] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:55:42] [INFO] Callback successfully executed.
+[15/01/2025 20:55:44] [DEBUG] mysql_format(1, 0x05EE4CA8, 128, "SELECT * FROM `players` WHERE `pLogin` = '%s'")
+[15/01/2025 20:55:44] [DEBUG] mysql_format: return value: '49'
+[15/01/2025 20:55:44] [DEBUG] mysql_tquery(1, "SELECT * FROM `players` WHERE `pLogin` = 'samuel'", "getLoginPlayer", "ds")
+[15/01/2025 20:55:44] [DEBUG] CCallback::Create(amx=0x89e448, name='getLoginPlayer', format='ds', params=0x5ee4c8c, param_offset=5)
+[15/01/2025 20:55:44] [DEBUG] CCallback::Create - callback index for 'getLoginPlayer': 140
+[15/01/2025 20:55:44] [DEBUG] processing specifier 'd' with parameter index 0
+[15/01/2025 20:55:44] [DEBUG] retrieved and pushed value '0'
+[15/01/2025 20:55:44] [DEBUG] processing specifier 's' with parameter index 1
+[15/01/2025 20:55:44] [DEBUG] retrieved and pushed value 'samuel'
+[15/01/2025 20:55:44] [INFO] Callback 'getLoginPlayer' set up for delayed execution.
+[15/01/2025 20:55:44] [DEBUG] created delayed callback with 2 parameters
+[15/01/2025 20:55:44] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x6749558)
+[15/01/2025 20:55:44] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:55:44] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:55:44] [DEBUG] CConnection::Execute(query=0x6749558, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:55:44] [DEBUG] CQuery::Execute(this=0x6749558, connection=0x98e050)
+[15/01/2025 20:55:44] [INFO] query "SELECT * FROM `players` WHERE `pLogin` = 'samuel'" successfully executed within 0.222 milliseconds
+[15/01/2025 20:55:44] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `players` WHERE `pLogin` = 'samuel'')
+[15/01/2025 20:55:44] [DEBUG] created new resultset '0x6924520'
+[15/01/2025 20:55:44] [DEBUG] fetched MySQL result '0x67495e0'
+[15/01/2025 20:55:44] [DEBUG] allocated 188 bytes for PAWN result
+[15/01/2025 20:55:44] [DEBUG] CCallback::Execute(amx=0x89e448, index=140, num_params=2)
+[15/01/2025 20:55:44] [INFO] Executing callback 'getLoginPlayer' with 2 parameters...
+[15/01/2025 20:55:44] [DEBUG] processing internal specifier 's'
+[15/01/2025 20:55:44] [DEBUG] pushed value 'samuel' onto AMX stack
+[15/01/2025 20:55:44] [DEBUG] processing internal specifier 'c'
+[15/01/2025 20:55:44] [DEBUG] pushed value '0' onto AMX stack
+[15/01/2025 20:55:44] [DEBUG] executing AMX callback with index '140'
+[15/01/2025 20:55:44] [DEBUG] cache_get_row_count(0x05EE4ECC)
+[15/01/2025 20:55:44] [DEBUG] cache_get_row_count: return value: '1'
+[15/01/2025 20:55:44] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:55:44] [INFO] Callback successfully executed.
+[15/01/2025 20:55:45] [DEBUG] mysql_format(1, 0x05EE4CA8, 128, "SELECT * FROM `players` WHERE `pLogin` = '%s'")
+[15/01/2025 20:55:45] [DEBUG] mysql_format: return value: '49'
+[15/01/2025 20:55:45] [DEBUG] mysql_tquery(1, "SELECT * FROM `players` WHERE `pLogin` = 'samuel'", "getPassPlayer", "ds")
+[15/01/2025 20:55:45] [DEBUG] CCallback::Create(amx=0x89e448, name='getPassPlayer', format='ds', params=0x5ee4c8c, param_offset=5)
+[15/01/2025 20:55:45] [DEBUG] CCallback::Create - callback index for 'getPassPlayer': 143
+[15/01/2025 20:55:45] [DEBUG] processing specifier 'd' with parameter index 0
+[15/01/2025 20:55:45] [DEBUG] retrieved and pushed value '0'
+[15/01/2025 20:55:45] [DEBUG] processing specifier 's' with parameter index 1
+[15/01/2025 20:55:45] [DEBUG] retrieved and pushed value 'samuel'
+[15/01/2025 20:55:45] [INFO] Callback 'getPassPlayer' set up for delayed execution.
+[15/01/2025 20:55:45] [DEBUG] created delayed callback with 2 parameters
+[15/01/2025 20:55:45] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x6749428)
+[15/01/2025 20:55:45] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:55:45] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] CConnection::Execute(query=0x6749428, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:55:45] [DEBUG] CQuery::Execute(this=0x6749428, connection=0x98e050)
+[15/01/2025 20:55:45] [INFO] query "SELECT * FROM `players` WHERE `pLogin` = 'samuel'" successfully executed within 0.232 milliseconds
+[15/01/2025 20:55:45] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `players` WHERE `pLogin` = 'samuel'')
+[15/01/2025 20:55:45] [DEBUG] created new resultset '0x6924638'
+[15/01/2025 20:55:45] [DEBUG] fetched MySQL result '0x6749710'
+[15/01/2025 20:55:45] [DEBUG] allocated 188 bytes for PAWN result
+[15/01/2025 20:55:45] [DEBUG] CCallback::Execute(amx=0x89e448, index=143, num_params=2)
+[15/01/2025 20:55:45] [INFO] Executing callback 'getPassPlayer' with 2 parameters...
+[15/01/2025 20:55:45] [DEBUG] processing internal specifier 's'
+[15/01/2025 20:55:45] [DEBUG] pushed value 'samuel' onto AMX stack
+[15/01/2025 20:55:45] [DEBUG] processing internal specifier 'c'
+[15/01/2025 20:55:45] [DEBUG] pushed value '0' onto AMX stack
+[15/01/2025 20:55:45] [DEBUG] executing AMX callback with index '143'
+[15/01/2025 20:55:45] [DEBUG] cache_get_row_count(0x05EE4ECC)
+[15/01/2025 20:55:45] [DEBUG] cache_get_row_count: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name(0, "pPassword", 0x05EE4DDC, 64)
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name: assigned value: 'password'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] mysql_format(1, 0x05EE4BDC, 128, "SELECT * FROM `players` WHERE `pLogin` = '%s'")
+[15/01/2025 20:55:45] [DEBUG] mysql_format: return value: '49'
+[15/01/2025 20:55:45] [DEBUG] mysql_tquery(1, "SELECT * FROM `players` WHERE `pLogin` = 'samuel'", "OnLoadPlayer", "d")
+[15/01/2025 20:55:45] [DEBUG] CCallback::Create(amx=0x89e448, name='OnLoadPlayer', format='d', params=0x5ee4bc4, param_offset=5)
+[15/01/2025 20:55:45] [DEBUG] CCallback::Create - callback index for 'OnLoadPlayer': 31
+[15/01/2025 20:55:45] [DEBUG] processing specifier 'd' with parameter index 0
+[15/01/2025 20:55:45] [DEBUG] retrieved and pushed value '0'
+[15/01/2025 20:55:45] [INFO] Callback 'OnLoadPlayer' set up for delayed execution.
+[15/01/2025 20:55:45] [DEBUG] created delayed callback with 1 parameter
+[15/01/2025 20:55:45] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x67494c0)
+[15/01/2025 20:55:45] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:55:45] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:55:45] [INFO] Callback successfully executed.
+[15/01/2025 20:55:45] [DEBUG] CConnection::Execute(query=0x67494c0, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:55:45] [DEBUG] CQuery::Execute(this=0x67494c0, connection=0x98e050)
+[15/01/2025 20:55:45] [INFO] query "SELECT * FROM `players` WHERE `pLogin` = 'samuel'" successfully executed within 0.222 milliseconds
+[15/01/2025 20:55:45] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `players` WHERE `pLogin` = 'samuel'')
+[15/01/2025 20:55:45] [DEBUG] created new resultset '0x69247c0'
+[15/01/2025 20:55:45] [DEBUG] fetched MySQL result '0x67495e0'
+[15/01/2025 20:55:45] [DEBUG] allocated 188 bytes for PAWN result
+[15/01/2025 20:55:45] [DEBUG] CCallback::Execute(amx=0x89e448, index=31, num_params=1)
+[15/01/2025 20:55:45] [INFO] Executing callback 'OnLoadPlayer' with 1 parameter...
+[15/01/2025 20:55:45] [DEBUG] processing internal specifier 'c'
+[15/01/2025 20:55:45] [DEBUG] pushed value '0' onto AMX stack
+[15/01/2025 20:55:45] [DEBUG] executing AMX callback with index '31'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name(0, "pNick", 0x05EE4E80, 24)
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name: assigned value: 'Samuel_05'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name(0, "pEmail", 0x05D32320, 35)
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name: assigned value: 'samuelmatheus0502@gmail.com'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int(0, "pGen", 0x05D32420)
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int: assigned value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name(0, "pCode", 0x05D32424, 50)
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name: assigned value: 'c33Oh4uJ42i'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_float(0, "pX", 0x05D32464)
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_float: assigned value: '-1950.31'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_float(0, "pY", 0x05D32468)
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_float: assigned value: '167.591'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_float(0, "pZ", 0x05D3246C)
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_float: assigned value: '25.8355'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_float(0, "pA", 0x05D32470)
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_float: assigned value: '280.445'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int(0, "pI", 0x05D32474)
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int: assigned value: '0'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int(0, "pVW", 0x05D32478)
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int: assigned value: '0'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int(0, "pLevel", 0x05D3247C)
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int: assigned value: '0'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int(0, "pSkin", 0x05D32480)
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int: assigned value: '0'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:55:45] [DEBUG] cache_get_value_name_int(0, "pAdmin", 0x05D32484)
+[15/01/2025 20:55:45] [ERROR] cache_get_value_name_int: value 'NULL' is not a number
+[15/01/2025 20:55:45] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:55:45] [INFO] Callback successfully executed.
+[15/01/2025 20:56:42] [DEBUG] mysql_format(1, 0x05EE4CA8, 128, "DELETE FROM `places` WHERE `lID`=%d")
+[15/01/2025 20:56:42] [DEBUG] mysql_format: return value: '34'
+[15/01/2025 20:56:42] [DEBUG] mysql_tquery(1, "DELETE FROM `places` WHERE `lID`=1", "", "")
+[15/01/2025 20:56:42] [DEBUG] CCallback::Create(amx=0x89e448, name='', format='', params=0x5ee4c94, param_offset=5)
+[15/01/2025 20:56:42] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x67494c0)
+[15/01/2025 20:56:42] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:56:42] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:56:42] [DEBUG] CConnection::Execute(query=0x67494c0, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:56:42] [DEBUG] CQuery::Execute(this=0x67494c0, connection=0x98e050)
+[15/01/2025 20:56:42] [INFO] query "DELETE FROM `places` WHERE `lID`=1" successfully executed within 1.63 milliseconds
+[15/01/2025 20:56:42] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='DELETE FROM `places` WHERE `lID`=1')
+[15/01/2025 20:56:42] [DEBUG] created new resultset '0x69246e0'
+[15/01/2025 20:56:42] [DEBUG] fetched MySQL result '0x0'
+[15/01/2025 20:57:15] [DEBUG] mysql_format(1, 0x05EE4814, 400, "UPDATE `players` SET `pX` = '%f',`pY` = '%f',`pZ` = '%f',`pA` = '%f',`pI` = '%d',`pVW` = '%d',`pLevel` = '%d',`pSkin` = '%d'WHERE `pCode`='%s'")
+[15/01/2025 20:57:15] [DEBUG] mysql_format: return value: '176'
+[15/01/2025 20:57:15] [DEBUG] mysql_tquery(1, "UPDATE `players` SET `pX` = '232.788147',`pY` = '60.024292',`pZ` = '2.739365',`pA` = '303.857178',`pI` = '0',`pVW` = '0',`pLevel` = '0',`pSkin` = '0'WHERE `pCode`='c33Oh4uJ42i'", "OnSavePlayer", "ss")
+[15/01/2025 20:57:15] [DEBUG] CCallback::Create(amx=0x89e448, name='OnSavePlayer', format='ss', params=0x5ee47f8, param_offset=5)
+[15/01/2025 20:57:15] [DEBUG] CCallback::Create - callback index for 'OnSavePlayer': 88
+[15/01/2025 20:57:15] [DEBUG] processing specifier 's' with parameter index 0
+[15/01/2025 20:57:15] [DEBUG] retrieved and pushed value 'Samuel_05'
+[15/01/2025 20:57:15] [DEBUG] processing specifier 's' with parameter index 1
+[15/01/2025 20:57:15] [DEBUG] retrieved and pushed value 'c33Oh4uJ42i'
+[15/01/2025 20:57:15] [INFO] Callback 'OnSavePlayer' set up for delayed execution.
+[15/01/2025 20:57:15] [DEBUG] created delayed callback with 2 parameters
+[15/01/2025 20:57:15] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x67494c0)
+[15/01/2025 20:57:15] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:57:15] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:57:15] [DEBUG] CConnection::Execute(query=0x67494c0, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:57:15] [DEBUG] CQuery::Execute(this=0x67494c0, connection=0x98e050)
+[15/01/2025 20:57:15] [DEBUG] mysql_format(1, 0x05EE4864, 400, "UPDATE `players` SET `pX` = '%f',`pY` = '%f',`pZ` = '%f',`pA` = '%f',`pI` = '%d',`pVW` = '%d',`pLevel` = '%d',`pSkin` = '%d'WHERE `pCode`='%s'")
+[15/01/2025 20:57:15] [DEBUG] mysql_format: return value: '176'
+[15/01/2025 20:57:15] [DEBUG] mysql_tquery(1, "UPDATE `players` SET `pX` = '232.788147',`pY` = '60.024292',`pZ` = '2.739365',`pA` = '303.857178',`pI` = '0',`pVW` = '0',`pLevel` = '0',`pSkin` = '0'WHERE `pCode`='c33Oh4uJ42i'", "OnSavePlayer", "ss")
+[15/01/2025 20:57:15] [DEBUG] CCallback::Create(amx=0x89e448, name='OnSavePlayer', format='ss', params=0x5ee4848, param_offset=5)
+[15/01/2025 20:57:15] [DEBUG] CCallback::Create - callback index for 'OnSavePlayer': 88
+[15/01/2025 20:57:15] [DEBUG] processing specifier 's' with parameter index 0
+[15/01/2025 20:57:15] [DEBUG] retrieved and pushed value 'Samuel_05'
+[15/01/2025 20:57:15] [DEBUG] processing specifier 's' with parameter index 1
+[15/01/2025 20:57:15] [DEBUG] retrieved and pushed value 'c33Oh4uJ42i'
+[15/01/2025 20:57:15] [INFO] Callback 'OnSavePlayer' set up for delayed execution.
+[15/01/2025 20:57:15] [DEBUG] created delayed callback with 2 parameters
+[15/01/2025 20:57:15] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x6749130)
+[15/01/2025 20:57:15] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:57:15] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:57:15] [INFO] query "UPDATE `players` SET `pX` = '232.788147',`pY` = '60.024292',`pZ` = '2.739365',`pA` = '303.857178',`pI` = '0',`pVW` = '0',`pLevel` = '0',`pSkin` = '0'WHERE `pCode`='c33Oh4uJ42i'" successfully executed within 1.382 milliseconds
+[15/01/2025 20:57:15] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='UPDATE `players` SET `pX` = '232.788147',`pY` = '60.024292',`pZ` = '2.739365',`pA` = '303.857178',`pI` = '0',`pVW` = '0',`pLevel` = '0',`pSkin` = '0'WHERE `pCode`='c33Oh4uJ42i'')
+[15/01/2025 20:57:15] [DEBUG] created new resultset '0x6924718'
+[15/01/2025 20:57:15] [DEBUG] fetched MySQL result '0x0'
+[15/01/2025 20:57:15] [DEBUG] CConnection::Execute(query=0x6749130, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:57:15] [DEBUG] CQuery::Execute(this=0x6749130, connection=0x98e050)
+[15/01/2025 20:57:15] [INFO] query "UPDATE `players` SET `pX` = '232.788147',`pY` = '60.024292',`pZ` = '2.739365',`pA` = '303.857178',`pI` = '0',`pVW` = '0',`pLevel` = '0',`pSkin` = '0'WHERE `pCode`='c33Oh4uJ42i'" successfully executed within 0.134 milliseconds
+[15/01/2025 20:57:15] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='UPDATE `players` SET `pX` = '232.788147',`pY` = '60.024292',`pZ` = '2.739365',`pA` = '303.857178',`pI` = '0',`pVW` = '0',`pLevel` = '0',`pSkin` = '0'WHERE `pCode`='c33Oh4uJ42i'')
+[15/01/2025 20:57:15] [DEBUG] created new resultset '0x6924788'
+[15/01/2025 20:57:15] [DEBUG] fetched MySQL result '0x0'
+[15/01/2025 20:57:15] [DEBUG] CCallback::Execute(amx=0x89e448, index=88, num_params=2)
+[15/01/2025 20:57:15] [ERROR] CCallback::Execute - invalid AMX instance
+[15/01/2025 20:57:15] [DEBUG] CCallback::Execute(amx=0x89e448, index=88, num_params=2)
+[15/01/2025 20:57:15] [ERROR] CCallback::Execute - invalid AMX instance
+[15/01/2025 20:57:27] [DEBUG] mysql_connect("localhost", "root", "*****", "samp", 0)
+[15/01/2025 20:57:27] [DEBUG] CHandleManager::Create(this=0x3ec6e10, host='localhost', user='root', pass='****', db='samp', options=0x37250e8)
+[15/01/2025 20:57:27] [INFO] Creating new connection handle...
+[15/01/2025 20:57:27] [WARNING] mysql_connect: no password specified
+[15/01/2025 20:57:27] [WARNING] duplicate connection detected: handle id 1 already exists with host = 'localhost', username = 'root' and database = 'samp'
+[15/01/2025 20:57:27] [DEBUG] mysql_connect: return value: '1'
+[15/01/2025 20:57:27] [DEBUG] mysql_errno(1)
+[15/01/2025 20:57:27] [DEBUG] CHandle::GetErrorId(this=0x28d2a90)
+[15/01/2025 20:57:27] [DEBUG] CConnection::GetError(this=0x3724b58, connection=0x3f1dbb8)
+[15/01/2025 20:57:27] [DEBUG] CHandle::GetErrorId - return value: true, error id: '0', error msg: ''
+[15/01/2025 20:57:27] [DEBUG] mysql_errno: return value: '0'
+[15/01/2025 20:57:27] [INFO] changed log level from 'debug, info, warning, error' to 'debug, info, warning, error'
+[15/01/2025 20:57:27] [DEBUG] mysql_format(1, 0x0104ACB4, 128, "SELECT * FROM `places`")
+[15/01/2025 20:57:27] [DEBUG] mysql_format: return value: '22'
+[15/01/2025 20:57:27] [DEBUG] mysql_tquery(1, "SELECT * FROM `places`", "OnGetPlaces", "")
+[15/01/2025 20:57:27] [DEBUG] CCallback::Create(amx=0x3c9ae38, name='OnGetPlaces', format='', params=0x104aca0, param_offset=5)
+[15/01/2025 20:57:27] [DEBUG] CCallback::Create - callback index for 'OnGetPlaces': 25
+[15/01/2025 20:57:27] [INFO] Callback 'OnGetPlaces' set up for delayed execution.
+[15/01/2025 20:57:27] [DEBUG] created delayed callback with 0 parameter
+[15/01/2025 20:57:27] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x6749688)
+[15/01/2025 20:57:27] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:57:27] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:57:27] [DEBUG] mysql_format(1, 0x0104AAB4, 128, "SELECT * FROM `players`")
+[15/01/2025 20:57:27] [DEBUG] mysql_format: return value: '23'
+[15/01/2025 20:57:27] [DEBUG] mysql_tquery(1, "SELECT * FROM `players`", "OnGetPlayers", "")
+[15/01/2025 20:57:27] [DEBUG] CCallback::Create(amx=0x3c9ae38, name='OnGetPlayers', format='', params=0x104aaa0, param_offset=5)
+[15/01/2025 20:57:27] [DEBUG] CCallback::Create - callback index for 'OnGetPlayers': 26
+[15/01/2025 20:57:27] [INFO] Callback 'OnGetPlayers' set up for delayed execution.
+[15/01/2025 20:57:27] [DEBUG] CConnection::Execute(query=0x6749688, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:57:27] [DEBUG] created delayed callback with 0 parameter
+[15/01/2025 20:57:27] [DEBUG] CQuery::Execute(this=0x6749688, connection=0x98e050)
+[15/01/2025 20:57:27] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x6749390)
+[15/01/2025 20:57:27] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:57:27] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:57:27] [INFO] query "SELECT * FROM `places`" successfully executed within 0.202 milliseconds
+[15/01/2025 20:57:27] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `places`')
+[15/01/2025 20:57:27] [DEBUG] created new resultset '0x69247f8'
+[15/01/2025 20:57:27] [DEBUG] fetched MySQL result '0x6aab2c0'
+[15/01/2025 20:57:27] [DEBUG] allocated 0 bytes for PAWN result
+[15/01/2025 20:57:27] [DEBUG] CConnection::Execute(query=0x6749390, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:57:27] [DEBUG] CQuery::Execute(this=0x6749390, connection=0x98e050)
+[15/01/2025 20:57:27] [INFO] query "SELECT * FROM `players`" successfully executed within 0.109 milliseconds
+[15/01/2025 20:57:27] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `players`')
+[15/01/2025 20:57:27] [DEBUG] created new resultset '0x6924718'
+[15/01/2025 20:57:27] [DEBUG] fetched MySQL result '0x6749120'
+[15/01/2025 20:57:27] [DEBUG] allocated 588 bytes for PAWN result
+[15/01/2025 20:57:27] [DEBUG] CCallback::Execute(amx=0x3c9ae38, index=25, num_params=0)
+[15/01/2025 20:57:27] [INFO] Executing callback 'OnGetPlaces' with 0 parameter...
+[15/01/2025 20:57:27] [DEBUG] executing AMX callback with index '25'
+[15/01/2025 20:57:27] [DEBUG] cache_get_row_count(0x0104AED4)
+[15/01/2025 20:57:27] [DEBUG] cache_get_row_count: return value: '1'
+[15/01/2025 20:57:27] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:57:27] [INFO] Callback successfully executed.
+[15/01/2025 20:57:27] [DEBUG] CCallback::Execute(amx=0x3c9ae38, index=26, num_params=0)
+[15/01/2025 20:57:27] [INFO] Executing callback 'OnGetPlayers' with 0 parameter...
+[15/01/2025 20:57:27] [DEBUG] executing AMX callback with index '26'
+[15/01/2025 20:57:27] [DEBUG] cache_get_row_count(0x0104AED4)
+[15/01/2025 20:57:27] [DEBUG] cache_get_row_count: return value: '1'
+[15/01/2025 20:57:27] [DEBUG] cache_get_row_count(0x0104AED0)
+[15/01/2025 20:57:27] [DEBUG] cache_get_row_count: return value: '1'
+[15/01/2025 20:57:27] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:57:27] [INFO] Callback successfully executed.
+[15/01/2025 20:57:29] [DEBUG] mysql_format(1, 0x0104ACA8, 128, "SELECT * FROM `players` WHERE `pLogin` = '%s'")
+[15/01/2025 20:57:29] [DEBUG] mysql_format: return value: '49'
+[15/01/2025 20:57:29] [DEBUG] mysql_tquery(1, "SELECT * FROM `players` WHERE `pLogin` = 'samuel'", "getLoginPlayer", "ds")
+[15/01/2025 20:57:29] [DEBUG] CCallback::Create(amx=0x3c9ae38, name='getLoginPlayer', format='ds', params=0x104ac8c, param_offset=5)
+[15/01/2025 20:57:29] [DEBUG] CCallback::Create - callback index for 'getLoginPlayer': 140
+[15/01/2025 20:57:29] [DEBUG] processing specifier 'd' with parameter index 0
+[15/01/2025 20:57:29] [DEBUG] retrieved and pushed value '0'
+[15/01/2025 20:57:29] [DEBUG] processing specifier 's' with parameter index 1
+[15/01/2025 20:57:29] [DEBUG] retrieved and pushed value 'samuel'
+[15/01/2025 20:57:29] [INFO] Callback 'getLoginPlayer' set up for delayed execution.
+[15/01/2025 20:57:29] [DEBUG] created delayed callback with 2 parameters
+[15/01/2025 20:57:29] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x6749720)
+[15/01/2025 20:57:29] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:57:29] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:57:29] [DEBUG] CConnection::Execute(query=0x6749720, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:57:29] [DEBUG] CQuery::Execute(this=0x6749720, connection=0x98e050)
+[15/01/2025 20:57:29] [INFO] query "SELECT * FROM `players` WHERE `pLogin` = 'samuel'" successfully executed within 0.215 milliseconds
+[15/01/2025 20:57:29] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `players` WHERE `pLogin` = 'samuel'')
+[15/01/2025 20:57:29] [DEBUG] created new resultset '0x6924600'
+[15/01/2025 20:57:29] [DEBUG] fetched MySQL result '0x6749120'
+[15/01/2025 20:57:29] [DEBUG] allocated 188 bytes for PAWN result
+[15/01/2025 20:57:29] [DEBUG] CCallback::Execute(amx=0x3c9ae38, index=140, num_params=2)
+[15/01/2025 20:57:29] [INFO] Executing callback 'getLoginPlayer' with 2 parameters...
+[15/01/2025 20:57:29] [DEBUG] processing internal specifier 's'
+[15/01/2025 20:57:29] [DEBUG] pushed value 'samuel' onto AMX stack
+[15/01/2025 20:57:29] [DEBUG] processing internal specifier 'c'
+[15/01/2025 20:57:29] [DEBUG] pushed value '0' onto AMX stack
+[15/01/2025 20:57:29] [DEBUG] executing AMX callback with index '140'
+[15/01/2025 20:57:29] [DEBUG] cache_get_row_count(0x0104AECC)
+[15/01/2025 20:57:29] [DEBUG] cache_get_row_count: return value: '1'
+[15/01/2025 20:57:29] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:57:29] [INFO] Callback successfully executed.
+[15/01/2025 20:57:31] [DEBUG] mysql_format(1, 0x0104ACA8, 128, "SELECT * FROM `players` WHERE `pLogin` = '%s'")
+[15/01/2025 20:57:31] [DEBUG] mysql_format: return value: '49'
+[15/01/2025 20:57:31] [DEBUG] mysql_tquery(1, "SELECT * FROM `players` WHERE `pLogin` = 'samuel'", "getPassPlayer", "ds")
+[15/01/2025 20:57:31] [DEBUG] CCallback::Create(amx=0x3c9ae38, name='getPassPlayer', format='ds', params=0x104ac8c, param_offset=5)
+[15/01/2025 20:57:31] [DEBUG] CCallback::Create - callback index for 'getPassPlayer': 143
+[15/01/2025 20:57:31] [DEBUG] processing specifier 'd' with parameter index 0
+[15/01/2025 20:57:31] [DEBUG] retrieved and pushed value '0'
+[15/01/2025 20:57:31] [DEBUG] processing specifier 's' with parameter index 1
+[15/01/2025 20:57:31] [DEBUG] retrieved and pushed value 'samuel'
+[15/01/2025 20:57:31] [INFO] Callback 'getPassPlayer' set up for delayed execution.
+[15/01/2025 20:57:31] [DEBUG] created delayed callback with 2 parameters
+[15/01/2025 20:57:31] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x6749130)
+[15/01/2025 20:57:31] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:57:31] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] CConnection::Execute(query=0x6749130, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:57:31] [DEBUG] CQuery::Execute(this=0x6749130, connection=0x98e050)
+[15/01/2025 20:57:31] [INFO] query "SELECT * FROM `players` WHERE `pLogin` = 'samuel'" successfully executed within 0.227 milliseconds
+[15/01/2025 20:57:31] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `players` WHERE `pLogin` = 'samuel'')
+[15/01/2025 20:57:31] [DEBUG] created new resultset '0x69247c0'
+[15/01/2025 20:57:31] [DEBUG] fetched MySQL result '0x67495e0'
+[15/01/2025 20:57:31] [DEBUG] allocated 188 bytes for PAWN result
+[15/01/2025 20:57:31] [DEBUG] CCallback::Execute(amx=0x3c9ae38, index=143, num_params=2)
+[15/01/2025 20:57:31] [INFO] Executing callback 'getPassPlayer' with 2 parameters...
+[15/01/2025 20:57:31] [DEBUG] processing internal specifier 's'
+[15/01/2025 20:57:31] [DEBUG] pushed value 'samuel' onto AMX stack
+[15/01/2025 20:57:31] [DEBUG] processing internal specifier 'c'
+[15/01/2025 20:57:31] [DEBUG] pushed value '0' onto AMX stack
+[15/01/2025 20:57:31] [DEBUG] executing AMX callback with index '143'
+[15/01/2025 20:57:31] [DEBUG] cache_get_row_count(0x0104AECC)
+[15/01/2025 20:57:31] [DEBUG] cache_get_row_count: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name(0, "pPassword", 0x0104ADDC, 64)
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name: assigned value: 'password'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] mysql_format(1, 0x0104ABDC, 128, "SELECT * FROM `players` WHERE `pLogin` = '%s'")
+[15/01/2025 20:57:31] [DEBUG] mysql_format: return value: '49'
+[15/01/2025 20:57:31] [DEBUG] mysql_tquery(1, "SELECT * FROM `players` WHERE `pLogin` = 'samuel'", "OnLoadPlayer", "d")
+[15/01/2025 20:57:31] [DEBUG] CCallback::Create(amx=0x3c9ae38, name='OnLoadPlayer', format='d', params=0x104abc4, param_offset=5)
+[15/01/2025 20:57:31] [DEBUG] CCallback::Create - callback index for 'OnLoadPlayer': 31
+[15/01/2025 20:57:31] [DEBUG] processing specifier 'd' with parameter index 0
+[15/01/2025 20:57:31] [DEBUG] retrieved and pushed value '0'
+[15/01/2025 20:57:31] [INFO] Callback 'OnLoadPlayer' set up for delayed execution.
+[15/01/2025 20:57:31] [DEBUG] created delayed callback with 1 parameter
+[15/01/2025 20:57:31] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x67491c8)
+[15/01/2025 20:57:31] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 20:57:31] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:57:31] [INFO] Callback successfully executed.
+[15/01/2025 20:57:31] [DEBUG] CConnection::Execute(query=0x67491c8, this=0x64cf020, connection=0x98e050)
+[15/01/2025 20:57:31] [DEBUG] CQuery::Execute(this=0x67491c8, connection=0x98e050)
+[15/01/2025 20:57:31] [INFO] query "SELECT * FROM `players` WHERE `pLogin` = 'samuel'" successfully executed within 0.215 milliseconds
+[15/01/2025 20:57:31] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='SELECT * FROM `players` WHERE `pLogin` = 'samuel'')
+[15/01/2025 20:57:31] [DEBUG] created new resultset '0x6924520'
+[15/01/2025 20:57:31] [DEBUG] fetched MySQL result '0x6749120'
+[15/01/2025 20:57:31] [DEBUG] allocated 188 bytes for PAWN result
+[15/01/2025 20:57:31] [DEBUG] CCallback::Execute(amx=0x3c9ae38, index=31, num_params=1)
+[15/01/2025 20:57:31] [INFO] Executing callback 'OnLoadPlayer' with 1 parameter...
+[15/01/2025 20:57:31] [DEBUG] processing internal specifier 'c'
+[15/01/2025 20:57:31] [DEBUG] pushed value '0' onto AMX stack
+[15/01/2025 20:57:31] [DEBUG] executing AMX callback with index '31'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name(0, "pNick", 0x0104AE80, 24)
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name: assigned value: 'Samuel_05'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name(0, "pEmail", 0x00E98320, 35)
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name: assigned value: 'samuelmatheus0502@gmail.com'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int(0, "pGen", 0x00E98420)
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int: assigned value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name(0, "pCode", 0x00E98424, 50)
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name: assigned value: 'c33Oh4uJ42i'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_float(0, "pX", 0x00E98464)
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_float: assigned value: '232.788'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_float(0, "pY", 0x00E98468)
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_float: assigned value: '60.0243'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_float(0, "pZ", 0x00E9846C)
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_float: assigned value: '2.73937'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_float(0, "pA", 0x00E98470)
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_float: assigned value: '303.857'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_float: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int(0, "pI", 0x00E98474)
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int: assigned value: '0'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int(0, "pVW", 0x00E98478)
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int: assigned value: '0'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int(0, "pLevel", 0x00E9847C)
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int: assigned value: '0'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int(0, "pSkin", 0x00E98480)
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int: assigned value: '0'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int: return value: '1'
+[15/01/2025 20:57:31] [DEBUG] cache_get_value_name_int(0, "pAdmin", 0x00E98484)
+[15/01/2025 20:57:31] [ERROR] cache_get_value_name_int: value 'NULL' is not a number
+[15/01/2025 20:57:31] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 20:57:31] [INFO] Callback successfully executed.
+[15/01/2025 21:04:00] [DEBUG] mysql_format(1, 0x0104A814, 400, "UPDATE `players` SET `pX` = '%f',`pY` = '%f',`pZ` = '%f',`pA` = '%f',`pI` = '%d',`pVW` = '%d',`pLevel` = '%d',`pSkin` = '%d'WHERE `pCode`='%s'")
+[15/01/2025 21:04:00] [DEBUG] mysql_format: return value: '180'
+[15/01/2025 21:04:00] [DEBUG] mysql_tquery(1, "UPDATE `players` SET `pX` = '2343.808838',`pY` = '-1544.642700',`pZ` = '23.505644',`pA` = '14.080166',`pI` = '0',`pVW` = '0',`pLevel` = '0',`pSkin` = '0'WHERE `pCode`='c33Oh4uJ42i'", "OnSavePlayer", "ss")
+[15/01/2025 21:04:00] [DEBUG] CCallback::Create(amx=0x3c9ae38, name='OnSavePlayer', format='ss', params=0x104a7f8, param_offset=5)
+[15/01/2025 21:04:00] [DEBUG] CCallback::Create - callback index for 'OnSavePlayer': 88
+[15/01/2025 21:04:00] [DEBUG] processing specifier 's' with parameter index 0
+[15/01/2025 21:04:00] [DEBUG] retrieved and pushed value 'Samuel_05'
+[15/01/2025 21:04:00] [DEBUG] processing specifier 's' with parameter index 1
+[15/01/2025 21:04:00] [DEBUG] retrieved and pushed value 'c33Oh4uJ42i'
+[15/01/2025 21:04:00] [INFO] Callback 'OnSavePlayer' set up for delayed execution.
+[15/01/2025 21:04:00] [DEBUG] created delayed callback with 2 parameters
+[15/01/2025 21:04:00] [DEBUG] CHandle::Execute(this=0x28d2a90, type=1, query=0x6749130)
+[15/01/2025 21:04:00] [DEBUG] CHandle::Execute - return value: true
+[15/01/2025 21:04:00] [DEBUG] mysql_tquery: return value: '1'
+[15/01/2025 21:04:00] [DEBUG] CConnection::Execute(query=0x6749130, this=0x64cf020, connection=0x98e050)
+[15/01/2025 21:04:00] [DEBUG] CQuery::Execute(this=0x6749130, connection=0x98e050)
+[15/01/2025 21:04:00] [INFO] query "UPDATE `players` SET `pX` = '2343.808838',`pY` = '-1544.642700',`pZ` = '23.505644',`pA` = '14.080166',`pI` = '0',`pVW` = '0',`pLevel` = '0',`pSkin` = '0'WHERE `pCode`='c33Oh4uJ42i'" successfully executed within 1.236 milliseconds
+[15/01/2025 21:04:00] [DEBUG] CResultSet::Create(connection=0x98e050, query_str='UPDATE `players` SET `pX` = '2343.808838',`pY` = '-1544.642700',`pZ` = '23.505644',`pA` = '14.080166',`pI` = '0',`pVW` = '0',`pLevel` = '0',`pSkin` = '0'WHERE `pCode`='c33Oh4uJ42i'')
+[15/01/2025 21:04:00] [DEBUG] created new resultset '0x6924590'
+[15/01/2025 21:04:00] [DEBUG] fetched MySQL result '0x0'
+[15/01/2025 21:04:00] [DEBUG] CCallback::Execute(amx=0x3c9ae38, index=88, num_params=2)
+[15/01/2025 21:04:00] [INFO] Executing callback 'OnSavePlayer' with 2 parameters...
+[15/01/2025 21:04:00] [DEBUG] processing internal specifier 's'
+[15/01/2025 21:04:00] [DEBUG] pushed value 'c33Oh4uJ42i' onto AMX stack
+[15/01/2025 21:04:00] [DEBUG] processing internal specifier 's'
+[15/01/2025 21:04:00] [DEBUG] pushed value 'Samuel_05' onto AMX stack
+[15/01/2025 21:04:00] [DEBUG] executing AMX callback with index '88'
+[15/01/2025 21:04:00] [DEBUG] AMX callback executed with error '0'
+[15/01/2025 21:04:00] [INFO] Callback successfully executed.
