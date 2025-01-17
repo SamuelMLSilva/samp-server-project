@@ -1,17 +1,13 @@
-/* 
-	criar 	sistema de locais
-	criar 	db --------------------------------------done
-	criar 	loaddb ----------------------------------done
-	criar 	funcao de criar local -------------------done	
-	criar	cmd /saidaloc para setar saída --------------done
-	criar	cmd /modificar -> 
-	mudar int			done					
-	mudar pickup		done
-	mudar saída			done
-	trancar/destrancar, done
-	excluir
+/*
+	ATENÇÃO -> Ao usar a funcionalidade de excluir local.
+	A função foi pensada em excluir o último local criado...
+	Ex: existe 10 locais, você pode excluir o local ID: 10 e não terá problemas,
+	caso excluir o local 2 por exemplo, terá problemas no carregamento.
 
+	A funcionalidade foi criada para "correção/desistência" caso o local seja criado de maneira errada, 
+	porém existe o comando modificar, onde é possível modificar tudo, posição, título, saída, etc.
 */
+
 #include <YSI_Coding\y_hooks>
 
 new mSecMenuPcikup[MAX_PLAYERS];
@@ -275,6 +271,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new str[128];
 				format(str, sizeof(str),"%s| LOCAIS PÚBLICO | %sVocê setou a saída do local ID: %d", EMBED_SERVER, EMBED_WHITE, PlaceCreate[playerid][clID]);
 				SendClientMessage(playerid, -1, str);
+				stopPlace(PlaceCreate[playerid][clID]);
+				loadDbPlace(PlaceCreate[playerid][clID]);
 				finishCreateExPlace(playerid);
 				return 1;
 			}		
@@ -285,6 +283,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	return 1;
 }
 
+/* CALLBACKS ----------------------------------------------------------------------------------*/
+
 forward OnGetPlaces();
 public OnGetPlaces(){ // Pegar quantidade de locais existentes no DB
 	printf("                                              ");
@@ -294,22 +294,14 @@ public OnGetPlaces(){ // Pegar quantidade de locais existentes no DB
 		printf("%d locais públicos foram carregados\n\n", i);
 		printf("                                              ");
 		printf("											  ");
-		qPlaces = i;
 		printf("%d locais existentes", i);
-		for(new j = 1; j <= qPlaces; j++) { // Carregar todos locais no DB
+		for(new j = 1; j <= i; j++) { // Carregar todos locais no DB
 			loadDbPlace(j);
 		}
 	} else {
 		printf("não existe nenhum lugar público para ser carregado");
 		return 1;
 	}
-	return 1;
-}
-
-stock loadDbPlace(i) { // Carregar local pelo ID
-	new query[128];
-	mysql_format(ConexaoSQL, query, sizeof(query),"SELECT * FROM `places` WHERE `lID` = '%d'", i);
-	mysql_tquery(ConexaoSQL, query, "OnLoadPlace", "d", i);
 	return 1;
 }
 
@@ -328,8 +320,27 @@ public OnLoadPlace(i) { // Amarmazenar informações do DB em variáveis
 	cache_get_value_float(0, "eA", PlaceInfo[i][eA]);
 	cache_get_value_int(0, "pIdPlace", PlaceInfo[i][pIdPlace]);
 	startPlace(i);
+	if(PlaceInfo[i][lID] > qPlaces) {
+		qPlaces = PlaceInfo[i][lID];
+	}
 	return 1;
 }
+
+forward OnCreatePlace(playerid, name[], id, title[]);
+public OnCreatePlace(playerid, name[], id, title[]){ // log no console de criação de local público
+	PlaceCreate[playerid][clID] = id;
+	printf(" ");
+	printf("----------------- LOCAIS PÚBLICOS -----------------");
+	printf("O(A) %s %s criou local público ID:%d - Titulo: %s", getPlayerAdmin(playerid), name, id, title);
+	printf(" ");
+	printf(" ");
+	new str[128];
+	format(str, sizeof(str),"%s| LOCAIS PÚBLICOS | %sDigite: %s/saidaloc %spara setar a saída do local!",EMBED_SERVER, EMBED_WHITE, EMBED_SERVER, EMBED_WHITE);
+	SendClientMessage(playerid, -1, str);
+	return 1;
+}
+
+/* COMMANDS -----------------------------------------------------------------------------------*/
 
 CMD:cancelint(playerid, params[]) { // CMD para cancelar a alteração de interior
 	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] > 3) {
@@ -362,7 +373,8 @@ CMD:intloc(playerid, const params[]) { // CMD de confirmar interior do local
 			PlaceCreate[playerid][finishPlace] = true;
 			createPlace(playerid);
 			return 1;		
-		} if(PlaceModify[playerid][alterPlaceInt] == true) {
+		} 
+		if(PlaceModify[playerid][alterPlaceInt] == true) {
 			//lIntId
 			new query[128];
 			mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE `places` SET `lIntID`='%d' WHERE `lID`='%d'",
@@ -444,6 +456,15 @@ CMD:modificar(playerid, const params[]) { // CMD para modificar local -> Interio
 	}
 }
 
+/* FUNCTIONS ------------------------------------------------------------------------------------*/
+
+stock loadDbPlace(i) { // Carregar local pelo ID
+	new query[128];
+	mysql_format(ConexaoSQL, query, sizeof(query),"SELECT * FROM `places` WHERE `lID` = '%d'", i);
+	mysql_tquery(ConexaoSQL, query, "OnLoadPlace", "d", i);
+	return 1;
+}
+
 stock getLocalPublic(playerid) { // verificar se o player está em um local e retornar o id
 	for(new i = 1; i <= qPlaces; i++) {
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, PlaceInfo[i][lX], PlaceInfo[i][lY], PlaceInfo[i][lZ])) {
@@ -497,12 +518,11 @@ stock createPlace(playerid) { // função de criar local
 	if(qPlaces < MAX_PLACES) {
 		if(PlaceCreate[playerid][finishPlace] == true) {
 			qPlaces++;
-
 			new string[128];
 			format(string, sizeof(string),"criou local publico %d",qPlaces);
 			createLog(playerid, 0, string, na(), na());
 			new strDebug[256];
-			format(strDebug, sizeof(strDebug),"INSERT INTO `places` (`lID`,`lIntId`,`lTitulo`,`lX`,`lY`,`lZ`,\
+			format(strDebug, sizeof(strDebug),"DEBUG - INSERT INTO `places` (`lID`,`lIntId`,`lTitulo`,`lX`,`lY`,`lZ`,\
 				`lLock`,`pIdPlace`) VALUES ('%d','%d','%s','%f','%f','%f','%d','%d')", qPlaces, 
 				PlaceCreate[playerid][chooseIdInt], PlaceCreate[playerid][clTitle],
 				PlaceCreate[playerid][clX], PlaceCreate[playerid][clY], 
@@ -528,6 +548,7 @@ stock createPlace(playerid) { // função de criar local
 			startPlace(qPlaces);	
 			PlaceCreate[playerid][createExPlace] = true;
 			finishCreatePlace(playerid);
+			finishCreateIntPlace(playerid);
 			return 1;
 		}
 		if(PlaceCreate[playerid][cPlace] == true) {
@@ -554,21 +575,6 @@ stock createPlace(playerid) { // função de criar local
 		SendClientMessage(playerid, -1, str);
 		return 1;
 	}
-	return 1;
-}
-
-
-forward OnCreatePlace(playerid, name[], id, title[]);
-public OnCreatePlace(playerid, name[], id, title[]){ // log no console de criação de local público
-	PlaceCreate[playerid][clID] = id;
-	printf(" ");
-	printf("----------------- LOCAIS PÚBLICOS -----------------");
-	printf("O(A) %s %s criou local público ID:%d - Titulo: %s", getPlayerAdmin(playerid), name, id, title);
-	printf(" ");
-	printf(" ");
-	new str[128];
-	format(str, sizeof(str),"%s| LOCAIS PÚBLICOS | %sDigite: %s/saidaloc %spara setar a saída do local!",EMBED_SERVER, EMBED_WHITE, EMBED_SERVER, EMBED_WHITE);
-	SendClientMessage(playerid, -1, str);
 	return 1;
 }
 

@@ -78,3 +78,19 @@ CMD:go(playerid, const params[]) {
 		return 0;
 	}
 }
+
+CMD:irlocal(playerid, params[]) {
+	if(PlayerInfo[playerid][pAdmin] > 3 || IsPlayerAdmin(playerid)) {
+		new str[128], i = 0;
+		format(str, sizeof(str),"%s %sDigite: %s/irlocal [idLocal]", EMBED_WARNING, EMBED_WHITE, EMBED_SERVER);
+		if(sscanf(params, "d", i)) return SendClientMessage(playerid, -1, str);
+		SetPlayerPos(playerid, PlaceInfo[i][lX], PlaceInfo[i][lY], PlaceInfo[i][lZ]);
+		SetPlayerInterior(playerid, 0);
+		SetPlayerVirtualWorld(playerid, 0);
+		new string[128];
+		format(string, sizeof(string),"%s %sVocê chegou no local ID: %s%d", MSG_SERVER, EMBED_WHITE, EMBED_SERVER, i);
+		SendClientMessage(playerid, -1, string);
+		return 1;
+	}	
+	return 0;
+}
