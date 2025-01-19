@@ -1,5 +1,6 @@
 #include <YSI_Coding\y_hooks>
 
+
 hook OnPlayerConnect(playerid) {
     createTxdBank(playerid);
     return 1;
@@ -36,6 +37,7 @@ CMD:banco(playerid, params[]) {
 }
 
 /* FUNCTIONS --------------------------------- */
+
 stock showTextBank(playerid) {
     for(new i = 1; i <= MAX_BANK_TXD-1; i++) {
         PlayerTextDrawShow(playerid, txdBank[playerid][i]);

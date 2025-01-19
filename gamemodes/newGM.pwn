@@ -296,8 +296,29 @@ public OnScriptCash(playerid, amount, source)
 
 public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 {
-	SetPlayerInterior(playerid, 0);
-	return 1;
+	if(IsPlayerAdmin(playerid))
+	{
+		if(IsPlayerInAnyVehicle(playerid))
+		{
+			new car = GetPlayerVehicleID(playerid);
+			SetPlayerPos(playerid, fX, fY, fZ);
+			SetPlayerInterior(playerid, 0);
+			SetPlayerVirtualWorld(playerid, 0);		
+			SetVehiclePos(car, fX, fY, fZ);
+			PutPlayerInVehicle(playerid, car, 0);
+			SendClientMessage(playerid, COLOR_SERVER, "| SERVER |{ffffff} Voce e seu veículo foi ate local marcado no mapa!");
+			return 1;
+		}
+		else if(!IsPlayerInAnyVehicle(playerid))
+		{
+			SetPlayerPos(playerid, fX, fY, fZ);
+			SetPlayerInterior(playerid, 0);
+			SetPlayerVirtualWorld(playerid, 0);
+			SendClientMessage(playerid, COLOR_SERVER, "| SERVER |{ffffff} Voce foi ate local marcado no mapa!");
+			return 1;
+		}
+	}
+	return 0;
 }
 
 public OnIncomingConnection(playerid, ip_address[], port)

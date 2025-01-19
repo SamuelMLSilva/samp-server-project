@@ -318,7 +318,6 @@ public OnLoadPlace(j) { // Amarmazenar informações do DB em variáveis
 		cache_get_value_float(j, "eZ", PlaceInfo[i][eZ]);
 		cache_get_value_float(j, "eA", PlaceInfo[i][eA]);
 		cache_get_value_int(j, "pIdPlace", PlaceInfo[i][pIdPlace]);
-		printf("Debug id local: %d | Posição array: %d | K: %d | Int: %d", PlaceInfo[i][lID], i, k,  PlaceInfo[i][lIntId]);
 		startPlace(i);
 		if(qPlaces < PlaceInfo[i][lID]) {
 			qPlaces = PlaceInfo[i][lID];

@@ -98,7 +98,7 @@
         "side_scripts": [ ]
     },
     "rcon": {
-        "allow_teleport": true,
+        "allow_teleport": false,
         "enable": false,
         "password": "password"
     },
