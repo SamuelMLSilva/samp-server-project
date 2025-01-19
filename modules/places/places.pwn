@@ -98,6 +98,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE `places` SET `lTitulo`='%s' WHERE `lID`='%d'",
 				inputtext, PlaceModify[playerid][modifyIdPlace]);
 			mysql_tquery(ConexaoSQL, query);
+			stopPlace(PlaceModify[playerid][modifyIdPlace]);
 			new str[128];
 			format(str, sizeof(str),"%s %sVocê alterou o título do local ID: %d para: %s",MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace],
 				inputtext);
@@ -120,7 +121,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE `places` SET `pIdPlace`='%d' WHERE `lID`='%d'",
 				PlaceModify[playerid][modifyIdPickupPlace], PlaceModify[playerid][modifyIdPlace]);
 			mysql_tquery(ConexaoSQL, query);
-			restartPckpPlace(PlaceModify[playerid][modifyIdPlace]);
+			stopPlace(PlaceModify[playerid][modifyIdPlace]);
 			new str[128];
 			format(str, sizeof(str),"%s %sVocê alterou a pickup do local ID: %d para pickup ID: %d",MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace],
 				PlaceModify[playerid][modifyIdPickupPlace]);
@@ -461,11 +462,11 @@ CMD:modificar(playerid, const params[]) { // CMD para modificar local -> Interio
 		new i = getLocalPublic(playerid);
 		if(i != 0) {
 			finishModifyPlace(playerid);
-			showDialogLocModify(playerid);
 			PlaceModify[playerid][modifyIdPlace] = i;
 			new str[128];
 			format(str, sizeof(str),"%s %sVocê está modificando o local [%sID%s: %d]",MSG_SERVER, EMBED_WHITE, EMBED_GREEN, EMBED_WHITE, i);
 			SendClientMessage(playerid, -1, str);
+			showDialogLocModify(playerid);
 		} else if(i == 0) {
 			new string[128];
 			format(string, sizeof(string),"%s| AVISO | %sVocê não está em um local público!",EMBED_WARNING, EMBED_WHITE);
@@ -489,6 +490,7 @@ stock loadDbPlace(i) { // Carregar local pelo ID
 }
 
 stock loadDbPlaceId(i) { // Carregar local pelo ID
+	stopPlace(i);
 	new query[128];
 	mysql_format(ConexaoSQL, query, sizeof(query),"SELECT * FROM `places` WHERE `lID`= '%d'",i);
 	mysql_tquery(ConexaoSQL, query, "OnLoadPlaceId", "d", i);

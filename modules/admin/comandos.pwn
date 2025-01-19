@@ -7,6 +7,7 @@
 	MODERADOR -------------------------------------------------------------
 	/v 				->		criar veículos com pintura padrão
     /cv 			->		criar veículos com escolha de pintura
+	/cchat			->		limpar chat
 
 	ADMINISTRADOR ---------------------------------------------------------
 	/irlocal		->		ir até um local pelo ID
@@ -16,7 +17,7 @@
 	/mypos			->		retorna uma mensagem de qual posição o player está
 	/myvw			-> 		retorna uma mensagem do virtual world que o player está
 	/myint			->		retorna uma mensagem de qual interior o player está
-	 
+
 	RCON, DONO ------------------------------------------------------------
     /clocal 		-> 		criar locais públicos: banco, conce, prefetiura
 
@@ -30,6 +31,17 @@ hook OnPlayerDisconnect(playerid) {
 /* COMMANDS HELPER ---------------------------------------------------------------------------- */
 
 /* COMMANDS MODERATOR ------------------------------------------------------------------------- */
+
+CMD:cchat(playerid, params[]) {
+	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= 2)
+	{
+		for(new i = 0; i <= 80; i++) {
+			SendClientMessageToAll(-1, "");
+		}
+		return 1;
+	}
+	return 0;
+}
 
 CMD:cv(playerid, params[]) // CMD para criar veículos com cores personalizadas.
 {
