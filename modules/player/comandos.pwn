@@ -1,10 +1,8 @@
 CMD:entrar(playerid, params[]) {
     new enterPlace = getLocalPublic(playerid);
-    if(enterPlace == 0) {
-        sendWarning(playerid, "Você não está em nenhum local de entrada.");
-    } else {
+    if(enterPlace > 0) {
         new i = enterPlace;
-        if(PlaceInfo[playerid][lLock] == 0) {
+        if(PlaceInfo[i][lLock] == 0) {
             SetPlayerVirtualWorld(playerid, i);
             setInteriorPlace(playerid, i);
         } else {
@@ -12,6 +10,9 @@ CMD:entrar(playerid, params[]) {
             format(str, sizeof(str), "%s %sEsse local está trancado!", MSG_PLACE, EMBED_WHITE);
             SendClientMessage(playerid, -1, str);
         }
+    } else {
+        if(enterPlace == 0)
+        sendWarning(playerid, "Você não está em nenhum local de entrada.");
     }
     return 1;
 }

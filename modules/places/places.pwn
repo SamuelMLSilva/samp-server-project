@@ -1,13 +1,3 @@
-/*
-	ATENÇÃO -> Ao usar a funcionalidade de excluir local.
-	A função foi pensada em excluir o último local criado...
-	Ex: existe 10 locais, você pode excluir o local ID: 10 e não terá problemas,
-	caso excluir o local 2 por exemplo, terá problemas no carregamento.
-
-	A funcionalidade foi criada para "correção/desistência" caso o local seja criado de maneira errada, 
-	porém existe o comando modificar, onde é possível modificar tudo, posição, título, saída, etc.
-*/
-
 #include <YSI_Coding\y_hooks>
 
 new mSecMenuPcikup[MAX_PLAYERS];
@@ -60,7 +50,7 @@ hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 			if(PlaceInfo[enterPlace][lLock] == 1) return SendClientMessage(playerid, -1, strLock);
 			if(enterPlace > 0) {
 				SetPlayerVirtualWorld(playerid, enterPlace);
-				setInteriorPlace(playerid, enterPlace);
+				setInteriorPlace(playerid, PlaceInfo[enterPlace][lIntId]);
 				return 1;
 			}	
 			new exitPlace = getInLocalPublic(playerid);
@@ -81,14 +71,15 @@ hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	if(dialogid == DIALOG_LOC_MOD_DELETE) {
 		if(response) {
+			stopPlace(PlaceModify[playerid][modifyIdPlace]);
 			new query[128];
 			mysql_format(ConexaoSQL, query, sizeof(query),"DELETE FROM `places` WHERE `lID`=%d",PlaceModify[playerid][modifyIdPlace]);
 			mysql_tquery(ConexaoSQL, query);
 			new str[128];
 			format(str, sizeof(str),"%s %sVocê excluiu o local ID: %d",MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace]);
 			SendClientMessage(playerid, -1, str);
-			stopPlace(PlaceModify[playerid][modifyIdPlace]);
 			finishModifyPlace(playerid);
+			qPlaces--;
 			return 1;
 		} else {
 			new str[128];
@@ -111,7 +102,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			format(str, sizeof(str),"%s %sVocê alterou o título do local ID: %d para: %s",MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace],
 				inputtext);
 			SendClientMessage(playerid, -1, str);
-			loadDbPlace(PlaceModify[playerid][modifyIdPlace]);
+			loadDbPlaceId(PlaceModify[playerid][modifyIdPlace]);
 			restartTextPlace(PlaceModify[playerid][modifyIdPlace]);
 			finishModifyPlace(playerid);
 			return 1;
@@ -129,7 +120,6 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE `places` SET `pIdPlace`='%d' WHERE `lID`='%d'",
 				PlaceModify[playerid][modifyIdPickupPlace], PlaceModify[playerid][modifyIdPlace]);
 			mysql_tquery(ConexaoSQL, query);
-			loadDbPlace(PlaceModify[playerid][modifyIdPlace]);
 			restartPckpPlace(PlaceModify[playerid][modifyIdPlace]);
 			new str[128];
 			format(str, sizeof(str),"%s %sVocê alterou a pickup do local ID: %d para pickup ID: %d",MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace],
@@ -137,6 +127,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendClientMessage(playerid, -1, str);
 			new strAction[128];
 			createLogAlter(PlayerInfo[playerid][pCode], getPlayerAdmin(playerid), getNamePlayer(playerid), strAction);
+			loadDbPlaceId(PlaceModify[playerid][modifyIdPlace]);
 			finishModifyPlace(playerid);
 			return 1;
 		} else {
@@ -162,7 +153,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				tempIntLoc[playerid] = intsInfosLoc[i][idLocInt];	
 			}
 			if(PlaceModify[playerid][alterPlaceInt] == true) {
-				PlaceModify[playerid][modifyIdIntPlace] = i;
+				PlaceModify[playerid][modifyIdIntPlace] = intsInfosLoc[i][idLocInt];
 			}
 			return 1;
 		} else {
@@ -214,7 +205,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					}		
 					mysql_tquery(ConexaoSQL, query);	
 					SendClientMessage(playerid, -1, str);	
-					loadDbPlace(i);							
+					loadDbPlaceId(i);							
 					finishModifyPlace(playerid);						
 				}
 				case 5: {
@@ -240,6 +231,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	}
 	if(dialogid == DIALOG_CONF_LOCATION) {
 		if(response) {
+			PlaceCreate[playerid][cPlace] = false;
 			createPlace(playerid);
 			return 1;
 		} else {
@@ -260,7 +252,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new str[128];
 				format(str, sizeof(str),"%s %sVocê setou a saída do local ID: %d", MSG_PLACE, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace]);
 				SendClientMessage(playerid, -1, str);
-				loadDbPlace(PlaceModify[playerid][modifyIdPlace]);
+				loadDbPlaceId(PlaceModify[playerid][modifyIdPlace]);
 				finishModifyPlace(playerid);	
 				return 1;
 			} else {
@@ -268,11 +260,11 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE `places` SET `eX`='%f',`eY`='%f',`eZ`='%f', `eA`='%f' WHERE `lID`='%d'",
 					X, Y, Z, A, PlaceCreate[playerid][clID]);
 				mysql_tquery(ConexaoSQL, query);
+				stopPlace(PlaceCreate[playerid][clID]);
+				loadDbPlaceId(PlaceCreate[playerid][clID]);
 				new str[128];
 				format(str, sizeof(str),"%s| LOCAIS PÚBLICO | %sVocê setou a saída do local ID: %d", EMBED_SERVER, EMBED_WHITE, PlaceCreate[playerid][clID]);
 				SendClientMessage(playerid, -1, str);
-				stopPlace(PlaceCreate[playerid][clID]);
-				loadDbPlace(PlaceCreate[playerid][clID]);
 				finishCreateExPlace(playerid);
 				return 1;
 			}		
@@ -291,12 +283,14 @@ public OnGetPlaces(){ // Pegar quantidade de locais existentes no DB
 	printf("----------------- LOCAIS PÚBLICOS -----------------");	
 	if(cache_num_rows() > 0) {
 		new i = cache_num_rows();
+		rowPlaces = i;
+		qPlaces = i;
 		printf("%d locais públicos foram carregados\n\n", i);
 		printf("                                              ");
 		printf("											  ");
 		printf("%d locais existentes", i);
 		for(new j = 1; j <= i; j++) { // Carregar todos locais no DB
-			loadDbPlace(j);
+			loadDbPlace(j-1);			
 		}
 	} else {
 		printf("não existe nenhum lugar público para ser carregado");
@@ -305,9 +299,37 @@ public OnGetPlaces(){ // Pegar quantidade de locais existentes no DB
 	return 1;
 }
 
-forward OnLoadPlace(i);
-public OnLoadPlace(i) { // Amarmazenar informações do DB em variáveis
-	cache_get_value_int(0, "lID", PlaceInfo[i][lID]);
+forward OnLoadPlace(j);//3
+public OnLoadPlace(j) { // Amarmazenar informações do DB em variáveis
+	qPlacesLoaded++;
+	if(qPlacesLoaded <= rowPlaces) {
+		new k = 0, i = 0;
+		cache_get_value_int(j, "lID", k);	
+		i = k;	
+		PlaceInfo[i][lID] = k;
+		cache_get_value_int(j, "lIntId", PlaceInfo[i][lIntId]);
+		cache_get_value_int(j, "lLock", PlaceInfo[i][lLock]);
+		cache_get_value_name(j, "lTitulo", PlaceInfo[i][lTtile],64);
+		cache_get_value_float(j, "lX", PlaceInfo[i][lX]);
+		cache_get_value_float(j, "lY", PlaceInfo[i][lY]);
+		cache_get_value_float(j, "lZ", PlaceInfo[i][lZ]);
+		cache_get_value_float(j, "eX", PlaceInfo[i][eX]);
+		cache_get_value_float(j, "eY", PlaceInfo[i][eY]);
+		cache_get_value_float(j, "eZ", PlaceInfo[i][eZ]);
+		cache_get_value_float(j, "eA", PlaceInfo[i][eA]);
+		cache_get_value_int(j, "pIdPlace", PlaceInfo[i][pIdPlace]);
+		printf("Debug id local: %d | Posição array: %d | K: %d | Int: %d", PlaceInfo[i][lID], i, k,  PlaceInfo[i][lIntId]);
+		startPlace(i);
+		if(qPlaces < PlaceInfo[i][lID]) {
+			qPlaces = PlaceInfo[i][lID];
+		}
+	}
+	return 1;
+}
+
+forward OnLoadPlaceId(i);
+public OnLoadPlaceId(i) {
+	cache_get_value_int(0, "lID", PlaceInfo[i][lID]);		
 	cache_get_value_int(0, "lIntId", PlaceInfo[i][lIntId]);
 	cache_get_value_int(0, "lLock", PlaceInfo[i][lLock]);
 	cache_get_value_name(0, "lTitulo", PlaceInfo[i][lTtile],64);
@@ -320,11 +342,12 @@ public OnLoadPlace(i) { // Amarmazenar informações do DB em variáveis
 	cache_get_value_float(0, "eA", PlaceInfo[i][eA]);
 	cache_get_value_int(0, "pIdPlace", PlaceInfo[i][pIdPlace]);
 	startPlace(i);
-	if(PlaceInfo[i][lID] > qPlaces) {
-		qPlaces = PlaceInfo[i][lID];
-	}
 	return 1;
 }
+
+
+
+
 
 forward OnCreatePlace(playerid, name[], id, title[]);
 public OnCreatePlace(playerid, name[], id, title[]){ // log no console de criação de local público
@@ -341,7 +364,6 @@ public OnCreatePlace(playerid, name[], id, title[]){ // log no console de criaçã
 }
 
 /* COMMANDS -----------------------------------------------------------------------------------*/
-
 CMD:cancelint(playerid, params[]) { // CMD para cancelar a alteração de interior
 	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] > 3) {
 		if(PlaceModify[playerid][alterPlaceInt] == true) {
@@ -384,8 +406,8 @@ CMD:intloc(playerid, const params[]) { // CMD de confirmar interior do local
 			format(str, sizeof(str),"%s %sVocê alterou o interior do local [%sID%s: %d] para o interior ID: %d",
 				MSG_PLACE, EMBED_WHITE,EMBED_GREEN, EMBED_WHITE, PlaceModify[playerid][modifyIdPlace], PlaceModify[playerid][modifyIdIntPlace]);
 			SendClientMessage(playerid, -1, str);
+			loadDbPlaceId(PlaceModify[playerid][modifyIdPlace]);
 			new i = PlaceModify[playerid][modifyIdPlace];
-			loadDbPlace(i);
 			SetPlayerPos(playerid, PlaceInfo[i][lX], PlaceInfo[i][lY], PlaceInfo[i][lZ]);
 			SetPlayerInterior(playerid, 0);
 			SetPlayerVirtualWorld(playerid, 0);		
@@ -395,7 +417,7 @@ CMD:intloc(playerid, const params[]) { // CMD de confirmar interior do local
 		} 
 		else {
 			new string[128];
-			format(string, sizeof(string),"%s| AVISO | %sVocê não está em processo de criação de local público!", EMBED_WARNING, EMBED_WHITE);
+			format(string, sizeof(string),"%s| AVISO | %sVocê não está em processo de criação/modificação de local público!", EMBED_WARNING, EMBED_WHITE);
 			SendClientMessage(playerid, -1, string);
 			return 1;
 		}
@@ -460,8 +482,17 @@ CMD:modificar(playerid, const params[]) { // CMD para modificar local -> Interio
 
 stock loadDbPlace(i) { // Carregar local pelo ID
 	new query[128];
-	mysql_format(ConexaoSQL, query, sizeof(query),"SELECT * FROM `places` WHERE `lID` = '%d'", i);
-	mysql_tquery(ConexaoSQL, query, "OnLoadPlace", "d", i);
+	mysql_format(ConexaoSQL, query, sizeof(query),"SELECT * FROM `places`");
+	mysql_tquery(ConexaoSQL, query, "OnLoadPlace", "d", loadRowPlace);
+	printf("Carregando linha %d", i);
+	loadRowPlace++;
+	return 1;
+}
+
+stock loadDbPlaceId(i) { // Carregar local pelo ID
+	new query[128];
+	mysql_format(ConexaoSQL, query, sizeof(query),"SELECT * FROM `places` WHERE `lID`= '%d'",i);
+	mysql_tquery(ConexaoSQL, query, "OnLoadPlaceId", "d", i);
 	return 1;
 }
 
@@ -475,7 +506,7 @@ stock getLocalPublic(playerid) { // verificar se o player está em um local e ret
 }
 
 stock getInLocalPublic(playerid) { // verificar se o player está dentro de um local e retornar id
-	for(new i = 0; i <= qInts; i++) {
+	for(new i = 0; i <= MAX_INT_PLACES-1; i++) {
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, intsInfosLoc[i][doorIntLoc][0], intsInfosLoc[i][doorIntLoc][1], intsInfosLoc[i][doorIntLoc][2])) {
 			return GetPlayerVirtualWorld(playerid);
 		}
@@ -486,7 +517,7 @@ stock getInLocalPublic(playerid) { // verificar se o player está dentro de um lo
 stock showDialogLocInts(playerid) { // confirmação de setar interior para local
 	new string[256];
 	new strInfo[128];
-	for(new i = 0; i < 6; i++){
+	for(new i = 0; i < MAX_INT_PLACES-1; i++){
 		format(strInfo, sizeof(strInfo),"%s\n",intsInfosLoc[i][intLocTitle]);
 		strcat(string, strInfo);
 	}
@@ -640,16 +671,20 @@ stock finishCreateIntPlace(playerid) {
 }
 
 stock setInteriorPlace(playerid, i) {
-	new j = PlaceInfo[i][lIntId];
-	SetPlayerPos(playerid, intsInfosLoc[j][insideIntLoc][0], intsInfosLoc[j][insideIntLoc][1], intsInfosLoc[j][insideIntLoc][2]);
-	SetPlayerInterior(playerid, intsInfosLoc[j][intLocId]);
-	SetPlayerFacingAngle(playerid, intsInfosLoc[j][insideIntLoc][3]);
-	SetCameraBehindPlayer(playerid);
+	for(new k = 0; k <= MAX_INT_PLACES; k++) {
+		if(intsInfosLoc[k][idLocInt] == i) { 
+			SetPlayerPos(playerid, intsInfosLoc[k][insideIntLoc][0], intsInfosLoc[k][insideIntLoc][1], intsInfosLoc[k][insideIntLoc][2]);
+			SetPlayerInterior(playerid, intsInfosLoc[k][intLocId]);
+			SetPlayerFacingAngle(playerid, intsInfosLoc[k][insideIntLoc][3]);
+			SetCameraBehindPlayer(playerid);
+			return 1;
+		}
+	}
 	return 1;
 }
 
 stock createPickupInts() {
-	for(new i = 0; i <= 5; i++){
+	for(new i = 0; i <= MAX_INT_PLACES-1; i++){
 		CreateDynamicPickup(1318, 1, intsInfosLoc[i][doorIntLoc][0], intsInfosLoc[i][doorIntLoc][1], intsInfosLoc[i][doorIntLoc][2],
 		-1, intsInfosLoc[i][intLocId], -1, 20.0, -1, 0);
 	}

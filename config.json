@@ -23,7 +23,7 @@
         "allow_interior_weapons": true,
         "chat_radius": 200.0,
         "death_drop_amount": 0,
-        "gravity": 0.008,
+        "gravity": 0.008, //0.008
         "group_player_objects": false,
         "lag_compensation_mode": 1,
         "map": "newGM",

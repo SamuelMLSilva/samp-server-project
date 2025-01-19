@@ -1,15 +1,20 @@
 #define 	MAX_PLACES		250
 #define 	AZUL_ESCURO 	0x0000FFff
 
+#define		MAX_INT_PLACES	7
+
 #define		INT_AGENCIA		0
 #define		INT_AUTOESCOLA	1
 #define		INT_DP_LS		2
 #define		INT_DP_LV		3
 #define		INT_DP_SF		4
 #define		INT_LOTERICA	5
+#define		INT_BANCO		6
 
-new qPlaces;
-new qInts = 5;
+new qPlaces = 0;
+new rowPlaces = 0;
+new loadRowPlace = 0;
+new qPlacesLoaded = 0;
 new tempIntLoc[MAX_PLAYERS];
 
 enum modifyPlace {
@@ -82,6 +87,8 @@ new const intsInfosLoc[][infosIntsLoc] = {
 	{1494.85, 1306.47, 1093.29}, {1494.4056, 1303.5790, 1093.2891}, {1493.5084,	1304.7977,	1093.2891, 63.4601}},
 	{INT_AUTOESCOLA, "Autoescola", 3,
 	{-2031.11, -115.82, 1035.17}, {-2026.9260, -103.6026, 1035.1831}, {-2027.8103,-104.7037,1035.1719,133.1983}},
+	{INT_BANCO, "Banco", 0,
+	{2306.3826, -15.2365, 26.7496}, {2304.8267, -16.1659, 26.7422}, {2307.2053, -15.9938, 26.7496, 271.0170}},
 	{INT_DP_LS, "DP Los Santos", 6,
 	{246.66, 65.80,	 1003.64}, {246.7354,62.3485,1003.6406}, {246.5727,63.6261,1003.6406,1.9128}},
 	{INT_DP_LV, "DP Las Venturas", 3,

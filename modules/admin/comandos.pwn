@@ -84,13 +84,21 @@ CMD:irlocal(playerid, params[]) {
 		new str[128], i = 0;
 		format(str, sizeof(str),"%s %sDigite: %s/irlocal [idLocal]", EMBED_WARNING, EMBED_WHITE, EMBED_SERVER);
 		if(sscanf(params, "d", i)) return SendClientMessage(playerid, -1, str);
-		SetPlayerPos(playerid, PlaceInfo[i][lX], PlaceInfo[i][lY], PlaceInfo[i][lZ]);
-		SetPlayerInterior(playerid, 0);
-		SetPlayerVirtualWorld(playerid, 0);
-		new string[128];
-		format(string, sizeof(string),"%s %sVocê chegou no local ID: %s%d", MSG_SERVER, EMBED_WHITE, EMBED_SERVER, i);
-		SendClientMessage(playerid, -1, string);
-		return 1;
+		if(qPlaces == 0) return sendWarning(playerid, "Não existe locais criados ainda.");
+		if(i > qPlaces || i == 0) {
+			new string[128];
+			format(string, sizeof(string),"%s %sID dos locais vão de 1 até %d",MSG_PLACE, EMBED_WHITE, qPlaces);
+			SendClientMessage(playerid, -1, string);
+			return 1;
+		} else {
+			SetPlayerPos(playerid, PlaceInfo[i][lX], PlaceInfo[i][lY], PlaceInfo[i][lZ]);
+			SetPlayerInterior(playerid, 0);
+			SetPlayerVirtualWorld(playerid, 0);
+			new string[128];
+			format(string, sizeof(string),"%s %sVocê chegou no local ID: %s%d", MSG_SERVER, EMBED_WHITE, EMBED_SERVER, i);
+			SendClientMessage(playerid, -1, string);
+			return 1;
+		}
 	}	
 	return 0;
 }

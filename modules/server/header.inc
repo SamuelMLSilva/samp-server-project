@@ -21,6 +21,7 @@
 #include "../modules/login/logininfo.inc"
 #include "../modules/places/placesinfo.inc"
 #include "../modules/server/messages.inc"
+#include "../modules/bank/bankinfo.inc"
 
 /* modules ----------------------------------*/
 #include "../modules/admin/comandos.pwn"
@@ -30,8 +31,9 @@
 #include "../modules/server/core.pwn"
 #include "../modules/places/places.pwn"
 #include "../modules/login/login.pwn"
+#include "../modules/bank/bank.pwn"
 
 /* AUTOCOMPLETE -----------------------------*/
 //#snippet cmd CMD:cmd_name(playerid, params[]) {\n\treturn 1;\n}
 //#snippet cdialog if(dialogid == DIALOG_NAME) {\n\tif(response) {\n\t\treturn 1;\n\t} else {\n\t\treturn 1;\n\t}\n}
-//#snippet scm SendClientMessage(playerid, -1, const format[])
+//#snippet scm SendClientMessage(playerid, -1, );
