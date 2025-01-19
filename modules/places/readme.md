@@ -1,6 +1,9 @@
 # Places
 ## Sistema de locais públicos
 ## **Comandos:**
+
+### O sistema de locais públicos é feito em MySQL, sendo possível criar os locais diretamente no DB ou *in-game*.
+
 * /clocal -> Comandos de admin, para criar locais públicos
 * /modificar -> Comando de admin, para modificar os locais, é possível alterar tudo:
     - Deletar
