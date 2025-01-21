@@ -290,9 +290,7 @@ public OnGetPlaces(){ // Pegar quantidade de locais existentes no DB
 		printf("                                              ");
 		printf("											  ");
 		printf("%d locais existentes", i);
-		for(new j = 1; j <= i; j++) { // Carregar todos locais no DB
-			loadDbPlace(j-1);			
-		}
+		loadDbPlace();
 	} else {
 		printf("não existe nenhum lugar público para ser carregado");
 		return 1;
@@ -300,28 +298,23 @@ public OnGetPlaces(){ // Pegar quantidade de locais existentes no DB
 	return 1;
 }
 
-forward OnLoadPlace(j);//3
-public OnLoadPlace(j) { // Amarmazenar informações do DB em variáveis
-	qPlacesLoaded++;
-	if(qPlacesLoaded <= rowPlaces) {
-		new k = 0, i = 0;
-		cache_get_value_int(j, "lID", k);	
-		i = k;	
-		PlaceInfo[i][lID] = k;
-		cache_get_value_int(j, "lIntId", PlaceInfo[i][lIntId]);
-		cache_get_value_int(j, "lLock", PlaceInfo[i][lLock]);
-		cache_get_value_name(j, "lTitulo", PlaceInfo[i][lTtile],64);
-		cache_get_value_float(j, "lX", PlaceInfo[i][lX]);
-		cache_get_value_float(j, "lY", PlaceInfo[i][lY]);
-		cache_get_value_float(j, "lZ", PlaceInfo[i][lZ]);
-		cache_get_value_float(j, "eX", PlaceInfo[i][eX]);
-		cache_get_value_float(j, "eY", PlaceInfo[i][eY]);
-		cache_get_value_float(j, "eZ", PlaceInfo[i][eZ]);
-		cache_get_value_float(j, "eA", PlaceInfo[i][eA]);
-		cache_get_value_int(j, "pIdPlace", PlaceInfo[i][pIdPlace]);
-		startPlace(i);
-		if(qPlaces < PlaceInfo[i][lID]) {
-			qPlaces = PlaceInfo[i][lID];
+forward OnLoadPlace();//3
+public OnLoadPlace() { // Amarmazenar informações do DB em variáveis
+	for(new j = 0; j <= rowPlaces; j++) {
+		cache_get_value_int(j, "lIntId", PlaceInfo[j][lIntId]);
+		cache_get_value_int(j, "lLock", PlaceInfo[j][lLock]);
+		cache_get_value_name(j, "lTitulo", PlaceInfo[j][lTtile],64);
+		cache_get_value_float(j, "lX", PlaceInfo[j][lX]);
+		cache_get_value_float(j, "lY", PlaceInfo[j][lY]);
+		cache_get_value_float(j, "lZ", PlaceInfo[j][lZ]);
+		cache_get_value_float(j, "eX", PlaceInfo[j][eX]);
+		cache_get_value_float(j, "eY", PlaceInfo[j][eY]);
+		cache_get_value_float(j, "eZ", PlaceInfo[j][eZ]);
+		cache_get_value_float(j, "eA", PlaceInfo[j][eA]);
+		cache_get_value_int(j, "pIdPlace", PlaceInfo[j][pIdPlace]);
+		startPlace(j);
+		if(qPlaces < PlaceInfo[j][lID]) {
+			qPlaces = PlaceInfo[j][lID];
 		}
 	}
 	return 1;
@@ -480,11 +473,10 @@ CMD:modificar(playerid, const params[]) { // CMD para modificar local -> Interio
 
 /* FUNCTIONS ------------------------------------------------------------------------------------*/
 
-stock loadDbPlace(i) { // Carregar local pelo ID
+stock loadDbPlace() { // Carregar local pelo ID
 	new query[128];
 	mysql_format(ConexaoSQL, query, sizeof(query),"SELECT * FROM `places`");
 	mysql_tquery(ConexaoSQL, query, "OnLoadPlace", "d", loadRowPlace);
-	printf("Carregando linha %d", i);
 	loadRowPlace++;
 	return 1;
 }
