@@ -1,7 +1,7 @@
 # Actors
 ## Sistema de criação de "atores/bots"
 
-    - [ ] Criar função de load, start, stop actors
+    - [x] Criar função de load, start, stop actors
     - [ ] Criar CMD de criar actor:
         - Funcionamento:
             1. Executar cmd /cactor
