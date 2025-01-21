@@ -4,17 +4,19 @@ CMD:entrar(playerid, params[]) {
         new i = enterPlace;
         if(PlaceInfo[i][lLock] == 0) {
             SetPlayerVirtualWorld(playerid, i);
-            setInteriorPlace(playerid, i);
+            setInteriorPlace(playerid, PlaceInfo[i][lIntId]);
+            return 1;
         } else {
             new str[128];
             format(str, sizeof(str), "%s %sEsse local está trancado!", MSG_PLACE, EMBED_WHITE);
             SendClientMessage(playerid, -1, str);
+            return 1;
         }
     } else {
-        if(enterPlace == 0)
+        if(enterPlace <= 0)
         sendWarning(playerid, "Você não está em nenhum local de entrada.");
+        return 1;
     }
-    return 1;
 }
 
 CMD:sair(playerid, params[]) {

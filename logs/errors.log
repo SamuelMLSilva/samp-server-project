@@ -1,16 +1,1 @@
-[19/01/2025 10:25:22] [plugins/mysql] cache_get_value_name_int: value 'NULL' is not a number
-[19/01/2025 10:29:28] [plugins/mysql] CCallback::Execute - invalid AMX instance
-[19/01/2025 10:29:28] [plugins/mysql] CCallback::Execute - invalid AMX instance
-[19/01/2025 10:29:48] [plugins/mysql] cache_get_value_name_int: value 'NULL' is not a number
-[19/01/2025 10:49:52] [plugins/mysql] CCallback::Execute - invalid AMX instance
-[19/01/2025 10:49:52] [plugins/mysql] CCallback::Execute - invalid AMX instance
-[19/01/2025 10:50:11] [plugins/mysql] cache_get_value_name_int: value 'NULL' is not a number
-[19/01/2025 11:21:04] [plugins/mysql] CCallback::Execute - invalid AMX instance
-[19/01/2025 11:21:04] [plugins/mysql] CCallback::Execute - invalid AMX instance
-[19/01/2025 11:21:19] [plugins/mysql] cache_get_value_name_int: value 'NULL' is not a number
-[19/01/2025 11:23:37] [plugins/mysql] CCallback::Execute - invalid AMX instance
-[19/01/2025 11:23:37] [plugins/mysql] CCallback::Execute - invalid AMX instance
-[19/01/2025 11:23:52] [plugins/mysql] cache_get_value_name_int: value 'NULL' is not a number
-[19/01/2025 11:25:07] [plugins/mysql] CCallback::Execute - invalid AMX instance
-[19/01/2025 11:25:07] [plugins/mysql] CCallback::Execute - invalid AMX instance
-[19/01/2025 11:25:24] [plugins/mysql] cache_get_value_name_int: value 'NULL' is not a number
+[21/01/2025 18:29:46] [plugins/mysql] cache_get_value_name_int: value 'NULL' is not a number

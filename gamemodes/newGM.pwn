@@ -311,7 +311,7 @@ public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 		}
 		else if(!IsPlayerInAnyVehicle(playerid))
 		{
-			SetPlayerPos(playerid, fX, fY, fZ);
+			SetPlayerPosFindZ(playerid, fX, fY, fZ);
 			SetPlayerInterior(playerid, 0);
 			SetPlayerVirtualWorld(playerid, 0);
 			SendClientMessage(playerid, COLOR_SERVER, "| SERVER |{ffffff} Voce foi ate local marcado no mapa!");

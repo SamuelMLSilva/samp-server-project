@@ -45,10 +45,10 @@ hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 	if(!IsPlayerInAnyVehicle(playerid)) {
 		if(newkeys & KEY_SECONDARY_ATTACK) { // Entrar em locais apertando a letra "F"
 			new enterPlace = getLocalPublic(playerid);
-			new strLock[128];
-			format(strLock, sizeof(strLock),"%s %sEsse local está trancado no momento!",MSG_PLACE, EMBED_WHITE);
-			if(PlaceInfo[enterPlace][lLock] == 1) return SendClientMessage(playerid, -1, strLock);
 			if(enterPlace > 0) {
+				new strLock[128];
+				format(strLock, sizeof(strLock),"%s %sEsse local está trancado no momento!",MSG_PLACE, EMBED_WHITE);
+				if(PlaceInfo[enterPlace][lLock] == 1) return SendClientMessage(playerid, -1, strLock);
 				SetPlayerVirtualWorld(playerid, enterPlace);
 				setInteriorPlace(playerid, PlaceInfo[enterPlace][lIntId]);
 				return 1;
@@ -503,13 +503,14 @@ stock getLocalPublic(playerid) { // verificar se o player está em um local e ret
 			return i;
 		}
 	}
-	return 0;
+	return -1;
 }
 
 stock getInLocalPublic(playerid) { // verificar se o player está dentro de um local e retornar id
 	for(new i = 0; i <= MAX_INT_PLACES-1; i++) {
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, intsInfosLoc[i][doorIntLoc][0], intsInfosLoc[i][doorIntLoc][1], intsInfosLoc[i][doorIntLoc][2])) {
-			return GetPlayerVirtualWorld(playerid);
+			new k = GetPlayerVirtualWorld(playerid);
+			return k;
 		}
 	}
 	return 0;
