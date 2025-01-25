@@ -10,7 +10,7 @@
         4. Dialog perguntando interior do ator
         5. Dialog perguntando virtual world do ator
         6. Dialog para gerar nome do ator - podendo ser gerada manualmente ou automático aleatório
-- [ ] Criar CMD /mactor -> modificar actor 
-- [x] Criar CMD /iractor -> ir até algum ator
-- [x] Criar CMD /stopactor -> desabilitar ator
-- [x] Criar CMD /startactor -> startarator
+- [ ] Criar CMD /mactor -> Modificar actor 
+- [x] Criar CMD /iractor -> Ir até ator pelo id
+- [x] Criar CMD /stopactor -> Remover ator
+- [x] Criar CMD /startactor -> Iniciar ator
