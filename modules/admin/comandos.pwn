@@ -30,6 +30,21 @@ hook OnPlayerDisconnect(playerid) {
 
 /* COMMANDS HELPER ---------------------------------------------------------------------------- */
 
+CMD:skin(playerid, params[]) {
+	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_HELPER) {
+		new skin = 0;
+		if(sscanf(params, "d", skin)) return SendClientMessage(playerid, COLOR_VERMELHO, "Use: /skin [idSkin]");
+		if(skin < 0 || skin > 311) return sendWarning(playerid, "Skins vão do ID 0 até o 311");
+		SetPlayerSkin(playerid, skin);
+		new str[128];
+		format(str, sizeof(str),"%s Você setou a skin ID: %02d para você mesmo.", MSG_SERVER, skin);
+		SendClientMessage(playerid, -1, str);
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
 /* COMMANDS MODERATOR ------------------------------------------------------------------------- */
 
 CMD:cchat(playerid, params[]) {
@@ -149,6 +164,55 @@ CMD:myint(playerid, params[]) {
 		return 1;
 	}
 	return 0;
+}
+
+CMD:startactor(playerid, params[]) { // CMD para iniciar ator com base no ID
+	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_SUB_OWNER) {
+		new i = 0;
+		if(sscanf(params, "d", i)) return sendWarning(playerid, "Digite: /startactor [idActor]");
+		startActor(i);
+		new str[128];
+		format(str, sizeof(str),"%s Ator ID: %d foi iniciado com sucesso!", MSG_SERVER, i);
+		SendClientMessage(playerid, -1, str);
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+CMD:stopactor(playerid, params[]) { // CMD para remover ator com base no ID
+	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_SUB_OWNER) {
+		new i = 0;
+		if(sscanf(params, "d", i)) return sendWarning(playerid, "Digite: /stopactor [idActor]");
+		stopActor(i);
+		new str[128];
+		format(str, sizeof(str),"%s Ator ID: %d foi removido com sucesso!", MSG_SERVER, i);
+		SendClientMessage(playerid, -1, str);
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+CMD:iractor(playerid, params[]) {
+	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_SUB_OWNER) {
+		new i = 0;
+		if(sscanf(params, "d", i)) return sendWarning(playerid, "Digite: /iractor [idActor]");	
+		if(IsPlayerInAnyVehicle(playerid)) return sendWarning(playerid, "Você não pode estar dentro de um veículo, para ir até uma ator.");	
+		new string[128];
+		format(string, sizeof(string),"%s Os ID's de atores vão de 1 até %d", MSG_SERVER, qtdActors);
+		if(i < 1 || i > qtdActors) return sendWarning(playerid, string);	
+		SetPlayerPos(playerid, ActorInfo[i][posActor][0]+0.3, ActorInfo[i][posActor][1]+0.3, ActorInfo[i][posActor][2]);
+		SetPlayerFacingAngle(playerid, ActorInfo[i][posActor][3]);
+		SetPlayerInterior(playerid, ActorInfo[i][intActor]);
+		SetPlayerVirtualWorld(playerid, ActorInfo[i][vwActor]);
+		new str[128];
+		format(str, sizeof(str),"%s Você foi até o ator ID: %d", MSG_SERVER, i);
+		SendClientMessage(playerid, -1, str);
+		return 1;
+	} else {
+		return 0;
+	}
 }
 
 

@@ -14,6 +14,7 @@ public OnGameModeInit()
 	SetGameModeText("Gamemode BVB");
 	DisableInteriorEnterExits();
 	EnableStuntBonusForAll(false);
+	UsePlayerPedAnims();
 	ConexaoSQL = mysql_connect(HOST,USER,PASS,DTBS);
     if(mysql_errno(ConexaoSQL) != 0) 
     {
@@ -31,6 +32,7 @@ public OnGameModeInit()
     mysql_format(ConexaoSQL, queryPlayers, sizeof(queryPlayers),"SELECT * FROM `players`");
     mysql_tquery(ConexaoSQL, queryPlayers, "OnGetPlayers");
 	createPickupInts();
+	loadActors();
 	return 1;
 }
 

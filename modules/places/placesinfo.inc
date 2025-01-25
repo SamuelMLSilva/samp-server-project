@@ -14,7 +14,6 @@
 new qPlaces = 0;
 new rowPlaces = 0;
 new loadRowPlace = 0;
-new qPlacesLoaded = 0;
 new tempIntLoc[MAX_PLAYERS];
 
 enum modifyPlace {

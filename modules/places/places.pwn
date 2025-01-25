@@ -280,16 +280,12 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 forward OnGetPlaces();
 public OnGetPlaces(){ // Pegar quantidade de locais existentes no DB
-	printf("                                              ");
 	printf("----------------- LOCAIS PÚBLICOS -----------------");	
 	if(cache_num_rows() > 0) {
 		new i = cache_num_rows();
 		rowPlaces = i;
 		qPlaces = i;
-		printf("%d locais públicos foram carregados\n\n", i);
-		printf("                                              ");
-		printf("											  ");
-		printf("%d locais existentes", i);
+		printf("%d locais públicos foram carregados", i);
 		loadDbPlace();
 	} else {
 		printf("não existe nenhum lugar público para ser carregado");
@@ -301,17 +297,17 @@ public OnGetPlaces(){ // Pegar quantidade de locais existentes no DB
 forward OnLoadPlace();//3
 public OnLoadPlace() { // Amarmazenar informações do DB em variáveis
 	for(new j = 0; j <= rowPlaces; j++) {
-		cache_get_value_int(j, "lIntId", PlaceInfo[j][lIntId]);
-		cache_get_value_int(j, "lLock", PlaceInfo[j][lLock]);
-		cache_get_value_name(j, "lTitulo", PlaceInfo[j][lTtile],64);
-		cache_get_value_float(j, "lX", PlaceInfo[j][lX]);
-		cache_get_value_float(j, "lY", PlaceInfo[j][lY]);
-		cache_get_value_float(j, "lZ", PlaceInfo[j][lZ]);
-		cache_get_value_float(j, "eX", PlaceInfo[j][eX]);
-		cache_get_value_float(j, "eY", PlaceInfo[j][eY]);
-		cache_get_value_float(j, "eZ", PlaceInfo[j][eZ]);
-		cache_get_value_float(j, "eA", PlaceInfo[j][eA]);
-		cache_get_value_int(j, "pIdPlace", PlaceInfo[j][pIdPlace]);
+		cache_get_value_int(j, "lIntId", PlaceInfo[j+1][lIntId]);
+		cache_get_value_int(j, "lLock", PlaceInfo[j+1][lLock]);
+		cache_get_value_name(j, "lTitulo", PlaceInfo[j+1][lTtile],64);
+		cache_get_value_float(j, "lX", PlaceInfo[j+1][lX]);
+		cache_get_value_float(j, "lY", PlaceInfo[j+1][lY]);
+		cache_get_value_float(j, "lZ", PlaceInfo[j+1][lZ]);
+		cache_get_value_float(j, "eX", PlaceInfo[j+1][eX]);
+		cache_get_value_float(j, "eY", PlaceInfo[j+1][eY]);
+		cache_get_value_float(j, "eZ", PlaceInfo[j+1][eZ]);
+		cache_get_value_float(j, "eA", PlaceInfo[j+1][eA]);
+		cache_get_value_int(j, "pIdPlace", PlaceInfo[j+1][pIdPlace]);
 		startPlace(j);
 		if(qPlaces < PlaceInfo[j][lID]) {
 			qPlaces = PlaceInfo[j][lID];

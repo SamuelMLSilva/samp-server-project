@@ -591,25 +591,7 @@ stock savePlayer(playerid) {
 
 forward OnSavePlayer(nameP[], codeP[]);
 public OnSavePlayer(nameP[], codeP[]) {
-	printf("                                              ");
 	printf("----------------------- SALVAMENTO DE PLAYERS ------------------------");
 	printf("Jogador(a): %s Código: %s | Salvo com sucesso!", nameP, codeP);
-	printf("                                              ");
-	return 1;
-}
-
-forward OnGetPlayers();
-public OnGetPlayers() {
-	printf("                                              ");
-	printf("----------------- PLAYERS CADASTRADOS -----------------");	
-	if(cache_num_rows() > 0) {
-		new i = cache_num_rows();
-		printf("%d players cadastrados no banco de dados", i);
-		printf("                                          ");
-		printf("                                          ");
-	} else {
-		printf("Não existe nenhum player para ser localizado");
-		return 1;
-	}
 	return 1;
 }

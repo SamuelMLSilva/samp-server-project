@@ -1,3 +1,17 @@
+forward OnGetPlayers();
+public OnGetPlayers() {
+	printf("----------------- PLAYERS CADASTRADOS -----------------");	
+	if(cache_num_rows() > 0) {
+		new i = cache_num_rows();
+		printf("%d players cadastrados no banco de dados", i);
+	} else {
+		printf("Não existe nenhum player para ser localizado");
+		return 1;
+	}
+	return 1;
+}
+
+
 stock getPlayerAdmin(playerid) {
 	new result[64];
 	if(!IsPlayerAdmin(playerid)) {

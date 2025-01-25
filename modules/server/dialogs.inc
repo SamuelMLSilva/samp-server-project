@@ -24,6 +24,17 @@
 #define     DIALOG_LOC_MOD_DELETE   (8 + VALUE_DIALOG_ADMIN)
 // Dialogs sistema actors -> modules/actors/actors.pwn
 #define     DIALOG_ACT_QUESTION     (9 + VALUE_DIALOG_ADMIN)
+#define     DIALOG_ACT_Q_NAME       (10 + VALUE_DIALOG_ADMIN)
+#define     DIALOG_ACT_C_POS        (11 + VALUE_DIALOG_ADMIN)
+#define     DIALOG_ACT_C_POSY       (12 + VALUE_DIALOG_ADMIN)
+#define     DIALOG_ACT_C_POSZ       (13 + VALUE_DIALOG_ADMIN)
+#define     DIALOG_ACT_C_POSA       (14 + VALUE_DIALOG_ADMIN)
+#define     DIALOG_ACT_C_NAME       (15 + VALUE_DIALOG_ADMIN)
+#define     DIALOG_ACT_CONF_NAME    (16 + VALUE_DIALOG_ADMIN)
+#define     DIALOG_ACT_C_INT        (17 + VALUE_DIALOG_ADMIN)
+#define     DIALOG_ACT_C_VW         (18 + VALUE_DIALOG_ADMIN)
+#define     DIALOG_ACT_C_GENDER     (19 + VALUE_DIALOG_ADMIN)
+#define     DIALOG_ACT_CONF_SKIN    (20 + VALUE_DIALOG_ADMIN)
 
 
 #define 	DIALOG_DEBUG			10000
