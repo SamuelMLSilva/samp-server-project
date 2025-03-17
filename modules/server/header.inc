@@ -23,6 +23,7 @@
 #include "../modules/server/messages.inc"
 #include "../modules/bank/bankinfo.inc"
 #include "../modules/actors/actorsinfo.inc"
+#include "../modules/houses/houses.inc"
 
 /* modules ----------------------------------*/
 #include "../modules/admin/comandos.pwn"
@@ -34,6 +35,7 @@
 #include "../modules/login/login.pwn"
 #include "../modules/bank/bank.pwn"
 #include "../modules/actors/actors.pwn"
+#include "../modules/houses/houses.pwn"
 
 /* AUTOCOMPLETE -----------------------------*/
 //#snippet cmd CMD:cmd_name(playerid, params[]) {\n\treturn 1;\n}
