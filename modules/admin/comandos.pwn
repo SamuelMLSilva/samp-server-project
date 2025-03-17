@@ -8,6 +8,7 @@
 	/v 				->		criar veículos com pintura padrão
     /cv 			->		criar veículos com escolha de pintura
 	/cchat			->		limpar chat
+	/setskin		->		setar skin para jogador
 
 	ADMINISTRADOR ---------------------------------------------------------
 	/irlocal		->		ir até um local pelo ID
@@ -17,6 +18,11 @@
 	/mypos			->		retorna uma mensagem de qual posição o player está
 	/myvw			-> 		retorna uma mensagem do virtual world que o player está
 	/myint			->		retorna uma mensagem de qual interior o player está
+	/startactor		->		iniciar/spawnar um actor
+	/stopactor		->		parar/despawnar um actor
+	/iractor		->      ir até um actor pelo id
+	/mactor			->		modificar um ator próximo ou por ID	
+	/cmactor		->		cancelar modificação do ator
 
 	RCON, DONO ------------------------------------------------------------
     /clocal 		-> 		criar locais públicos: banco, conce, prefetiura
@@ -90,6 +96,25 @@ CMD:v(playerid, params[]) // CMD para criar veículo com cores padrão.
 	return 0;
 }
 
+CMD:setskin(playerid, params[]) {
+	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_MODERATOR) {
+		new id, skin;
+		if(sscanf(params, "ii",id, skin)) return SendClientMessage(playerid, COLOR_VERMELHO, "Use: setskin: /id [skin]");
+		if(!IsPlayerConnected(id)) return SendClientMessage(playerid, COLOR_VERMELHO, "Este jogador(a) não está online!");
+		if(skin < 0 || skin > 311) return SendClientMessage(playerid, COLOR_VERMELHO, "Os Id's das skins vão de 0 até 311");
+		PlayerInfo[id][pSkin] = skin;
+		SetPlayerSkin(id, PlayerInfo[id][pSkin]);
+		new string[128];
+		format(string, sizeof(string),"%s O(A) %s %s te setou a skin ID: %d",MSG_ADMIN, getPlayerAdmin(playerid), getNamePlayer(playerid), skin);
+		SendClientMessage(id, -1, string);
+		new str[128];
+		format(str, sizeof(str),"%s Você setou a skin ID: %d para o(a) jogador(a) %s",MSG_ADMIN, skin, getNamePlayer(id));
+		SendClientMessage(playerid, -1, str);
+		return 1;
+	} else {
+		return 0;
+	}
+}
 
 /* COMMANDS ADMINISTRATOR --------------------------------------------------------------------- */
 
@@ -185,6 +210,7 @@ CMD:stopactor(playerid, params[]) { // CMD para remover ator com base no ID
 		new i = 0;
 		if(sscanf(params, "d", i)) return sendWarning(playerid, "Digite: /stopactor [idActor]");
 		stopActor(i);
+		loadActorId(i);
 		new str[128];
 		format(str, sizeof(str),"%s Ator ID: %d foi removido com sucesso!", MSG_SERVER, i);
 		SendClientMessage(playerid, -1, str);
@@ -194,7 +220,7 @@ CMD:stopactor(playerid, params[]) { // CMD para remover ator com base no ID
 	}
 }
 
-CMD:iractor(playerid, params[]) {
+CMD:iractor(playerid, params[]) { // CMD para ir até um ator
 	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_SUB_OWNER) {
 		new i = 0;
 		if(sscanf(params, "d", i)) return sendWarning(playerid, "Digite: /iractor [idActor]");	
@@ -213,6 +239,103 @@ CMD:iractor(playerid, params[]) {
 	} else {
 		return 0;
 	}
+}
+
+CMD:mactor(playerid, params[]) { // CMD para modificar ator
+	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_SUB_OWNER) {
+		if(ActorModify[playerid][isModActor] == false || ActorModify[playerid][modActorID] > 0) {
+			new k = getPosActorID(playerid);
+			if(k > 0) {
+				ActorModify[playerid][modActorID] = k; 
+				ActorModify[playerid][isModActor] = true; 
+				printf("%d | %d", ActorModify[playerid][modActorID], ActorModify[playerid][isModActor]);
+				showDialogModifyAct(playerid);
+				return 1;
+			} else if(k <= 0) {
+                showDlgModifyActId(playerid);
+                ActorModify[playerid][isModActor] = true; 
+				return 1;
+            }
+		} else {
+			sendWarning(playerid, "Você já está modificicando um ator!");
+			showDialogModifyAct(playerid);
+			return 1;
+		}
+        return 1;
+	} else {
+		return 0;
+	}
+}
+
+CMD:cmactor(playerid, params[]) { // CMD para cancelar modificação ator
+	if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_SUB_OWNER) {
+		if(ActorModify[playerid][isModActor] != true) {
+			sendWarning(playerid, "Você não está modificando nenhum ator!");
+			return 1;
+		} else {
+			ActorModify[playerid][modActorID] = 0; 
+			ActorModify[playerid][isModActor] = false; 
+			sendWarning(playerid, "Modificação cancelada com sucesso!");
+			return 1;
+		}
+	} else {
+		return 0;
+	}
+}
+
+CMD:cactor(playerid, params[]) { // Criar um ator
+    if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_SUB_OWNER) {
+        if(IsPlayerInAnyVehicle(playerid)) return sendWarning(playerid, "Você não pode estar em um veículo para criar um ator!");
+        if(ActorCreate[playerid][creatingActor] == false) {
+            ActorCreate[playerid][creatingActor] = true;
+            showDlgCreateAct(playerid);
+        } else {
+            new str[128];
+            format(str, sizeof(str),"%s Você já possui um ator em processo de criação, digite %s/ccactor", MSG_ACTOR, EMBED_SERVER);
+            SendClientMessage(playerid, -1, str);
+        }
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+CMD:cancelactor(playerid, params[]) { // Cancelar criação de ator
+    if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_SUB_OWNER) {
+        if(ActorCreate[playerid][creatingActor] == true) {
+            ActorCreate[playerid][creatingActor] = false;
+            sendMsgServer(playerid, "Criação de ator cancelada com sucesso!");
+            return 1;
+        } else {
+            sendWarning(playerid, "Você não possui nenhuma criação de ator pendente!");
+            return 1;
+        }
+    } else {
+        return 0;
+    }
+}
+
+CMD:rnameactor(playerid, params[]) { // Recriar nome do ator
+    if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_SUB_OWNER) {
+        showDlgNameAct(playerid);    
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+CMD:vactor(playerid, params[]) { // ver informações do ator
+    if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_SUB_OWNER) {
+        new i;
+        if(sscanf(params, "d", i)) return SendClientMessage(playerid, -1, "Digite: /vactor [idActor]");
+        new str[128];
+        format(str, sizeof(str),"ID: %d Nome: %s | VW: %d | Int: %d", i, ActorInfo[i][nameActor], 
+		ActorInfo[i][vwActor], ActorInfo[i][intActor]);
+        SendClientMessage(playerid, -1, str);
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 

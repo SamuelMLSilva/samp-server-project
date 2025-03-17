@@ -23,6 +23,7 @@ public OnGameModeInit()
         print("[MySQL] Sucesso ao conectar com o banco de dados.");
     }
     mysql_log(ALL);
+	mysql_set_charset("utf8mb4");
     /* LOADS ----------------------*/
     new queryLocations[128];
     mysql_format(ConexaoSQL, queryLocations, sizeof(queryLocations),"SELECT * FROM `places`");
@@ -33,6 +34,9 @@ public OnGameModeInit()
     mysql_tquery(ConexaoSQL, queryPlayers, "OnGetPlayers");
 	createPickupInts();
 	loadActors();
+	new charset[30];
+	mysql_get_charset(charset, sizeof(charset));
+	printf("%s",charset);
 	return 1;
 }
 
@@ -421,7 +425,7 @@ public OnPlayerCommandReceived(playerid, cmdtext[])
 {
 	if(PlayerInfo[playerid][pLogado] != true) {
 		new string[128];
-		//format(string, sizeof(string), " %s| ERRO | %sVocï¿½ precisa estar logado para executar comandos.");
+		format(string, sizeof(string), " %s| ERRO | %sVocê precisa estar logado para executar comandos.", EMBED_ERROR, EMBED_WHITE);
 		SendClientMessage(playerid, -1, string);
 		return 0;
 	}

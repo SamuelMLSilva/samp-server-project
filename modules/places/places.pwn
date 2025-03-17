@@ -15,7 +15,7 @@ static const menuPickups[][pickupsMenu] = { // Pickups do menu mSelection
 	{19605}, {19606}, {19607}, {19832}
 };
 
-public OnPlayerModelSelectionEx(playerid, response, extraid, modelid) { // Retornar ID da pickup selecionado no menu mSelection
+hook OnPlayerModelSelectionEx(playerid, response, extraid, modelid) { // Retornar ID da pickup selecionado no menu mSelection
 	
 	if(modelid > 0) {
 		
@@ -449,14 +449,14 @@ CMD:saidaloc(playerid, params[]) // CMD de confirmar saída do local
 CMD:modificar(playerid, const params[]) { // CMD para modificar local -> Interior, Pickup, Titulo, Saída e Excluir
 	if(IsPlayerAdmin(playerid)) {
 		new i = getLocalPublic(playerid);
-		if(i != 0) {
+		if(i > 0) {
 			finishModifyPlace(playerid);
 			PlaceModify[playerid][modifyIdPlace] = i;
 			new str[128];
 			format(str, sizeof(str),"%s %sVocê está modificando o local [%sID%s: %d]",MSG_SERVER, EMBED_WHITE, EMBED_GREEN, EMBED_WHITE, i);
 			SendClientMessage(playerid, -1, str);
 			showDialogLocModify(playerid);
-		} else if(i == 0) {
+		} else if(i <= 0) {
 			new string[128];
 			format(string, sizeof(string),"%s| AVISO | %sVocê não está em um local público!",EMBED_WARNING, EMBED_WHITE);
 			SendClientMessage(playerid, -1, string);

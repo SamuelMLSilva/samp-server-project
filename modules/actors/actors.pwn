@@ -14,6 +14,8 @@
     5 -> Skin
 */
 
+
+
 /* HOOKS ----------------------------------------*/
 
 hook OnPlayerDisconnect(playerid, reason) {
@@ -21,7 +23,122 @@ hook OnPlayerDisconnect(playerid, reason) {
     return 1;
 }
 
+hook OnPlayerModelSelectionEx(playerid, response, extraid, modelid) { // Retornar ID da pickup selecionado no menu mSelection
+	
+	if(modelid > 0) {
+		
+		if(ActorModify[playerid][changeActSkin] == true) {
+            new i = ActorModify[playerid][modActorID];
+			ActorInfo[i][actorSkin] = modelid;	
+			setSkinActor(i, modelid);	
+            SetActorSkin(ActorInfo[i][actorId], modelid);    
+            new str[128];
+            format(str, sizeof(str),"%s A skin do actor ID: %d foi trocado para a skin ID: %d",MSG_ACTOR, i, modelid);
+            SendClientMessage(playerid, -1, str);        
+            finishModifyActor(playerid);
+            return 1;
+		}
+	}
+	return 1;
+}
+
 hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
+    if(dialogid == DIALOG_ACT_MODIFY_VW) { // Dialog de modificar vw do actor
+        if(response) {
+            if(!strlen(inputtext) || checkText(inputtext) == 1) {
+                showDlgModActVw(playerid);
+                sendWarning(playerid, "Digite um valor válido!");
+                return 1;
+            }
+            new i = ActorModify[playerid][modActorID];
+			ActorInfo[i][vwActor] = strval(inputtext);	
+            new str[128];
+            format(str, sizeof(str),"%s O Virtual World do actor ID: %d foi trocado para a Virtual World ID: %d",MSG_ACTOR, i, ActorInfo[i][vwActor]);
+            SendClientMessage(playerid, -1, str);   
+            SetActorVirtualWorld(ActorInfo[i][actorId], ActorInfo[i][vwActor]);
+            setModVwActor(i, ActorInfo[i][vwActor]);
+            finishModifyActor(playerid);
+            return 1;
+        } else {
+            return 1;
+        }
+    }
+    
+    if(dialogid == DIALOG_ACT_MODIFY_NAME) { // Dialog de modificação de name
+        if(response) {
+            if(!strlen(inputtext)) {
+                sendWarning(playerid, "Digite um nome válido!");
+                changeActorName(playerid);
+                return 1;
+            }
+            new i = ActorModify[playerid][modActorID];
+            format(ActorInfo[i][nameActor], 50, "%s", inputtext);
+            new str[128];
+            format(str, sizeof(str),"%s Nome: %s setado com sucesso!", MSG_ACTOR, ActorInfo[i][nameActor]);
+            SendClientMessage(playerid, -1, str);
+            setActName(i, ActorInfo[i][nameActor]);
+            finishModifyActor(playerid);
+            return 1;
+        } else {
+            finishModifyActor(playerid);
+            return 1;
+        }
+    }
+
+    if(dialogid == DIALOG_ACT_MODIFY) { // Dialog de modificação de atores
+        if(response) {
+            switch(listitem) {
+                case 0: { // modificar nome do actor
+                    changeActorName(playerid);
+                    return 1;
+                }
+                case 1: { // modificar skin do actor
+                    changeActorSkin(playerid);
+                    return 1;
+                }
+                case 2: { // modificar vw do actor
+                    showDlgModActVw(playerid);                   
+                    return 1;
+                }
+            }
+            return 1;
+        } else {
+            finishModifyActor(playerid);
+            return 1;
+        }
+    }
+
+    if(dialogid == DIALOG_ACT_MODIFY_ID) { // dialog para digitar id do ator que o player irá editar
+        if(response) {
+            if(!strlen(inputtext) || checkText(inputtext) == 1) { // válida ID e caracteres digitado
+                sendWarning(playerid, "Digite um ID válido!");
+                showDlgModifyActId(playerid);
+                return 1;
+            }
+            if(qtdActors == 0) { // se não existir atores no db
+                sendWarning(playerid, "Não existe atores no banco de dados ainda!");                   
+                showDlgModifyActId(playerid);
+                return 1;
+            }
+            if(strval(inputtext) > qtdActors) { // gera aviso se o valor digitado for maior que a quantidade existente de atores no db
+                new str[128];
+                format(str, sizeof(str),"Os ID's de atores vão de 1 até %d",qtdActors);
+                sendWarning(playerid, str);
+                showDlgModifyActId(playerid);
+                return 1;
+            }
+            ActorModify[playerid][modActorID] = strval(inputtext); 
+            new string[128];
+            format(string, sizeof(string),"Você está modificando o ator ID: %d", ActorModify[playerid][modActorID]);
+            sendWarning(playerid, string);
+            showDialogModifyAct(playerid);
+            return 1;
+        } else {
+            finishModifyActor(playerid);
+            return 1;
+        }
+    }
+    
     if(dialogid == DIALOG_ACT_CONF_SKIN) {
         if(response) {
             createAct(ActorCreate[playerid][actorName], ActorCreate[playerid][cActorSkin], ActorCreate[playerid][cActorPos][0], ActorCreate[playerid][cActorPos][1],
@@ -183,59 +300,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 /* COMMANDS -------------------------------------*/
 
-CMD:cactor(playerid, params[]) { // Criar um ator
-    if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_SUB_OWNER) {
-        if(IsPlayerInAnyVehicle(playerid)) return sendWarning(playerid, "Você não pode estar em um veículo para criar um ator!");
-        if(ActorCreate[playerid][creatingActor] == false) {
-            ActorCreate[playerid][creatingActor] = true;
-            showDlgCreateAct(playerid);
-        } else {
-            new str[128];
-            format(str, sizeof(str),"%s Você já possui um ator em processo de criação, digite %s/ccactor", MSG_ACTOR, EMBED_SERVER);
-            SendClientMessage(playerid, -1, str);
-        }
-        return 1;
-    } else {
-        return 0;
-    }
-}
 
-CMD:cancelactor(playerid, params[]) { // Cancelar criação de ator
-    if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_SUB_OWNER) {
-        if(ActorCreate[playerid][creatingActor] == true) {
-            ActorCreate[playerid][creatingActor] = false;
-            sendMsgServer(playerid, "Criação de ator cancelada com sucesso!");
-            return 1;
-        } else {
-            sendWarning(playerid, "Você não possui nenhuma criação de ator pendente!");
-            return 1;
-        }
-    } else {
-        return 0;
-    }
-}
-
-CMD:rnameactor(playerid, params[]) { // Recriar nome do ator
-    if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_SUB_OWNER) {
-        showDlgNameAct(playerid);    
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-CMD:vactor(playerid, params[]) {
-    if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_OWNER) {
-        new i;
-        if(sscanf(params, "d", i)) return SendClientMessage(playerid, -1, "Digite: /vactor [idActor]");
-        new str[128];
-        format(str, sizeof(str),"ID: %d Nome: %s", ActorInfo[i][actorId], ActorInfo[i][nameActor]);
-        SendClientMessage(playerid, -1, str);
-        return 1;
-    } else {
-        return 0;
-    }
-}
 
 /* CALLBACKS ------------------------------------*/
 
@@ -276,15 +341,102 @@ public OnLoadActorId(i) {
     cache_get_value_int(0, "actorVw", ActorInfo[i][vwActor]);
     cache_get_value_int(0, "actorInt", ActorInfo[i][intActor]);
     cache_get_value_int(0, "actorFree", ActorInfo[i][freeActor]);
-    startActor(ActorInfo[i][actorId]);
+    //startActor(ActorInfo[i][actorId]);
     return 1;
 }
 
 /* FUNCTIONS ------------------------------------*/
 
+stock showDlgModActInt(playerid) { // mostrar dialog para alterar interior do ator
+    ActorModify[playerid][changeActInt] = true;
+    new strTitle[64];
+    format(strTitle, sizeof(strTitle),"{ffffff}Actor [ID: {00ff00}%02d{ffffff}]",ActorModify[playerid][modActorID]);
+    ShowPlayerDialog(playerid, DIALOG_ACT_MODIFY_INT, DIALOG_STYLE_INPUT, strTitle, "{ffffff}Digite o interior desejado para o ator:", "Confirmar","Cancelar");
+    return 1;
+}
+
+stock setModIntActor(id, idInt){ // setar interior do actor no db
+    new query[128];
+    mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE actors SET actorInt = '%d' WHERE actorID = %d", idInt, id);
+    mysql_tquery(ConexaoSQL, query);  
+    return 1;
+}
+
+stock showDlgModActVw(playerid) { // mostrar dialog para alterar virtual world
+    ActorModify[playerid][changeActVw] = true;
+    new strTitle[64];
+    format(strTitle, sizeof(strTitle),"{ffffff}Actor [ID: {00ff00}%02d{ffffff}]",ActorModify[playerid][modActorID]);
+    ShowPlayerDialog(playerid, DIALOG_ACT_MODIFY_VW, DIALOG_STYLE_INPUT, strTitle, "{ffffff}Digite o virtual world desejado para o ator:", "Confirmar","Cancelar");
+    return 1;
+}
+
+stock setModVwActor(id, idVw){ // setar virtual world do actor no db
+    new query[128];
+    mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE actors SET actorVw = '%d' WHERE actorID = %d", idVw, id);
+    mysql_tquery(ConexaoSQL, query);  
+    return 1;
+}
+
+stock changeActorSkin(playerid) {
+    ActorModify[playerid][changeActSkin] = true;
+    mSecMenuCSkinAct[playerid] = ShowModelSelectionMenuEx(playerid, menuChangeActSkin[skinForActor], 312, "Skins", 0, 0.0, 0.0, 35.0, 1.0, 0x4A5A6BBB, 0x88888899 , 0xFFFF00AA);
+    return 1;
+}
+
+stock setSkinActor(id, skin) { // função para alterar nome do ator no db
+    new query[128];
+    mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE actors SET actorSkin = '%d' WHERE actorID = %d", skin, id);
+    mysql_tquery(ConexaoSQL, query);  
+    return 1;
+}
+
+stock changeActorName(playerid) { // função trocar nome do ator
+    ActorModify[playerid][changeActName] = true;
+    new strTitle[64];
+    format(strTitle, sizeof(strTitle),"{ffffff}Actor [ID: {00ff00}%02d{ffffff}]",ActorModify[playerid][modActorID]);
+    ShowPlayerDialog(playerid, DIALOG_ACT_MODIFY_NAME, DIALOG_STYLE_INPUT, strTitle, "{ffffff}Digite o nome desejado para o ator:", "Confirmar","Cancelar");
+    return 1;
+}
+
+stock setActName(id, nameAct[]) { // função para alterar nome do ator no db
+    new query[128];
+    mysql_format(ConexaoSQL, query, sizeof(query),"UPDATE actors SET actorName = '%s' WHERE actorID = %d", nameAct, id);
+    mysql_tquery(ConexaoSQL, query);
+    return 1;
+}
+
+stock showDialogModifyAct(playerid) { // funçao de mostrar dialog de modificação de atores
+    new strTitle[64];
+    format(strTitle, sizeof(strTitle),"{ffffff}Actor [ID: {00ff00}%02d{ffffff}]",ActorModify[playerid][modActorID]);
+    ShowPlayerDialog(playerid, DIALOG_ACT_MODIFY, DIALOG_STYLE_LIST, strTitle, 
+    "Nome\n\
+    Skin\n\
+    Virtual World", 
+    "Selecionar","Fechar");
+    return 1;
+}
+
+stock showDlgModifyActId(playerid) {
+    ShowPlayerDialog(playerid, DIALOG_ACT_MODIFY_ID, DIALOG_STYLE_INPUT, "{FFFFFF}Moficiar ator", "{ffffff}Digite o ID do ator que você deseja modificar:","Confirmar","Cancelar");
+    return 1;
+}
+
+
+stock getPosActorID(playerid) {
+    for(new i = 0; i <= 10-1; i++) {
+        printf("Passando pelo índice %d %f %f %f", i, ActorInfo[i][posActor][0], ActorInfo[i][posActor][1], ActorInfo[i][posActor][2]);
+		if(IsPlayerInRangeOfPoint(playerid, 4.0, ActorInfo[i][posActor][0], ActorInfo[i][posActor][1], ActorInfo[i][posActor][2])) {
+            printf("Parou no índice %d", i);
+			return i;
+		}
+	}
+    return -1;
+}
+
 stock startActor(i) { // Função para criar ator
     ActorInfo[i][actorId] = CreateActor(ActorInfo[i][actorSkin], ActorInfo[i][posActor][0], ActorInfo[i][posActor][1],
     ActorInfo[i][posActor][2], ActorInfo[i][posActor][3]);
+    SetActorVirtualWorld(ActorInfo[i][actorId], ActorInfo[i][vwActor]);
     ActorInfo[i][actorOn] = true;
     return 1;
 }
@@ -304,6 +456,13 @@ stock createAct(nameAct[], skin, Float:x, Float:y, Float:z, Float:a, vwAct, intA
     x, y, z, a, vwAct, intAct, freeAct);
     mysql_tquery(ConexaoSQL, query);
     loadActorId(qtdActors);
+    SetTimerEx("cStartActor", 1500, false, "i", qtdActors);
+    return 1;
+}
+
+forward cStartActor(i);
+public cStartActor(i) { // public para startar o actor que foi criado
+    startActor(qtdActors);
     return 1;
 }
 
@@ -386,6 +545,30 @@ stock showDlgConfSkin(playerid) { // Criar dialog de confirmação da skin do ator
 
 stock finishCreateActor(playerid) { // Finalizar variáveis criação de ator
     SendClientMessage(playerid, -1, "OK");
+    ActorCreate[playerid][creatingActor] = false;
+    ActorCreate[playerid][actorName] = 0;
+    ActorCreate[playerid][cActorPos][0] = 0; 
+    ActorCreate[playerid][cActorPos][1] = 0; 
+    ActorCreate[playerid][cActorPos][2] = 0; 
+    ActorCreate[playerid][cActorPos][3] = 0; 
+    ActorCreate[playerid][cActorSkin] = 0;
+    ActorCreate[playerid][cActorVw] = 0;
+    ActorCreate[playerid][cActorInt] = 0;
+    ActorCreate[playerid][cActorStep] = 0;
+    return 1;
+}
+
+stock finishModifyActor(playerid) { // finalizar todas variáveis de modificação
+    ActorModify[playerid][isModActor] = false;
+    ActorModify[playerid][modActorID] = 0;
+    ActorModify[playerid][changeActName] = false;
+    ActorModify[playerid][changeActSkin] = false;
+    /*
+    bool:changeActName,
+    bool:changeActSkin,
+    bool:changeActVw,
+    bool:changeActInt
+    */
     return 1;
 }
 
@@ -396,7 +579,7 @@ stock loadActors() { // Carregar todos atores do DB
     return 1;
 }
 
-loadActorId(i) { // Carregar ator pelo ID
+stock loadActorId(i) { // Carregar ator pelo ID
     new query[128];
     mysql_format(ConexaoSQL, query, sizeof(query), "SELECT * FROM actors WHERE `actorID`='%d'", i);
     mysql_tquery(ConexaoSQL, query, "OnLoadActorId", "d", i);
