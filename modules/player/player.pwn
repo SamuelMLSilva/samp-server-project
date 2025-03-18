@@ -1,16 +1,22 @@
 forward OnGetPlayers();
 public OnGetPlayers() {
-	printf("----------------- PLAYERS CADASTRADOS -----------------");	
+	printf("-- PLAYERS CADASTRADOS ------------------");
 	if(cache_num_rows() > 0) {
 		new i = cache_num_rows();
-		printf("%d players cadastrados no banco de dados", i);
+		printf("%d players cadastrados no banco de dados\n", i);
 	} else {
-		printf("Não existe nenhum player para ser localizado");
+		printf("Não existe nenhum player para ser localizado\n");
 		return 1;
 	}
 	return 1;
 }
 
+stock loadPlayersDb() {
+	new queryPlayers[128];
+    mysql_format(ConexaoSQL, queryPlayers, sizeof(queryPlayers),"SELECT * FROM `players`");
+    mysql_tquery(ConexaoSQL, queryPlayers, "OnGetPlayers");
+	return 1;
+}
 
 stock getPlayerAdmin(playerid) {
 	new result[64];
@@ -41,7 +47,7 @@ stock getPlayerAdmin(playerid) {
 	return result;
 }
 
-stock getNamePlayer(playerid) {
+stock getNamePlayer(playerid) { // função para pegar nome do player
 	new name[MAX_PLAYER_NAME];
 	GetPlayerName(playerid, name, sizeof(name));
 	return name;

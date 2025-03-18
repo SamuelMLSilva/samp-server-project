@@ -25,18 +25,12 @@ public OnGameModeInit()
     mysql_log(ALL);
 	mysql_set_charset("utf8mb4");
     /* LOADS ----------------------*/
-    new queryLocations[128];
-    mysql_format(ConexaoSQL, queryLocations, sizeof(queryLocations),"SELECT * FROM `places`");
-    mysql_tquery(ConexaoSQL, queryLocations, "OnGetPlaces");
-
-    new queryPlayers[128];
-    mysql_format(ConexaoSQL, queryPlayers, sizeof(queryPlayers),"SELECT * FROM `players`");
-    mysql_tquery(ConexaoSQL, queryPlayers, "OnGetPlayers");
-	createPickupInts();
+    loadPlayersDb();
+	loadIntsHouses();
+    loadPlacesDb();
 	loadActors();
-	new charset[30];
-	mysql_get_charset(charset, sizeof(charset));
-	printf("%s",charset);
+
+	createPickupInts();
 	return 1;
 }
 

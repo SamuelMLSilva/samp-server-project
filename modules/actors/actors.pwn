@@ -14,8 +14,6 @@
     5 -> Skin
 */
 
-
-
 /* HOOKS ----------------------------------------*/
 
 hook OnPlayerDisconnect(playerid, reason) {
@@ -307,8 +305,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 forward OnLoadActors();
 public OnLoadActors() { // loading de actors
     qtdActors = cache_num_rows();
-    printf("----------------- ATORES -----------------");	
-    printf("%02d atores foram carregados",qtdActors);
+    printf("-- ATORES -------------------------------");	
+    printf("%02d atores foram carregados\n",qtdActors);
     for(new j = 0; j < qtdActors; j++) {
         cache_get_value_int(j, "actorID", ActorInfo[j+1][actorId]);
         cache_get_value_int(j, "actorSkin", ActorInfo[j+1][actorSkin]);

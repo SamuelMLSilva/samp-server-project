@@ -280,15 +280,15 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 forward OnGetPlaces();
 public OnGetPlaces(){ // Pegar quantidade de locais existentes no DB
-	printf("----------------- LOCAIS PÚBLICOS -----------------");	
+	printf("-- LOCAIS PÚBLICOS ----------------------");	
 	if(cache_num_rows() > 0) {
 		new i = cache_num_rows();
 		rowPlaces = i;
 		qPlaces = i;
-		printf("%d locais públicos foram carregados", i);
+		printf("%d locais públicos foram carregados\n", i);
 		loadDbPlace();
 	} else {
-		printf("não existe nenhum lugar público para ser carregado");
+		printf("Não existe nenhum lugar público para ser carregado\n");
 		return 1;
 	}
 	return 1;
@@ -468,6 +468,13 @@ CMD:modificar(playerid, const params[]) { // CMD para modificar local -> Interio
 }
 
 /* FUNCTIONS ------------------------------------------------------------------------------------*/
+
+stock loadPlacesDb() { // função para carregar dos os places do db
+	new queryLocations[128];
+    mysql_format(ConexaoSQL, queryLocations, sizeof(queryLocations),"SELECT * FROM `places`");
+    mysql_tquery(ConexaoSQL, queryLocations, "OnGetPlaces");
+	return 1;
+}
 
 stock loadDbPlace() { // Carregar local pelo ID
 	new query[128];

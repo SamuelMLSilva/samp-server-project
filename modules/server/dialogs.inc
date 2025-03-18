@@ -1,6 +1,8 @@
-#define     VALUE_DIALOG_PLAYER     0
-#define     VALUE_DIALOG_ADMIN      1000
+#define     VALUE_DIALOG_SERVER     100
+#define     VALUE_DIALOG_PLAYER     1000
+#define     VALUE_DIALOG_ADMIN      10000
 
+#define     DIALOG_INFO             (1 + VALUE_DIALOG_SERVER)
 /* DIALOGS PLAYERS -----------------------------------------*/
 #define 	DIALOG_START			(1 + VALUE_DIALOG_PLAYER)
 #define 	DIALOG_REG_LOGIN 		(2 + VALUE_DIALOG_PLAYER)
@@ -40,7 +42,8 @@
 #define     DIALOG_ACT_MODIFY_NAME  (23 + VALUE_DIALOG_ADMIN)
 #define     DIALOG_ACT_MODIFY_SKIN  (24 + VALUE_DIALOG_ADMIN)
 #define     DIALOG_ACT_MODIFY_VW    (25 + VALUE_DIALOG_ADMIN)
-
+#define     DIALOG_INTS_CADASTRO    (26 + VALUE_DIALOG_ADMIN)
+#define     DIALOG_INTS_CONF_CONT   (27 + VALUE_DIALOG_ADMIN)
 
 #define 	DIALOG_DEBUG			10000
 #define 	T_DEBUG					"{FFFFFF}Debug"

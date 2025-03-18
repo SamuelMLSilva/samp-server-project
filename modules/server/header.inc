@@ -42,3 +42,7 @@
 //#snippet cdialog if(dialogid == DIALOG_NAME) {\n\tif(response) {\n\t\treturn 1;\n\t} else {\n\t\treturn 1;\n\t}\n}
 //#snippet scm SendClientMessage(playerid, -1, );
 //#snippet verifyadmin if(IsPlayerAdmin(playerid) || PlayerInfo[playerid][pAdmin] >= L_...) {\n\treturn 1;\n} else {\n\treturn 0;\n}
+//#snippet fstr new str[128]\nformat(str, sizeof(str),"",);\nSendClientMessage(playerid, -1, str);
+//#snippet fstring new string[128];\nformat(string, sizeof(string),"",);\nSendClientMessage(playerid, -1, string);
+//#snippet fdebug new debug[128]\nformat(debug, sizeof(debug),"",);\nSendClientMessage(playerid, -1, debug);
+//#snippet ploading printf("-----------------------------------------");\nprintf("-- EXEMPLO ------------------------------");
